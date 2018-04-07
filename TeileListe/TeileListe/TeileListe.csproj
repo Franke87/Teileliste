@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{44A1CF9F-B49C-47F6-8334-4A77FE76FC0E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TeileListe</RootNamespace>
+    <AssemblyName>TeileListe</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject>TeileListe.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DebugFileTable\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\TeileListe.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="API\Helper\ApiEventArgs.cs" />
+    <Compile Include="API\Classes\ApiHandler.cs" />
+    <Compile Include="API\Classes\JsonParser.cs" />
+    <Compile Include="API\Helper\UploadApiEventArgs.cs" />
+    <Compile Include="API\PostClasses\AddMessungDto.cs" />
+    <Compile Include="API\PostClasses\AddProduktDto.cs" />
+    <Compile Include="API\ResponseClasses\ErrorResponseDt.cs" />
+    <Compile Include="API\ResponseClasses\ResponseHerstellerDto.cs" />
+    <Compile Include="API\ResponseClasses\ResponseKategorieDto.cs" />
+    <Compile Include="API\ResponseClasses\ResponseProduktListeDto.cs" />
+    <Compile Include="API\View\UploadWaitwindow.xaml.cs">
+      <DependentUpon>UploadWaitwindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\HilfsFunktionen.cs" />
+    <Compile Include="Classes\PluginManager.cs" />
+    <Compile Include="Common\ViewModel\CommonViewModel.cs" />
+    <Compile Include="Converter\DecimalToWeightConverter.cs" />
+    <Compile Include="Converter\InverseEnumToVisibilityConverter.cs" />
+    <Compile Include="EinzelteilZuordnen\UserControl\ArtikelAnlegenControl.xaml.cs">
+      <DependentUpon>ArtikelAnlegenControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EinzelteilZuordnen\ViewModel\EinzelteilZuordnenViewModel.cs" />
+    <Compile Include="EinzelteilZuordnen\ViewModel\ArtikelAnlegenViewModel.cs" />
+    <Compile Include="EinzelteilZuordnen\View\EinzelteilZuordnenDialog.xaml.cs">
+      <DependentUpon>EinzelteilZuordnenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Enums\DateiOeffnenEnum.cs" />
+    <Compile Include="Enums\NeuesEinzelteilEnum.cs" />
+    <Compile Include="MessungHochladen\Dto\MessungHochladenDto.cs" />
+    <Compile Include="MessungHochladen\Dto\ProduktHochladenDto.cs" />
+    <Compile Include="MessungHochladen\ViewModel\MessungHochladenViewModel.cs" />
+    <Compile Include="MessungHochladen\View\MessungHochladenDialog.xaml.cs">
+      <DependentUpon>MessungHochladenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MyMessageBox\MyMessageBox.xaml.cs">
+      <DependentUpon>MyMessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MyMessageBox\MyQuestionBox.xaml.cs">
+      <DependentUpon>MyQuestionBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NeuesEinzelteil\ViewModel\RestekisteAuswahlViewModel.cs" />
+    <Compile Include="NeuesEinzelteil\ViewModel\WunschlisteAuswahlViewModel.cs" />
+    <Compile Include="Common\UserControl\WebAuswahlControl.xaml.cs">
+      <DependentUpon>WebAuswahlControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Teileliste\ViewModel\AlternativeViewModel.cs" />
+    <Compile Include="Classes\CsvFormatter.cs" />
+    <Compile Include="Converter\EnumToBoolConverter.cs" />
+    <Compile Include="Converter\EnumToVisibilityConverter.cs" />
+    <Compile Include="Converter\IntToForegroundConverter.cs" />
+    <Compile Include="Enums\SourceEnum.cs" />
+    <Compile Include="NeuesEinzelteil\UserControl\WunschlisteAuswahlControl.xaml.cs">
+      <DependentUpon>WunschlisteAuswahlControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wunschliste\UserControl\WunschlisteListeControl.xaml.cs">
+      <DependentUpon>WunschlisteListeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NeuesEinzelteil\ViewModel\DatenbankteilAuswahlViewModel.cs" />
+    <Compile Include="NeuesEinzelteil\ViewModel\EinzelteilAuswahlViewModel.cs" />
+    <Compile Include="Classes\MyCommand.cs" />
+    <Compile Include="Classes\MyParameterCommand.cs" />
+    <Compile Include="Classes\TeileImporter.cs" />
+    <Compile Include="Converter\BoolToBrushConverter.cs" />
+    <Compile Include="Converter\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\CountToBoolConverter.cs" />
+    <Compile Include="Converter\IntToPriceConverter.cs" />
+    <Compile Include="Converter\CountToVisibilityConverter.cs" />
+    <Compile Include="Converter\IntToWeightConverter.cs" />
+    <Compile Include="Converter\InverseBoolConverter.cs" />
+    <Compile Include="Converter\InverseCountToVisibilityConverter.cs" />
+    <Compile Include="Converter\InverseStringToVisibilityConverter.cs" />
+    <Compile Include="Converter\StringToVisibilityConverter.cs" />
+    <Compile Include="Teileliste\UserControl\FahrradAuswahlControl.xaml.cs">
+      <DependentUpon>FahrradAuswahlControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Teileliste\UserControl\KomponentenListeControl.xaml.cs">
+      <DependentUpon>KomponentenListeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UserControl\MyContextBar.xaml.cs">
+      <DependentUpon>MyContextBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NeuesEinzelteil\UserControl\RestekisteAuswahlControl.xaml.cs">
+      <DependentUpon>RestekisteAuswahlControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Restekiste\UserControl\RestekisteListeControl.xaml.cs">
+      <DependentUpon>RestekisteListeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UserControl\EinzelteilBearbeitenControl.xaml.cs">
+      <DependentUpon>EinzelteilBearbeitenControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UserControl\CommonPreviewControl.xaml.cs">
+      <DependentUpon>CommonPreviewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ViewModel\KategorienViewModel.cs" />
+    <Compile Include="Common\ViewModel\CommonDateiViewModel.cs" />
+    <Compile Include="Common\ViewModel\WebAuswahlViewModel.cs" />
+    <Compile Include="NeuesEinzelteil\ViewModel\NeuesEinzelteilNeuViewModel.cs" />
+    <Compile Include="NeuesEinzelteil\ViewModel\NeuesEinzelteilViewModel.cs" />
+    <Compile Include="NeuesFahrrad\ViewModel\NeuesFahrradViewModel.cs" />
+    <Compile Include="EinzelteilBearbeiten\ViewModel\EinzelteilBearbeitenViewModel.cs" />
+    <Compile Include="Restekiste\ViewModel\RestekisteViewModel.cs" />
+    <Compile Include="Teileliste\ViewModel\TeilelisteViewModel.cs" />
+    <Compile Include="NeuesEinzelteil\ViewModel\WunschteilAuswahlViewModel.cs" />
+    <Compile Include="API\View\WaitWindow.xaml.cs">
+      <DependentUpon>WaitWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wunschliste\View\WunschlisteDialog.xaml.cs">
+      <DependentUpon>WunschlisteDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="API\View\UploadWaitwindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EinzelteilZuordnen\UserControl\ArtikelAnlegenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EinzelteilZuordnen\View\EinzelteilZuordnenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessungHochladen\View\MessungHochladenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MyMessageBox\MyMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MyMessageBox\MyQuestionBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Teileliste\UserControl\FahrradAuswahlControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Teileliste\UserControl\KomponentenListeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UserControl\MyContextBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NeuesEinzelteil\UserControl\RestekisteAuswahlControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Restekiste\UserControl\RestekisteListeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UserControl\EinzelteilBearbeitenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UserControl\CommonPreviewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UserControl\WebAuswahlControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NeuesEinzelteil\UserControl\WunschlisteAuswahlControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wunschliste\UserControl\WunschlisteListeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NeuesEinzelteil\View\NeuesEinzelteilDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NeuesFahrrad\View\NeuesFahrradDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EinzelteilBearbeiten\View\EinzelteilBearbeitenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Restekiste\View\RestekisteDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Teileliste\View\TeilelisteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Teileliste\ViewModel\KomponenteViewModel.cs" />
+    <Compile Include="Restekiste\ViewModel\RestteilViewModel.cs" />
+    <Compile Include="Wunschliste\ViewModel\WunschlisteViewModel.cs" />
+    <Compile Include="Wunschliste\ViewModel\WunschteilViewModel.cs" />
+    <Compile Include="NeuesEinzelteil\View\NeuesEinzelteilDialog.xaml.cs">
+      <DependentUpon>NeuesEinzelteilDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NeuesFahrrad\View\NeuesFahrradDialog.xaml.cs">
+      <DependentUpon>NeuesFahrradDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EinzelteilBearbeiten\View\EinzelteilBearbeitenDialog.xaml.cs">
+      <DependentUpon>EinzelteilBearbeitenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Restekiste\View\RestekisteDialog.xaml.cs">
+      <DependentUpon>RestekisteDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Teileliste\View\TeilelisteView.xaml.cs">
+      <DependentUpon>TeilelisteView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="API\View\WaitWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wunschliste\View\WunschlisteDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TeileListe.Common\TeileListe.Common.csproj">
+      <Project>{E500FA1C-9FA3-4978-A384-3297E58011F5}</Project>
+      <Name>TeileListe.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\error.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) $(Lernzeit)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

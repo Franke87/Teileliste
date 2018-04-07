@@ -1,0 +1,55 @@
+﻿<Window x:Class="TeileListe.Wunschliste.View.WunschlisteDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:userControl="clr-namespace:TeileListe.Wunschliste.UserControl"
+        Height="300" 
+        Width="300"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        ShowInTaskbar="False"
+        Icon="../../Images/icon.ico"
+        Title="Wunschliste" 
+        MinWidth="600" 
+        MinHeight="200" >
+    <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <userControl:WunschlisteListeControl Grid.Row="2" />
+            <Rectangle Grid.Row="3" Fill="LightGray" />
+            <Grid Grid.Row="4" Margin="0,5,0,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Exportformat:" Opacity="0.4" />
+                <Grid Grid.Column="1" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <RadioButton Margin="5,1,0,0" Grid.Row="0" Content="csv" GroupName="ExportformatRestekiste" IsChecked="{Binding ExportformatCsv, Mode=TwoWay}" />
+                    <RadioButton Margin="5,1,0,0" Grid.Row="1" GroupName="ExportformatRestekiste" >
+                        <RadioButton.Content >
+                            <TextBlock Text="{Binding CustomExportKuerzel}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding CustomExportKuerzel}" />
+                        </RadioButton.Content>
+                    </RadioButton>
+                </Grid>
+                <Button Padding="10,0,10,0" Height="23" Grid.Column="3" VerticalAlignment="Bottom" Content="Hinzufügen" Command="{Binding HinzufuegenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,0,0,0" />
+                <Button Padding="10,0,10,0" Height="23" Grid.Column="4" VerticalAlignment="Bottom" IsEnabled="{Binding IsDirty}" Content="Speichern" Command="{Binding SichernCommand}" Margin="15,0,0,0" />
+                <Button Padding="10,0,10,0" Height="23" Grid.Column="5" VerticalAlignment="Bottom" IsEnabled="{Binding IsDirty}" Content="Zurücksetzen" Command="{Binding ZuruecksetzenCommand}" Margin="15,0,0,0" />
+                <Button Padding="10,0,10,0" Height="23" Grid.Column="6" VerticalAlignment="Bottom" Content="Exportieren" Command="{Binding ExportCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,0,0,0"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

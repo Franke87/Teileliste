@@ -1,0 +1,33 @@
+﻿<Window x:Class="TeileListe.MyMessageBox.MyQuestionBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        SizeToContent="WidthAndHeight"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Title="{Binding TitelText}"
+        Icon="../Images/icon.ico" 
+        WindowStartupLocation="CenterOwner">
+    <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image VerticalAlignment="Top" Margin="0,0,15,10" Height="32" Grid.Row="0" Grid.Column="0" Source="../Images/icon.ico" />
+            <TextBlock Margin="0,0,0,10" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="Wollen Sie die Änderungen speichern?" />
+            <Rectangle Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Fill="LightGray" />
+            <Button Padding="10,0,10,0" Height="23" IsDefault="True" Grid.Row="2" Grid.Column="2" Margin="0,14,10,0" Content="Ja" Command="{Binding JaCommand}"/>
+            <Button Padding="10,0,10,0" Height="23" IsCancel="True" Grid.Row="2" Grid.Column="3" Margin="0,14,0,0" Content="Nein" />
+        </Grid>
+    </Border>
+</Window>
+

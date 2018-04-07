@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="TeileListe.NeuesEinzelteil.UserControl.WunschlisteAuswahlControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converter="clr-namespace:TeileListe.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
+        <converter:IntToPriceConverter x:Key="IntToPriceConverter" />
+        <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <converter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" Visibility="{Binding WunschTeile.Count, Converter={StaticResource CountToVisibilityConverter}}">
+            <ItemsControl ItemsSource="{Binding WunschTeile}" Grid.IsSharedSizeScope="True" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" HorizontalContentAlignment="Stretch" >
+                            <CheckBox.Content>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"   />
+                                        <ColumnDefinition Width="4*"  />
+                                        <ColumnDefinition SharedSizeGroup="A" />
+                                        <ColumnDefinition SharedSizeGroup="B" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Komponente}" Opacity="0.4" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Komponente}" />
+                                    <TextBlock Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AnzeigeName}" />
+                                    <TextBlock Margin="5,0,0,0" HorizontalAlignment="Right" Grid.Column="2" Text="{Binding Preis, Converter={StaticResource IntToPriceConverter}}" />
+                                    <TextBlock Margin="5,0,5,0" HorizontalAlignment="Right" Grid.Column="3" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
+                                </Grid>
+                            </CheckBox.Content>
+                        </CheckBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <TextBlock Grid.Row="1" Text="Keine Teile vorhanden" Margin="5,0,0,10" Opacity="0.4" Visibility="{Binding WunschTeile.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
+    </Grid>
+</UserControl>

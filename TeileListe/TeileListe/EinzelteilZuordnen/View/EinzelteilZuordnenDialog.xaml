@@ -1,0 +1,65 @@
+﻿<Window x:Class="TeileListe.EinzelteilZuordnen.View.EinzelteilZuordnenDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converter="clr-namespace:TeileListe.Converter"
+        xmlns:userControl="clr-namespace:TeileListe.Common.UserControl"
+        xmlns:zuordnenUserControl="clr-namespace:TeileListe.EinzelteilZuordnen.UserControl"
+        SizeToContent="Height"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Title="{Binding TitelText}"
+        Width="750" 
+        Icon="../../Images/icon.ico"
+        MaxHeight="700">
+    <Window.Resources>
+        <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+    </Window.Resources>
+    <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Margin="0,0,0,10" BorderThickness="1" Background="#FFFFC0" BorderBrush="LightGray" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
+                <StackPanel Margin="5">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0,0,5,0" Text="Achtung:" Grid.Row="0" Grid.Column="0" />
+                        <TextBlock Grid.Row="0"  Grid.Column="1" TextWrapping="Wrap" Text="Wenn Sie eine Verknüpfung zu einer Gewichtsdatenbank herstellen, können Sie Gewichtsmessungen hochladen. Bitte achten Sie deshalb darauf, dass Sie den Artikel korrekt zuordnen. Legen Sie den Artikel nur neu an, wenn er noch nicht in der Gewichtsdatenbank vorhanden ist." />
+                    </Grid>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0,10,5,0" Grid.Column="0" Text="Artikeldaten:"/>
+                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap" Grid.Column="1" Text="{Binding Artikeltext}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,10">
+                <RadioButton Content="Bestehenden Artikel suchen" IsChecked="{Binding BestehendSuchen, Mode=TwoWay}" />
+                <RadioButton Content="Neuen Artikel anlegen" IsChecked="{Binding BestehendSuchen, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}" />
+            </StackPanel>
+            <userControl:WebAuswahlControl DataContext="{Binding DatenbankViewModel}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding DataContext.BestehendSuchen, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}" />
+            <zuordnenUserControl:ArtikelAnlegenControl DataContext="{Binding AnlegenViewModel}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding DataContext.BestehendSuchen, Converter={StaticResource InverseBoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}" />
+            <Rectangle Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Fill="LightGray" />
+            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="top" Text="* = Pflichtfeld" FontSize="9" Opacity="0.4" Visibility="{Binding BestehendSuchen, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+            <Button Padding="10,0,10,0" Height="23" IsEnabled="{Binding HasError, Converter={StaticResource InverseBoolConverter}}" IsDefault="True" Grid.Row="4" Grid.Column="1" Margin="10,14,10,0" Command="{Binding OnOkCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Content="Übernehmen" />
+            <Button Padding="10,0,10,0" Height="23" IsCancel="True" Grid.Row="4" Grid.Column="2" Margin="0,14,0,0" Content="Abbrechen" />
+        </Grid>
+    </Border>
+</Window>

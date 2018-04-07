@@ -1,0 +1,145 @@
+﻿<Window x:Class="TeileListe.MessungHochladen.View.MessungHochladenDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converter="clr-namespace:TeileListe.Converter"
+        SizeToContent="Height"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Title="{Binding TitelText}"
+        Width="600" 
+        Icon="../../Images/icon.ico"
+        MaxHeight="700">
+    <Window.Resources>
+        <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <converter:DecimalToWeightConverter x:Key="DecimalToWeightConverter" />
+        <converter:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" />
+    </Window.Resources>
+    <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border BorderThickness="1" Background="#FFFFC0" BorderBrush="LightGray" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0,0,5,0" Text="Achtung:" Grid.Row="0" Grid.Column="0" />
+                        <TextBlock Margin="0,0,5,0" Grid.Row="0"  Grid.Column="1" TextWrapping="Wrap" Text="Bitte achten Sie darauf, die Messung dem korrekten Artikel zuzuordnen." />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0,10,5,0" Grid.Column="0" Text="Artikeldaten:"/>
+                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap" Grid.Column="1" Text="{Binding Artikeltext}" />
+                    </Grid>
+                    <!--Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0,10,5,0" Grid.Row="0"  Grid.Column="1" HorizontalAlignment="Left" >
+                            <Hyperlink Command="{Binding ArtikelAufrufenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
+                                <TextBlock >
+                                    <Run Text="Artikelseite von" />
+                                    <Run Text="{Binding Datenbank, Mode=OneWay}" />
+                                    <Run Text="aufrufen" />
+                                </TextBlock>
+                            </Hyperlink>
+                        </TextBlock>
+                    </Grid-->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0,5,0,0" HorizontalAlignment="Left" Visibility="{Binding DatenbankInfos, Converter={StaticResource InverseStringToVisibilityConverter}}" >
+                            <Hyperlink Command="{Binding ArtikelInfosAbrufenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
+                                <TextBlock Text="{Binding Datenbank, Mode=OneWay, StringFormat=Artikeldaten von {0} anzeigen}"/>
+                            </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="0,5,0,0" Grid.Row="0"  Grid.Column="2" >
+                            <Hyperlink Command="{Binding ArtikelAufrufenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
+                                <TextBlock >
+                                    <Run Text="Artikelseite von" />
+                                    <Run Text="{Binding Datenbank, Mode=OneWay}" />
+                                    <Run Text="aufrufen" />
+                                </TextBlock>
+                            </Hyperlink>
+                        </TextBlock>
+                        <Grid Grid.Column="0" Grid.ColumnSpan="2" Visibility="{Binding DatenbankInfos, Converter={StaticResource StringToVisibilityConverter}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                                <Run Text="Artikeldaten von"/>
+                                <Run Text="{Binding Datenbank, Mode=OneWay}"/>
+                            </TextBlock>
+                            <TextBlock Margin="0,0,5,0" Grid.Row="1" Grid.Column="0" >
+                                <Run Text="Kategorie:"/>
+                                <LineBreak/>
+                                <Run Text="Hersteller:"/>
+                                <LineBreak/>
+                                <Run Text="Beschreibung:"/>
+                                <LineBreak/>
+                                <Run Text="Größe:"/>
+                                <LineBreak/>
+                                <Run Text="Jahr:"/>
+                                <LineBreak/>
+                                <Run Text="Gewicht:"/>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="{Binding DatenbankInfos}" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Grid Margin="0,10,0,10" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Margin="-5,0,0,0" Content="_Gewicht (gewogen):" Opacity="0.4" Target="{Binding ElementName=GewichtText}" />
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="GewichtText" Text="{Binding Gewicht, Mode=TwoWay, Converter={StaticResource DecimalToWeightConverter}}" >
+                </TextBox>
+                <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="-5,0,0,0" Content="_Foto (JPG oder PNG):" Opacity="0.4" Target="{Binding ElementName=NameDatei}" />
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="0,4,0,0" Name="NameDatei" Text="{Binding DateiViewModel.Datei, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Grid.Row="1" Grid.Column="2"  Content="..." MinWidth="23" Margin="10,4,0,0" Command="{Binding DateiViewModel.OnFileSelect}" />
+            </Grid>
+            <Rectangle Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Fill="LightGray" />
+            <Button Padding="10,0,10,0" Height="23" IsEnabled="{Binding HasError, Converter={StaticResource InverseBoolConverter}}" IsDefault="True" Grid.Row="4" Grid.Column="1" Margin="10,14,10,0" Command="{Binding OnHochladenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Content="Hochladen" />
+            <Button Padding="10,0,10,0" Height="23" IsCancel="True" Grid.Row="4" Grid.Column="2" Margin="0,14,0,0" Content="Abbrechen" />
+        </Grid>
+    </Border>
+</Window>

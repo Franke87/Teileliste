@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="TeileListe.EinzelteilZuordnen.UserControl.ArtikelAnlegenControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:TeileListe.Common.ViewModel"
+             xmlns:converter="clr-namespace:TeileListe.Converter"
+             mc:Ignorable="d" 
+              >
+    <UserControl.Resources>
+        <converter:DecimalToWeightConverter x:Key="DecimalToWeightConverter" />
+        <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <converter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid Margin="0,0,0,10">
+       <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions> 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="0,3,0,0" Text="Datenbank:" Grid.Column="0" />
+            <ComboBox Margin="10,0"  Grid.Column="1" ItemsSource="{Binding DatenbankQuellen}" SelectedItem="{Binding AusgewaelteDatenbank}" />
+            <TextBlock Text="API-Token:" Margin="0,3,0,0" Grid.Column="2" />
+            <TextBox Grid.Column="3" Height="23" Margin="10,0,0,0" Padding="0,2,0,0" Text="{Binding UserApiToken, Mode=TwoWay}" />
+            <Button Grid.Column="4" Margin="10,0,0,0" Content="Listen abrufen" Padding="10,0,10,0" Height="23" Command="{Binding OnAbrufenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Keine Kategorien abgerufen" Margin="0,10,0,10" Opacity="0.4" Visibility="{Binding KategorienList.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
+            <TreeView Grid.Row="0" Grid.Column="0" ItemsSource="{Binding KategorienList}" MaxHeight="140" BorderThickness="0" Margin="0,10,0,0" Grid.IsSharedSizeScope="True" Visibility="{Binding KategorienList.Count, Converter={StaticResource CountToVisibilityConverter}}" >
+                <TreeView.Style>
+                    <Style TargetType="{x:Type TreeView}">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CBE8F6" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#F6F6F6" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+                        </Style.Resources>
+                    </Style>
+                </TreeView.Style>
+                <TreeView.ItemContainerStyle >
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="BorderBrush" Value="#26A0DA" />
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding EnthaeltProdukte}" Value="True" />
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="#E5F3FB" />
+                                <Setter Property="BorderBrush" Value="#70C0E7" />
+                            </MultiDataTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True" />
+                                    <Condition Property="IsSelectionActive" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="BorderBrush" Value="#DADADA" />
+                            </MultiTrigger>
+                            <DataTrigger Binding="{Binding EnthaeltProdukte}" Value="False">
+                                <Setter Property="Foreground" Value="DarkGray" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate >
+                    <HierarchicalDataTemplate DataType="viewModel:KategorienViewModel" ItemsSource="{Binding UnterKategorien}" >
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="R" />
+                                <ColumnDefinition Width="*" SharedSizeGroup="S" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Height="16" Text="{Binding Name}" Margin="2,1,0,1" />
+                            <TextBlock Grid.Column="1" Height="16" Text="{Binding AnzahlProdukte}" Margin="10,1,2,1" Visibility="{Binding AnzahlProdukte, Converter={StaticResource CountToVisibilityConverter}}" />
+                        </Grid>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <Rectangle Grid.Row="1" Margin="0,0,0,10" Grid.Column="0" Height="1" Fill="LightGray" Visibility="{Binding KategorienList.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Keine Hersteller abgerufen" Margin="10,10,0,10" Opacity="0.4" Visibility="{Binding HerstellerList.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
+            <ListBox Grid.Row="0" MaxHeight="140" Grid.Column="1" ItemsSource="{Binding HerstellerList, Mode=TwoWay}" Visibility="{Binding HerstellerList.Count, Converter={StaticResource CountToVisibilityConverter}}" SelectedItem="{Binding SelectedHersteller, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" BorderThickness="0" Margin="10,10,-1,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Height="16" Text="{Binding Value}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Rectangle Grid.Row="1" Grid.Column="1" Fill="LightGray" Height="1" Margin="10,0,0,10" Visibility="{Binding HerstellerList.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+        </Grid>
+        <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Margin="-5,-4,0,0" Content="_Beschreibung*:" Opacity="0.4" Target="{Binding ElementName=BeschreibungText}" />
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Name="BeschreibungText" Text="{Binding Beschreibung, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="4" Grid.Column="0" Margin="-5,0,0,0" Content="G_röße:" Opacity="0.4" Target="{Binding ElementName=GroesseText}" />
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="GroesseText" Text="{Binding Groesse, Mode=TwoWay}" />
+        <Label Grid.Row="5" Grid.Column="0" Margin="-5,0,0,0" Content="_Jahr*:" Opacity="0.4" Target="{Binding ElementName=JahrText}" />
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="JahrText" Text="{Binding Jahr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="6" Grid.Column="0" Margin="-5,0,0,0" Content="Ge_wicht (Herstellerangabe):" Opacity="0.4" Target="{Binding ElementName=GewichtHerstellerText}" />
+        <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="GewichtHerstellerText" Text="{Binding GewichtHersteller, Mode=TwoWay, Converter={StaticResource DecimalToWeightConverter}}" />
+        <Label Grid.Row="7" Grid.Column="0" Margin="-5,0,0,0" Content="_Gewicht (gewogen)*:" Opacity="0.4" Target="{Binding ElementName=GewichtText}" />
+        <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="GewichtText" Text="{Binding Gewicht, Mode=TwoWay, Converter={StaticResource DecimalToWeightConverter}}" />
+        <Label Grid.Row="8" Grid.Column="0" Margin="-5,0,0,0" Content="_Kommentar:" Opacity="0.4" Target="{Binding ElementName=KommentarText}" />
+        <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="KommentarText" Text="{Binding Kommentar, Mode=TwoWay}" />
+        <Label Grid.Row="9" Grid.Column="0" Margin="-5,0,0,0" Content="_Link des Produkts:" Opacity="0.4" Target="{Binding ElementName=LinkText}" />
+        <TextBox Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="LinkText" Text="{Binding Link, Mode=TwoWay}" />
+        <Label Grid.Row="10" Grid.Column="0" HorizontalAlignment="Left" Margin="-5,0,0,0" Content="_Foto (JPG oder PNG)*:" Opacity="0.4" Target="{Binding ElementName=NameDatei}" />
+        <TextBox Grid.Row="10" Grid.Column="1" Margin="0,4,0,0" Name="NameDatei" Text="{Binding DateiViewModel.Datei, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Button Grid.Row="10" Grid.Column="2"  Content="..." MinWidth="23" Margin="10,4,0,0" Command="{Binding DateiViewModel.OnFileSelect}" />
+    </Grid>
+</UserControl>

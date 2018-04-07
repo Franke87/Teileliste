@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using TeileListe.Common.Dto;
+
+namespace TeileListe.Common.Interface
+{
+    public interface IDbManager : IDisposable
+    {
+        void GetFahrraeder(ref List<string> liste);
+        void SaveFahrraeder(List<string> liste);
+        void DeleteFahrrad(string nameFahrrad);
+
+        void GetKomponente(string nameFahrrad, ref List<KomponenteDto> collection);
+        void SaveKomponente(string nameFahrrad, List<KomponenteDto> collection);
+        void DeleteKomponenten(string nameFahrrad, List<string> deletedItems);
+
+        void GetEinzelteile(ref List<RestteilDto> liste);
+        void SaveEinzelteile(List<RestteilDto> liste);
+        void DeleteEinzelteile(List<string> deletedItems);
+
+        void GetWunschteile(ref List<WunschteilDto> liste);
+        void SaveWunschteile(List<WunschteilDto> liste);
+        void DeleteWunschteile(List<string> deletedItems);
+
+        void GetDatenbankDaten(ref List<DatenbankDto> datenbanken);
+        void SaveDatenbankDaten(List<DatenbankDto> datenbanken);
+        void SaveDefaultDatenbank(string datenbank);
+    }
+}
