@@ -21,7 +21,7 @@ using TeileListe.Wunschliste.View;
 using TeileListe.Wunschliste.ViewModel;
 
 namespace TeileListe.Teileliste.ViewModel
-{a
+{
     internal class TeilelisteViewModel : INotifyPropertyChanged
     {
         #region Commands
