@@ -17,7 +17,6 @@ namespace TeileListe.Classes
             return true;
         }
 
-        #pragma warning disable 0067
         public event EventHandler CanExecuteChanged;
 
         public void Execute(object parameter)

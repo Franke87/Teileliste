@@ -3,8 +3,6 @@ using System.ComponentModel;
 using System.Windows;
 using TeileListe.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.DateiManager.View;
-using TeileListe.DateiManager.ViewModel;
 using TeileListe.EinzelteilBearbeiten.View;
 using TeileListe.EinzelteilBearbeiten.ViewModel;
 using TeileListe.EinzelteilZuordnen.View;
@@ -21,7 +19,6 @@ namespace TeileListe.Restekiste.ViewModel
 
         public MyParameterCommand<Window> ChangeCommand { get; set; }
         public MyParameterCommand<Window> DatenbankCommand { get; set; }
-        public MyParameterCommand<Window> FileCommand { get; set; }
         public MyCommand ClearCommand { get; set; }
         public MyCommand NachObenCommand { get; set; }
         public MyCommand NachUntenCommand { get; set; }
@@ -159,7 +156,6 @@ namespace TeileListe.Restekiste.ViewModel
 
             ChangeCommand = new MyParameterCommand<Window>(OnChange);
             DatenbankCommand = new MyParameterCommand<Window>(OnDatenbank);
-            FileCommand = new MyParameterCommand<Window>(OnFileManager);
             ClearCommand = new MyCommand(OnClear);
             LoeschenCommand = new MyCommand(OnLoeschen);
             NachObenCommand = new MyCommand(NachOben);
@@ -167,16 +163,6 @@ namespace TeileListe.Restekiste.ViewModel
         }
 
         #region Commandfunktionen
-
-        private void OnFileManager(Window window)
-        {
-            var dialog = new DateiManagerView(window);
-            var viewModel = new DateiManagerViewModel(Guid);
-            dialog.DataContext = viewModel;
-            dialog.Closing += viewModel.OnClosing;
-            dialog.ShowDialog();
-            dialog.Closing -= viewModel.OnClosing;
-        }
 
         private void OnDatenbank(Window window)
         {
@@ -252,7 +238,7 @@ namespace TeileListe.Restekiste.ViewModel
 
         private void OnChange(Window window)
         {
-            var dialog = new EinzelteilBearbeitenDialog(true);
+            var dialog = new EinzelteilBearbeitenDialog();
             var viewModel = new EinzelteilBearbeitenViewModel(new KomponenteDto
                                                                 {
                                                                     Komponente = Komponente, 

@@ -38,7 +38,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\DateiDto.cs" />
     <Compile Include="Dto\DatenbankDto.cs" />
     <Compile Include="Dto\RestteilDto.cs" />
     <Compile Include="Dto\KomponenteDto.cs" />

@@ -57,14 +57,9 @@ namespace TeileListe.Common.ViewModel
                 {
                     ext = ".png, ";
                     filter = "Fotos |*.jpg;*.jpeg;*.png";
+                   // filter = "Bilder (*.JPG;*.JPEG;*.PNG)|*.JPG;*.JPEG;*.PNG;";
                     break;
                 }
-                case DateiOeffnenEnum.All:
-                    {
-                        ext = ".*, ";
-                        filter = "Alle Dateien |*.*";
-                        break;
-                    }
             }
             var dialog = new OpenFileDialog
             {

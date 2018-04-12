@@ -92,21 +92,6 @@
     <Compile Include="Common\ViewModel\CommonViewModel.cs" />
     <Compile Include="Converter\DecimalToWeightConverter.cs" />
     <Compile Include="Converter\InverseEnumToVisibilityConverter.cs" />
-    <Compile Include="DateiManager\UserControl\DateiBearbeitenControl.xaml.cs">
-      <DependentUpon>DateiBearbeitenControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DateiManager\UserControl\DateiListeControl.xaml.cs">
-      <DependentUpon>DateiListeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DateiManager\ViewModel\DateiManagerViewModel.cs" />
-    <Compile Include="DateiManager\ViewModel\DokumentBearbeitenViewModel.cs" />
-    <Compile Include="DateiManager\ViewModel\DokumentViewModel.cs" />
-    <Compile Include="DateiManager\View\DateiManagerView.xaml.cs">
-      <DependentUpon>DateiManagerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DateiManager\View\NeuesDokumentDialog.xaml.cs">
-      <DependentUpon>NeuesDokumentDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="EinzelteilZuordnen\UserControl\ArtikelAnlegenControl.xaml.cs">
       <DependentUpon>ArtikelAnlegenControl.xaml</DependentUpon>
     </Compile>
@@ -199,22 +184,6 @@
       <DependentUpon>WunschlisteDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="API\View\UploadWaitwindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DateiManager\UserControl\DateiBearbeitenControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DateiManager\UserControl\DateiListeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DateiManager\View\DateiManagerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DateiManager\View\NeuesDokumentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

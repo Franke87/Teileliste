@@ -5,17 +5,9 @@
     /// </summary>
     public partial class EinzelteilBearbeitenDialog
     {
-        public EinzelteilBearbeitenDialog(bool isEinzelteil)
+        public EinzelteilBearbeitenDialog()
         {
             InitializeComponent();
-            if(isEinzelteil)
-            {
-                DateiControl.Visibility = System.Windows.Visibility.Collapsed;
-            }
-            else
-            {
-                EinzelteilControl.Visibility = System.Windows.Visibility.Collapsed;
-            }
         }
     }
 }

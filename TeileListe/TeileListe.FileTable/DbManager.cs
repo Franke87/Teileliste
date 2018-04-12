@@ -90,36 +90,6 @@ namespace TeileListe.Table
             _iniReader.SaveDefaultDatenbank(datenbank);
         }
 
-        public void GetDateiInfos(string komponenteGuid, ref List<DateiDto> dateiListe)
-        {
-            _iniReader.GetDateiInfos(komponenteGuid, ref dateiListe);
-        }
-
-        public void SaveDateiInfos(string komponenteGuid, List<DateiDto> dateiListe)
-        {
-            _iniReader.SaveDateiInfos(komponenteGuid, dateiListe);
-        }
-
-        public void DeleteDateiInfos(string komponenteGuid, List<string> deletedItems)
-        {
-            _iniReader.DeleteDateiInfos(komponenteGuid, deletedItems);
-        }
-
-        public void GetDateiKategorien(ref List<string> liste)
-        {
-            _iniReader.GetDateiKategorien(ref liste);
-        }
-
-        public void SaveDateiKategorien(List<string> liste)
-        {
-            _iniReader.SaveDateiKategorien(liste);
-        }
-
-        public void DeleteDateiKategorien(List<string> deletedItems)
-        {
-
-        }
-
         public void Dispose()
         {
         }

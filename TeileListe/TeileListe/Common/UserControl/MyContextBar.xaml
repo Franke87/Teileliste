@@ -30,13 +30,10 @@
             <TextBlock Margin="3,0,0,0" ToolTip="ändern" >
                 <Hyperlink Command="{Binding ChangeCommand}" TextDecorations="" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >&#x270E;</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="3,0,0,0" ToolTip="leeren" Visibility="{Binding LeerenVisible, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
+            <TextBlock Margin="3,0,0,0" ToolTip="leeren" >
                 <Hyperlink Command="{Binding ClearCommand}" TextDecorations="" >&#x232B;</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="3,0,0,0" ToolTip="{Binding DateiManagerToolTip, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
-                <Hyperlink Command="{Binding FileCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" TextDecorations="" >&#x1F4C1;</Hyperlink>
-            </TextBlock>
-            <TextBlock Margin="3,0,0,0" Visibility="{Binding GewichtsdatenbankVisible, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
+            <TextBlock Margin="3,0,0,0"  >
                 <TextBlock.ToolTip>
                     <StackPanel>
                         <TextBlock Text="eine Messung hochladen" Visibility="{Binding DatenbankId, Converter={StaticResource StringToVisibilityConverter}}" />
@@ -55,7 +52,7 @@
                 <Hyperlink Command="{Binding NachUntenCommand}" TextDecorations="" >&#x22C1;</Hyperlink>
             </TextBlock>
             <TextBlock Margin="3,0,3,0" ToolTip="löschen" >
-                <Hyperlink Command="{Binding LoeschenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" TextDecorations="" >&#x2327;</Hyperlink>
+                <Hyperlink Command="{Binding LoeschenCommand}" TextDecorations="" >&#x2327;</Hyperlink>
             </TextBlock>
         </StackPanel>
     </Grid>

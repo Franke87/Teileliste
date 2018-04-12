@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converter="clr-namespace:TeileListe.Converter"
         xmlns:userControl="clr-namespace:TeileListe.Common.UserControl"
-        xmlns:usercontrol="clr-namespace:TeileListe.DateiManager.UserControl"
         WindowStartupLocation="CenterOwner"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True"
@@ -27,8 +26,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <userControl:EinzelteilBearbeitenControl x:Name="EinzelteilControl"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,10" />
-            <usercontrol:DateiBearbeitenControl x:Name="DateiControl" DateiauswahlVisible="Collapsed" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,10" />
+            <userControl:EinzelteilBearbeitenControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,10" />
             <Rectangle Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Fill="LightGray" />
             <Button Padding="10,0,10,0" Height="23" IsEnabled="{Binding HasError, Converter={StaticResource InverseBoolConverter}}" IsDefault="True" Grid.Row="2" Grid.Column="1" Margin="10,14,10,0" Command="{Binding OnOkCommand}" Content="Übernehmen" />
             <Button Padding="10,0,10,0" Height="23" IsCancel="True" Grid.Row="2" Grid.Column="2" Margin="0,14,0,0" Content="Abbrechen" />
