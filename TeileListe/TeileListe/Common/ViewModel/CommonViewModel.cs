@@ -2,7 +2,7 @@
 
 namespace TeileListe.Common.ViewModel
 {
-    internal class CommonViewModel : INotifyPropertyChanged
+    public class CommonViewModel : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged
 
@@ -72,6 +72,31 @@ namespace TeileListe.Common.ViewModel
                 return true;
             }
             return false;
+        }
+
+        internal void SetProperty<T>(string propertyName, ref T backingField, T newValue)
+        {
+            bool changed;
+
+            if (newValue == null && backingField != null || newValue != null && backingField == null)
+
+            {
+                changed = true;
+            }
+            else if ((newValue == null && backingField == null) || backingField.Equals(newValue))
+            {
+                changed = false;
+            }
+            else
+            {
+                changed = true;
+            }
+
+            if (changed)
+            {
+                backingField = newValue;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         #endregion

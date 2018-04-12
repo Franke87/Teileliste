@@ -3,6 +3,7 @@
     public enum DateiOeffnenEnum
     {
         Csv,
-        Image
+        Image,
+        All
     }
 }

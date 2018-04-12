@@ -6,7 +6,7 @@
         xmlns:teilelisteUserControl="clr-namespace:TeileListe.Teileliste.UserControl"
         WindowStartupLocation="CenterOwner"
         Icon="../../Images/icon.ico"
-        Title="Teileliste v1.02" MinWidth="950" Width="1080" MinHeight="500" Height="768">
+        Title="Teileliste v1.03" MinWidth="950" Width="1080" MinHeight="500" Height="768">
     <Window.Resources>
         <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
         <converter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
