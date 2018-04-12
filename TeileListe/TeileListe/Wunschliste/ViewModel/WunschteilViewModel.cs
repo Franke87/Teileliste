@@ -1,9 +1,11 @@
-﻿using System;
+﻿using System; 
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using TeileListe.Classes;
 using TeileListe.Common.Dto;
+using TeileListe.DateiManager.View;
+using TeileListe.DateiManager.ViewModel;
 using TeileListe.EinzelteilBearbeiten.View;
 using TeileListe.EinzelteilBearbeiten.ViewModel;
 using TeileListe.EinzelteilZuordnen.View;
@@ -21,6 +23,7 @@ namespace TeileListe.Wunschliste.ViewModel
         public MyParameterCommand<Window> ChangeCommand { get; set; }
         public MyParameterCommand<Window> DatenbankCommand { get; set; }
         public MyParameterCommand<Window> ShopCommand { get; set; }
+        public MyParameterCommand<Window> FileCommand { get; set; }
         public MyCommand ClearCommand { get; set; }
         public MyCommand NachObenCommand { get; set; }
         public MyCommand NachUntenCommand { get; set; }
@@ -175,6 +178,7 @@ namespace TeileListe.Wunschliste.ViewModel
             ChangeCommand = new MyParameterCommand<Window>(OnChange);
             DatenbankCommand = new MyParameterCommand<Window>(OnDatenbank);
             ShopCommand = new MyParameterCommand<Window>(OnShopClick);
+            FileCommand = new MyParameterCommand<Window>(OnFileManager);
             ClearCommand = new MyCommand(OnClear);
             LoeschenCommand = new MyCommand(OnLoeschen);
             NachObenCommand = new MyCommand(NachOben);
@@ -182,6 +186,16 @@ namespace TeileListe.Wunschliste.ViewModel
         }
 
         #region Commandfunktionen
+
+        private void OnFileManager(Window window)
+        {
+            var dialog = new DateiManagerView(window);
+            var viewModel = new DateiManagerViewModel(Guid);
+            dialog.DataContext = viewModel;
+            dialog.Closing += viewModel.OnClosing;
+            dialog.ShowDialog();
+            dialog.Closing -= viewModel.OnClosing;
+        }
 
         private void OnDatenbank(Window window)
         {
@@ -279,7 +293,7 @@ namespace TeileListe.Wunschliste.ViewModel
 
         private void OnChange(Window window)
         {
-            var dialog = new EinzelteilBearbeitenDialog();
+            var dialog = new EinzelteilBearbeitenDialog(true);
             var viewModel = new EinzelteilBearbeitenViewModel(new KomponenteDto
                                                                 {
                                                                     Komponente = Komponente,

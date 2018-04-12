@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -39,6 +40,8 @@ namespace TeileListe.Table
         private const string RestekisteFile = @"Daten\Restekiste.ini";
         private const string WunschlisteFile = @"Daten\Wunschliste.ini";
         private const string DatenbankFile = @"Daten\Datenbanken.ini";
+        private const string DateilisteFile = @"Daten\{0}\Dateiliste.ini";
+        private const string KategorieFile = @"Daten\Kategorien.ini";
 
         #endregion
 
@@ -412,6 +415,152 @@ namespace TeileListe.Table
                                         DatenbankFile);
         }
 
+        public void GetDateiInfos(string komponenteGuid, ref List<DateiDto> dateiListe)
+        {
+            var buffer = new StringBuilder(254);
+            var counter = 1;
+
+            do
+            {
+                if (GetPrivateProfileString("Dateien",
+                    string.Format("{0}", counter++),
+                    string.Empty,
+                    buffer,
+                    254,
+                    string.Format(DateilisteFile, komponenteGuid)) > 0)
+                {
+                    dateiListe.Add(new DateiDto() { Guid = buffer.ToString().Trim() });
+                }
+            } while (!string.IsNullOrWhiteSpace(buffer.ToString().Trim()));
+
+            if (dateiListe.Count > 0)
+            {
+                CompleteDateiListe(komponenteGuid, ref dateiListe);
+            }
+        }
+
+        public void SaveDateiInfos(string komponenteGuid, List<DateiDto> dateiListe)
+        {
+            if(!Directory.Exists(Path.Combine("Daten", komponenteGuid)))
+            {
+                Directory.CreateDirectory(Path.Combine("Daten", komponenteGuid));
+            }
+
+            WritePrivateProfileSection("Dateien", null, string.Format(DateilisteFile, komponenteGuid));
+            var count = 1;
+
+            foreach (var item in dateiListe)
+            {
+                if(!File.Exists(Path.Combine("Daten", komponenteGuid, item.Guid + "." + item.Dateiendung)))
+                {
+                    File.Copy(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung),
+                                Path.Combine("Daten", komponenteGuid, item.Guid + "." + item.Dateiendung));
+                }
+                
+                WritePrivateProfileString("Dateien", string.Format("{0}", count++), item.Guid, string.Format(DateilisteFile, komponenteGuid));
+                WritePrivateProfileSection(item.Guid, null, string.Format(DateilisteFile, komponenteGuid));
+                WritePrivateProfileString(item.Guid,
+                                            "Kategorie",
+                                            item.Kategorie,
+                                            string.Format(DateilisteFile, komponenteGuid));
+                WritePrivateProfileString(item.Guid,
+                                            "Beschreibung",
+                                            item.Beschreibung,
+                                            string.Format(DateilisteFile, komponenteGuid));
+                WritePrivateProfileString(item.Guid,
+                                            "Dateiendung",
+                                            item.Dateiendung,
+                                            string.Format(DateilisteFile, komponenteGuid));
+            }
+
+            try
+            {
+                foreach (var item in dateiListe)
+                {
+                    if (File.Exists(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung)))
+                    {
+                        File.Delete(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung));
+                    }
+                }
+            }
+            catch(Exception)
+            {
+            }
+        }
+
+        public void DeleteDateiInfos(string komponenteGuid, List<string> deletedItems)
+        {
+            foreach (var item in deletedItems)
+            {
+                var dateiName = Path.Combine("Daten", komponenteGuid, item);
+                if(File.Exists(dateiName))
+                {
+                    using (var file = File.Open(dateiName, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                    {
+                        file.Close();
+                    }
+                }
+                else
+                {
+                    dateiName = Path.Combine("Daten", "Temp", item);
+                    using (var file = File.Open(dateiName, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                    {
+                        file.Close();
+                    }
+                }
+            }
+
+            foreach (var item in deletedItems)
+            {
+                var dateiName = Path.Combine("Daten", komponenteGuid, item);
+                if (File.Exists(dateiName))
+                {
+                    File.Delete(dateiName);
+                }
+                else
+                {
+                    dateiName = Path.Combine("Daten", "Temp", item);
+                    if (File.Exists(dateiName))
+                    {
+                        File.Delete(dateiName);
+                    }
+                }
+
+                var guid = Path.GetFileNameWithoutExtension(item);
+                WritePrivateProfileSection(guid, null, string.Format(DateilisteFile, komponenteGuid));
+            }
+        }
+
+        public void GetDateiKategorien(ref List<string> liste)
+        {
+            var buffer = new StringBuilder(254);
+            var counter = 1;
+
+            do
+            {
+                if (GetPrivateProfileString("Kategorien",
+                    string.Format("{0}", counter++),
+                    string.Empty,
+                    buffer,
+                    254,
+                    KategorieFile) > 0)
+                {
+                    liste.Add(buffer.ToString().Trim());
+                }
+            } while (!string.IsNullOrWhiteSpace(buffer.ToString().Trim()));
+        }
+
+        public void SaveDateiKategorien(List<string> liste)
+        {
+            WritePrivateProfileSection("Kategorien", null, MainFile);
+            var count = 1;
+
+            foreach (var item in liste)
+            {
+                WritePrivateProfileString("Kategorien", string.Format("{0}", count++), item, KategorieFile);
+            }
+        }
+
         #endregion
 
         #region Privatefuntionen
@@ -443,9 +592,8 @@ namespace TeileListe.Table
                 item.DatenbankLink = GetProperty("DatenbankLink", 
                                                     nameFahrrad.PadRight(32) + item.Guid, 
                                                     MainFile);
-                int buffer;
-                int.TryParse(GetProperty("Preis", nameFahrrad.PadRight(32) + item.Guid, MainFile), 
-                                out buffer);
+                int.TryParse(GetProperty("Preis", nameFahrrad.PadRight(32) + item.Guid, MainFile),
+                                out int buffer);
                 item.Preis = buffer;
                 int.TryParse(GetProperty("Gewicht", nameFahrrad.PadRight(32) + item.Guid, MainFile), 
                                 out buffer);
@@ -470,8 +618,7 @@ namespace TeileListe.Table
                 item.Jahr = GetProperty("Jahr", item.Guid, RestekisteFile);
                 item.DatenbankId = GetProperty("DatenbankId", item.Guid, RestekisteFile);
                 item.DatenbankLink = GetProperty("DatenbankLink", item.Guid, RestekisteFile);
-                int buffer;
-                int.TryParse(GetProperty("Preis", item.Guid, RestekisteFile), out buffer);
+                int.TryParse(GetProperty("Preis", item.Guid, RestekisteFile), out int buffer);
                 item.Preis = buffer;
                 int.TryParse(GetProperty("Gewicht", item.Guid, RestekisteFile), out buffer);
                 item.Gewicht = buffer;
@@ -491,11 +638,20 @@ namespace TeileListe.Table
                 item.Link = GetProperty("Link", item.Guid, WunschlisteFile);
                 item.DatenbankId = GetProperty("DatenbankId", item.Guid, WunschlisteFile);
                 item.DatenbankLink = GetProperty("DatenbankLink", item.Guid, WunschlisteFile);
-                int buffer;
-                int.TryParse(GetProperty("Preis", item.Guid, WunschlisteFile), out buffer);
+                int.TryParse(GetProperty("Preis", item.Guid, WunschlisteFile), out int buffer);
                 item.Preis = buffer;
                 int.TryParse(GetProperty("Gewicht", item.Guid, WunschlisteFile), out buffer);
                 item.Gewicht = buffer;
+            }
+        }
+
+        void CompleteDateiListe(string komponenteGuid, ref List<DateiDto> collection)
+        {
+            foreach (var item in collection)
+            {
+                item.Kategorie = GetProperty("Kategorie", item.Guid, string.Format(DateilisteFile, komponenteGuid));
+                item.Beschreibung = GetProperty("Beschreibung", item.Guid, string.Format(DateilisteFile, komponenteGuid));
+                item.Dateiendung = GetProperty("Dateiendung", item.Guid, string.Format(DateilisteFile, komponenteGuid));
             }
         }
 
@@ -522,6 +678,18 @@ namespace TeileListe.Table
             if (!Directory.Exists("Daten"))
             {
                 Directory.CreateDirectory("Daten");
+            }
+
+            if (!Directory.Exists("Daten\\Temp"))
+            {
+                Directory.CreateDirectory("Daten\\Temp");
+            }
+
+            if (!File.Exists(KategorieFile))
+            {
+                WritePrivateProfileString("Kategorien", "1", "Kaufbeleg", KategorieFile);
+                WritePrivateProfileString("Kategorien", "2", "Gewichtsmessung", KategorieFile);
+                WritePrivateProfileString("Kategorien", "3", "Artikelbild", KategorieFile);
             }
         }
     }
