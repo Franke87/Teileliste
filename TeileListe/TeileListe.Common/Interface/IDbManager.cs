@@ -25,5 +25,13 @@ namespace TeileListe.Common.Interface
         void GetDatenbankDaten(ref List<DatenbankDto> datenbanken);
         void SaveDatenbankDaten(List<DatenbankDto> datenbanken);
         void SaveDefaultDatenbank(string datenbank);
+
+        void GetDateiInfos(string komponenteGuid, ref List<DateiDto> dateiListe);
+        void SaveDateiInfos(string komponenteGuid, List<DateiDto> dateiListe);
+        void DeleteDateiInfos(string komponenteGuid, List<string> deletedItems);
+
+        void GetDateiKategorien(ref List<string> liste);
+        void SaveDateiKategorien(List<string> liste);
+        void DeleteDateiKategorien(List<string> deletedItems);
     }
 }
