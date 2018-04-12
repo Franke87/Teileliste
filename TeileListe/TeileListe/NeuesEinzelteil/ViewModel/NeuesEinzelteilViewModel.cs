@@ -111,7 +111,7 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
             RestekisteViewModel.PropertyChanged += ContentPropertyChanged;
 
             WunschlisteViewModel = new WunschlisteAuswahlViewModel(listWunschliste);
-            RestekisteViewModel.PropertyChanged += ContentPropertyChanged;
+            WunschlisteViewModel.PropertyChanged += ContentPropertyChanged;
 
             var datenbanken = new List<DatenbankDto>
             {
