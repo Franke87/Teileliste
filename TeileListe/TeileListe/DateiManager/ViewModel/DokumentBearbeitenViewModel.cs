@@ -58,7 +58,7 @@ namespace TeileListe.DateiManager.ViewModel
 
         public Action CloseAction { get; set; }
 
-        private bool _mitDateiauswahl;
+        private bool MitDateiauswahl { get; set; }
 
         internal DokumentBearbeitenViewModel(string kategorie, bool mitDateiauswahl)
         {
@@ -67,7 +67,7 @@ namespace TeileListe.DateiManager.ViewModel
 
             OnOkCommand = new MyCommand(OnOkFunc);
 
-            _mitDateiauswahl = mitDateiauswahl;
+            MitDateiauswahl = mitDateiauswahl;
             IsOk = false;
 
             var list = new List<string>();
@@ -106,7 +106,7 @@ namespace TeileListe.DateiManager.ViewModel
 
         public bool HasValidationError()
         {
-            return (_mitDateiauswahl && DateiViewModel.HasError)
+            return (MitDateiauswahl && DateiViewModel.HasError)
                 || string.IsNullOrWhiteSpace(Beschreibung)
                 || string.IsNullOrWhiteSpace(SelectedKategorie);
         }
