@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Interop;
+using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
 using TeileListe.DateiManager.View;
@@ -35,27 +37,35 @@ namespace TeileListe.DateiManager.ViewModel
         }
 
         private string _komponenteGuid;
+        private string _komponenteKomponente;
+        private string _komponenteHersteller;
+        private string _komponenteBeschreibung;
 
         private readonly List<string> _deletedItems;
 
         public MyParameterCommand<Window> SichernCommand { get; set; }
         public MyParameterCommand<Window> HinzufuegenCommand { get; set; }
+        public MyParameterCommand<Window> ExportCommand { get; set; }
         public MyCommand ZuruecksetzenCommand { get; set; }
 
         #endregion
 
         #region Konstruktor
 
-        internal DateiManagerViewModel(string guid)
+        internal DateiManagerViewModel(string guid, string komponente, string hersteller, string beschreibung)
         {
             DateiListe = new ObservableCollection<DokumentViewModel>();
             _deletedItems = new List<string>();
 
             SichernCommand = new MyParameterCommand<Window>(SichernVoid);
             HinzufuegenCommand = new MyParameterCommand<Window>(OnHinzufuegen);
+            ExportCommand = new MyParameterCommand<Window>(OnExport);
             ZuruecksetzenCommand = new MyCommand(Zuruecksetzen);
 
             _komponenteGuid = guid;
+            _komponenteKomponente = komponente;
+            _komponenteHersteller = hersteller;
+            _komponenteBeschreibung = beschreibung;
 
             if (Directory.Exists(Path.Combine("Daten", _komponenteGuid)))
             {
@@ -82,6 +92,32 @@ namespace TeileListe.DateiManager.ViewModel
         #endregion
 
         #region Funktionen
+
+        private void OnExport(Window window)
+        {
+            var item = new EinzelteilExportDto();
+            item.Komponente = _komponenteKomponente;
+            item.Hersteller = _komponenteHersteller;
+            item.Beschreibung = _komponenteBeschreibung;
+            item.Guid = _komponenteGuid;
+            item.DokumentenListe = new List<DateiDto>();
+
+            foreach(var file in DateiListe)
+            {
+                item.DokumentenListe.Add(new DateiDto
+                                            {
+                                                Guid = file.Guid,
+                                                Beschreibung = file.Beschreibung,
+                                                Dateiendung = file.Dateiendung,
+                                                Kategorie = file.Kategorie
+                                            });
+            }
+
+            PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
+                                                                _komponenteKomponente,
+                                                                "",
+                                                                new List<EinzelteilExportDto>() { item });
+        }
 
         private void OnHinzufuegen(Window window)
         {

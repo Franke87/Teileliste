@@ -191,7 +191,7 @@ namespace TeileListe.Wunschliste.ViewModel
         private void OnFileManager(Window window)
         {
             var dialog = new DateiManagerView(window);
-            var viewModel = new DateiManagerViewModel(Guid);
+            var viewModel = new DateiManagerViewModel(Guid, Komponente, Hersteller, Beschreibung);
             dialog.DataContext = viewModel;
             dialog.Closing += viewModel.OnClosing;
             dialog.ShowDialog();

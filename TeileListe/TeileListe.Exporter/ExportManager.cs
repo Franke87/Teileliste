@@ -28,7 +28,7 @@ namespace TeileListe.Exporter
             var dialog = new ExportManagerDialog();
             new WindowInteropHelper(dialog).Owner = parent;
 
-            var viewModel = new ExportManagerViewModel(listeKomponenten)
+            var viewModel = new ExportManagerViewModel(listeKomponenten, !string.IsNullOrWhiteSpace(csvContent))
             {
                 CloseAction = dialog.Close
             };

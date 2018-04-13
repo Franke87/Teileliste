@@ -11,9 +11,11 @@
         ResizeMode="CanResize"
         ShowInTaskbar="False"
         Title="Exportmanager" 
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Width="650" MinWidth="650" >
     <Window.Resources>
         <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
     </Window.Resources>
     <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
@@ -35,7 +37,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <CheckBox Margin="0,13,0,0" Grid.Row="0" Grid.Column="0" Content="mit csv-Datei der Komponenten" IsChecked="{Binding MitCsv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Margin="0,13,0,0" Grid.Row="0" Grid.Column="0" Content="mit csv-Datei der Komponenten" IsChecked="{Binding MitCsv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CsvVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button Padding="10,0,10,0" Height="23" Grid.Column="2" VerticalAlignment="Bottom" IsDefault="True" IsEnabled="{Binding IsOk}" Content="Exportieren" Command="{Binding ExportCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,9,0,0"/>
                 <Button Padding="10,0,10,0" Height="23" Grid.Column="3" VerticalAlignment="Bottom" Content="Abbrechen" IsCancel="True" Margin="15,9,0,0" />
             </Grid>

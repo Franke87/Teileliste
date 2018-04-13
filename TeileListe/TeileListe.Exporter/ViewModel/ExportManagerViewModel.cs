@@ -78,8 +78,9 @@ namespace TeileListe.Exporter.ViewModel
         public Action CloseAction { get; set; }
 
         internal bool DoExport { get; set; }
+        public bool CsvVisible { get; set; }
 
-        internal ExportManagerViewModel(IEnumerable<EinzelteilExportDto> listeKomponenten)
+        internal ExportManagerViewModel(IEnumerable<EinzelteilExportDto> listeKomponenten, bool mitCsv)
         {
             DoExport = false;
 
@@ -95,7 +96,8 @@ namespace TeileListe.Exporter.ViewModel
 
             DateiListe = new ObservableCollection<OrdnerViewModel>();
 
-            MitCsv = true;
+            MitCsv = mitCsv;
+            CsvVisible = mitCsv;
 
             foreach (var komponente in listeKomponenten)
             {
@@ -140,6 +142,8 @@ namespace TeileListe.Exporter.ViewModel
                     DateiListe.Add(folderViewModel);
                 }
             }
+
+            IsOk = Validate();
         }
 
         private void OnExport()

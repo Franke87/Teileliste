@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:usercontrol="clr-namespace:TeileListe.DateiManager.UserControl"
+        xmlns:converter="clr-namespace:TeileListe.Converter"
         mc:Ignorable="d"
         ResizeMode="CanResize"
         ShowInTaskbar="False"
@@ -11,6 +12,9 @@
         Title="Dateimanager" 
         Width="600" Height="300"
         MinWidth="600" MinHeight="300">
+    <Window.Resources >
+        <converter:CountToBoolConverter x:Key="CountToBoolConverter" />
+    </Window.Resources>
     <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
         <Grid Margin="10">
             <Grid.RowDefinitions>
@@ -41,7 +45,7 @@
                 <Button Padding="10,0,10,0" Height="23" Grid.Column="3" VerticalAlignment="Bottom" Content="Hinzufügen" Command="{Binding HinzufuegenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,9,0,0" />
                 <Button Padding="10,0,10,0" Height="23" Grid.Column="4" VerticalAlignment="Bottom" IsEnabled="{Binding IsDirty}" Content="Speichern" Command="{Binding SichernCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,9,0,0" />
                 <Button Padding="10,0,10,0" Height="23" Grid.Column="5" VerticalAlignment="Bottom" IsEnabled="{Binding IsDirty}" Content="Zurücksetzen" Command="{Binding ZuruecksetzenCommand}" Margin="15,9,0,0" />
-                <Button Padding="10,0,10,0" Height="23" Grid.Column="6" VerticalAlignment="Bottom" Content="Exportieren" Command="{Binding ExportCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,9,0,0"/>
+                <Button Padding="10,0,10,0" Height="23" Grid.Column="6" VerticalAlignment="Bottom" IsEnabled="{Binding DateiListe.Count, Converter={StaticResource CountToBoolConverter}}" Content="Exportieren" Command="{Binding ExportCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,9,0,0"/>
             </Grid>
         </Grid>
     </Border>
