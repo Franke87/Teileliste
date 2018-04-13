@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using TeileListe.Common.View;
 
@@ -6,6 +8,11 @@ namespace TeileListe.Common.Classes
 {
     public static class HilfsFunktionen
     {
+        public static string GetValidFileName(string fileName)
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c, '_'));
+        }
+
         public static string GetAnzeigeName(string hersteller,
                                                 string beschreibung,
                                                 string groesse,

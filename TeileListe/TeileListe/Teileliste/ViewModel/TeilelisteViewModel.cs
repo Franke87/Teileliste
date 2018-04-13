@@ -696,9 +696,17 @@ namespace TeileListe.Teileliste.ViewModel
                     item.DokumentenListe.AddRange(dateiListe);
                 }
 
+                var csvExport = "";
+
+                using (var formatter = new CsvFormatter())
+                {
+                    csvExport = formatter.GetFormattetKomponenten(KomponentenListe);
+
+                }
+
                 PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
                                                                 SelectedFahrrad,
-                                                                "",
+                                                                csvExport,
                                                                 liste);
             }
             catch (Exception ex)
