@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
@@ -118,7 +119,7 @@ namespace TeileListe.Restekiste.ViewModel
             }
             else
             {
-                var liste = ResteListe.Select(item => new RestteilDto
+                var liste = ResteListe.Select(item => new EinzelteilExportDto
                                                     {
                                                         Guid = item.Guid,
                                                         Komponente = item.Komponente,
@@ -129,9 +130,29 @@ namespace TeileListe.Restekiste.ViewModel
                                                         DatenbankId = item.DatenbankId,
                                                         DatenbankLink = item.DatenbankLink,
                                                         Preis = item.Preis,
-                                                        Gewicht = item.Gewicht
+                                                        Gewicht = item.Gewicht, 
+                                                        DokumentenListe = new List<DateiDto>()
                                                     }).ToList();
-                //PluginManager.ExportManager.ExportRestekiste(liste);
+
+                foreach (var item in liste)
+                {
+                    var dateiListe = new List<DateiDto>();
+                    PluginManager.DbManager.GetDateiInfos(item.Guid, ref dateiListe);
+                    item.DokumentenListe.AddRange(dateiListe);
+                }
+
+                var csvExport = "";
+
+                using (var formatter = new CsvFormatter())
+                {
+                    csvExport = formatter.GetFormattetRestekiste(ResteListe);
+
+                }
+
+                PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
+                                                                "Restekiste",
+                                                                csvExport,
+                                                                liste);
             }
         }
 
