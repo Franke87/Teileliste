@@ -9,8 +9,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Interface;
 using TeileListe.Enums;
 using TeileListe.NeuesEinzelteil.View;
 using TeileListe.NeuesEinzelteil.ViewModel;
@@ -131,7 +131,7 @@ namespace TeileListe.Restekiste.ViewModel
                                                         Preis = item.Preis,
                                                         Gewicht = item.Gewicht
                                                     }).ToList();
-                PluginManager.ExportManager.ExportRestekiste(liste);
+                //PluginManager.ExportManager.ExportRestekiste(liste);
             }
         }
 

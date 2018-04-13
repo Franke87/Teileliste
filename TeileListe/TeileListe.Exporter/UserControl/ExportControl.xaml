@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="TeileListe.Exporter.UserControl.ExportControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" MaxHeight="100" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="*" MaxHeight="400" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Kategorien" Opacity="0.4" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Dateitypen" Opacity="0.4" Margin="10,0,0,0" />
+        <ScrollViewer Grid.Row="1" Grid.Column="0">
+            <ItemsControl ItemsSource="{Binding ListKategorien}" Grid.IsSharedSizeScope="True" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"   />
+                                <ColumnDefinition SharedSizeGroup="A" />
+                                <ColumnDefinition SharedSizeGroup="B" />
+                                <ColumnDefinition SharedSizeGroup="C" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Anzeige}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Anzeige}" />
+                            <TextBlock Margin="5,0,0,0" Grid.Column="2" >
+                                <Hyperlink Command="{Binding AlleCommand}" CommandParameter="{Binding}" >
+                                    <TextBlock Text="auswählen" />
+                                </Hyperlink>
+                            </TextBlock>
+                            <TextBlock Margin="5,0,5,0" Grid.Column="3" >
+                                <Hyperlink Command="{Binding KeineCommand}" CommandParameter="{Binding}" >
+                                    <TextBlock Text="entfernen" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Rectangle Grid.Row="2" Grid.Column="0" Fill="LightGray" />
+        <ScrollViewer Margin="10,0,0,0" Grid.Row="1" Grid.Column="1">
+            <ItemsControl ItemsSource="{Binding ListDateiendungen}" Grid.IsSharedSizeScope="True" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"   />
+                                <ColumnDefinition SharedSizeGroup="A" />
+                                <ColumnDefinition SharedSizeGroup="B" />
+                                <ColumnDefinition SharedSizeGroup="C" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Anzeige}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Anzeige}" />
+                            <TextBlock Margin="5,0,0,0" Grid.Column="2" >
+                                <Hyperlink Command="{Binding AlleCommand}" CommandParameter="{Binding}" >
+                                    <TextBlock Text="auswählen" />
+                                </Hyperlink>
+                            </TextBlock>
+                            <TextBlock Margin="5,0,5,0" Grid.Column="3" >
+                                <Hyperlink Command="{Binding KeineCommand}" CommandParameter="{Binding}" >
+                                    <TextBlock Text="entfernen" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Rectangle Grid.Row="2" Grid.Column="1" Margin="10,0,0,0" Fill="LightGray" />
+        <ScrollViewer Margin="0,10,0,0" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <ItemsControl ItemsSource="{Binding DateiListe}" Grid.IsSharedSizeScope="True" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Komponente}" Opacity="0.4" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Komponente}" />
+                                <TextBlock Margin="26,0,0,0" Grid.Column="1" Opacity="0.4" Text="{Binding AnzeigeText}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AnzeigeText}" />
+                            </Grid>
+                            <ItemsControl Margin="10,0,0,0"  Grid.Row="1"  ItemsSource="{Binding DateiViewModelListe}" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" HorizontalContentAlignment="Stretch" >
+                                            <CheckBox.Content>
+                                                <Grid >
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="3*" />
+                                                        <ColumnDefinition Width="8*" />
+                                                        <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Kategorie}" Opacity="0.4" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Kategorie}" />
+                                                    <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding Beschreibung}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Beschreibung}" />
+                                                    <TextBlock Margin="5,0,5,0" HorizontalAlignment="Right" Grid.Column="2" Text="{Binding Dateiendung}" />
+                                                </Grid>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"  Fill="LightGray" />
+        <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,10" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Margin="0,0,5,0" >
+                <Hyperlink Command="{Binding AlleCommand}" >
+                    <TextBlock Text="alle auswählen" />
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Grid.Column="1" >
+                <Hyperlink Command="{Binding KeineCommand}" >
+                    <TextBlock Text="alle entfernen" />
+                </Hyperlink>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

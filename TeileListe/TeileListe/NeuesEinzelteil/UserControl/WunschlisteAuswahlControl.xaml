@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converter="clr-namespace:TeileListe.Converter"
+             xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
         <converter:IntToPriceConverter x:Key="IntToPriceConverter" />
-        <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
-        <converter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
+        <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>

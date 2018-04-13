@@ -10,7 +10,7 @@
         SizeToContent="Height"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Icon="../../Images/icon.ico"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="{Binding TitelText}" Width="505" >
     <Window.Resources>
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />

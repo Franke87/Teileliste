@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 
 namespace TeileListe.Common.UserControl
 {

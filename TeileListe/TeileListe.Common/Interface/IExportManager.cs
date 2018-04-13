@@ -8,14 +8,9 @@ namespace TeileListe.Common.Interface
     {
         string GetKuerzel();
 
-        void ExportKomponenten(List<KomponenteDto> listeKomponenten,
-                                int gesamtPreis,
-                                int gesamtGewicht,
-                                int bereitsGezahlt,
-                                int schonGewogen);
-
-        void ExportRestekiste(List<RestteilDto> listeEinzelteile);
-
-        void ExportWunschliste(List<WunschteilDto> listeWunschteile);
+        void ExportKomponenten(IntPtr parent,
+                                string dateiName,
+                                string csvContent,
+                                List<EinzelteilExportDto> listeKomponenten);
     }
 }

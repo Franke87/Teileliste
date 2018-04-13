@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 
 namespace TeileListe.NeuesEinzelteil.ViewModel
 {

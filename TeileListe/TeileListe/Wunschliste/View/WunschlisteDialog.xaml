@@ -7,7 +7,7 @@
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"
         ShowInTaskbar="False"
-        Icon="../../Images/icon.ico"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Wunschliste" 
         MinWidth="600" 
         MinHeight="200" >

@@ -1,6 +1,6 @@
-﻿using TeileListe.Classes;
+﻿using TeileListe.Common.Classes;
 
-namespace TeileListe.MyMessageBox
+namespace TeileListe.Common.View
 {
     public partial class MyQuestionBox
     {

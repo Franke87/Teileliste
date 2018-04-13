@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
 using TeileListe.Common.Interface;
 using TeileListe.Common.ViewModel;

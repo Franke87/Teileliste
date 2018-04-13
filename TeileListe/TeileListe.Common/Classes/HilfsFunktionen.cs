@@ -1,11 +1,12 @@
 ﻿using System.Text;
 using System.Windows;
+using TeileListe.Common.View;
 
-namespace TeileListe.Classes
+namespace TeileListe.Common.Classes
 {
-    internal static class HilfsFunktionen
+    public static class HilfsFunktionen
     {
-        internal static string GetAnzeigeName(string hersteller,
+        public static string GetAnzeigeName(string hersteller,
                                                 string beschreibung,
                                                 string groesse,
                                                 string jahr)
@@ -35,12 +36,12 @@ namespace TeileListe.Classes
             return strBuilder.ToString().Trim();
         }
 
-        internal static void ShowMessageBox(Window window, 
+        public static void ShowMessageBox(Window window, 
                                             string titelText, 
                                             string meldungText, 
                                             bool isError)
         {
-            var dialog = new MyMessageBox.MyMessageBox(titelText, meldungText, isError)
+            var dialog = new MyMessageBox(titelText, meldungText, isError)
             {
                 Owner = window
             };
@@ -48,9 +49,9 @@ namespace TeileListe.Classes
             dialog.ShowDialog();
         }
 
-        internal static bool ShowQuestionBox(Window window, string titelText)
+        public static bool ShowQuestionBox(Window window, string titelText)
         {
-            var dialog = new MyMessageBox.MyQuestionBox(titelText)
+            var dialog = new MyQuestionBox(titelText)
             {
                 Owner = window
             };

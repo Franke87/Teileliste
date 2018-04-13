@@ -3,9 +3,9 @@ using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace TeileListe.Converter
+namespace TeileListe.Common.Converter
 {
-    class InverseBoolToVisibilityConverter : IValueConverter
+    public class InverseBoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

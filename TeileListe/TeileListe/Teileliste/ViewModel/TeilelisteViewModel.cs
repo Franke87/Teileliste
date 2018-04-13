@@ -7,8 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
 using TeileListe.Enums;
 using TeileListe.NeuesEinzelteil.View;
@@ -668,7 +670,7 @@ namespace TeileListe.Teileliste.ViewModel
         {
             try
             {
-                var liste = KomponentenListe.Select(item => new KomponenteDto
+                var liste = KomponentenListe.Select(item => new EinzelteilExportDto
                                                     {
                                                         Guid = item.Guid,
                                                         Komponente = item.Komponente,
@@ -684,12 +686,20 @@ namespace TeileListe.Teileliste.ViewModel
                                                         Gewicht = item.Gewicht,
                                                         Gekauft = item.Gekauft,
                                                         Gewogen = item.Gewogen,
+                                                        DokumentenListe = new List<DateiDto>()
                                                     }).ToList();
-                PluginManager.ExportManager.ExportKomponenten(liste,    
-                                                                GesamtPreis,
-                                                                GesamtGewicht,
-                                                                BereitsGezahlt,
-                                                                SchonGewogen);
+
+                foreach(var item in liste)
+                {
+                    var dateiListe = new List<DateiDto>();
+                    PluginManager.DbManager.GetDateiInfos(item.Guid, ref dateiListe);
+                    item.DokumentenListe.AddRange(dateiListe);
+                }
+
+                PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
+                                                                SelectedFahrrad,
+                                                                "",
+                                                                liste);
             }
             catch (Exception ex)
             {

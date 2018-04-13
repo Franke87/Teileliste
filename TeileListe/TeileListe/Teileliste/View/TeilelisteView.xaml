@@ -4,12 +4,13 @@
         xmlns:converter="clr-namespace:TeileListe.Converter"
         xmlns:commonUserControl="clr-namespace:TeileListe.Common.UserControl"
         xmlns:teilelisteUserControl="clr-namespace:TeileListe.Teileliste.UserControl"
+        xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
         WindowStartupLocation="CenterOwner"
-        Icon="../../Images/icon.ico"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Teileliste v1.03" MinWidth="950" Width="1080" MinHeight="500" Height="768">
     <Window.Resources>
-        <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
-        <converter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
+        <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
         <converter:CountToBoolConverter x:Key="CountToBoolConverter" />
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />

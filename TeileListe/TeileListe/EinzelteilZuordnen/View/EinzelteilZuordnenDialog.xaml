@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converter="clr-namespace:TeileListe.Converter"
+        xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
         xmlns:userControl="clr-namespace:TeileListe.Common.UserControl"
         xmlns:zuordnenUserControl="clr-namespace:TeileListe.EinzelteilZuordnen.UserControl"
         SizeToContent="Height"
@@ -9,12 +10,12 @@
         ResizeMode="NoResize"
         Title="{Binding TitelText}"
         Width="750" 
-        Icon="../../Images/icon.ico"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         MaxHeight="700">
     <Window.Resources>
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+        <commonConverter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
     </Window.Resources>
     <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
         <Grid Margin="10">

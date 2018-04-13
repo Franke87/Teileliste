@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Microsoft.Win32;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 
 namespace TeileListe.NeuesFahrrad.ViewModel
 {

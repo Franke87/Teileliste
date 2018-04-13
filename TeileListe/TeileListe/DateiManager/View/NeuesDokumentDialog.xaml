@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:usercontrol="clr-namespace:TeileListe.DateiManager.UserControl"
         xmlns:converter="clr-namespace:TeileListe.Converter"
+        xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         SizeToContent="Height"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Icon="../../Images/icon.ico"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Dateimanager" Height="Auto" Width="505" >
     <Window.Resources>
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
-        <converter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+        <commonConverter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
     </Window.Resources>
     <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
         <Grid Margin="10">

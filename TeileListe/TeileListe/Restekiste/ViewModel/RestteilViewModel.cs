@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
 using TeileListe.DateiManager.View;
 using TeileListe.DateiManager.ViewModel;

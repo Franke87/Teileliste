@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
 using TeileListe.Common.Interface;
 using TeileListe.Enums;
@@ -131,7 +132,7 @@ namespace TeileListe.Wunschliste.ViewModel
                                                     Preis = item.Preis,
                                                     Gewicht = item.Gewicht
                                                 }).ToList();
-                PluginManager.ExportManager.ExportWunschliste(liste);
+                //PluginManager.ExportManager.ExportWunschliste(liste);
             }
         }
 

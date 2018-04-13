@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Interop;
 using TeileListe.Common.Dto;
 using TeileListe.Common.Interface;
+using TeileListe.Exporter.View;
+using TeileListe.Exporter.ViewModel;
 
 namespace TeileListe.Exporter
 {
@@ -10,16 +15,33 @@ namespace TeileListe.Exporter
         {
         }
 
-        public void ExportKomponenten(List<KomponenteDto> listeKomponenten, int gesamtPreis, int gesamtGewicht, int bereitsGezahlt, int schonGewogen)
+        public void ExportKomponenten(IntPtr parent,
+                                        string dateiName,
+                                        string csvContent,
+                                        List<EinzelteilExportDto> listeKomponenten)
         {
-        }
+            var dialog = new ExportManagerDialog();
+            new WindowInteropHelper(dialog).Owner = parent;
 
-        public void ExportRestekiste(List<RestteilDto> listeEinzelteile)
-        {
-        }
+            var viewModel = new ExportManagerViewModel(listeKomponenten)
+            {
+                CloseAction = dialog.Close
+            };
 
-        public void ExportWunschliste(List<WunschteilDto> listeWunschteile)
-        {
+            dialog.DataContext = viewModel;
+
+            dialog.ShowDialog();
+
+            if (viewModel.DoExport)
+            {
+                try
+                {
+                }
+                catch (IOException ex)
+                {
+                    throw new Exception("Die Daten konnten nicht exportiert werden", ex);
+                }
+            }
         }
 
         public string GetKuerzel()

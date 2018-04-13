@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="CanResize"
         ShowInTaskbar="False"
-        Icon="../../Images/icon.ico"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Dateimanager" 
         Width="600" Height="300"
         MinWidth="600" MinHeight="300">

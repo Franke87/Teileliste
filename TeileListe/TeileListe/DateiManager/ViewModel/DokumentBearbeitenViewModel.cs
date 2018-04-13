@@ -4,19 +4,18 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Windows;
-using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.ViewModel;
 
 namespace TeileListe.DateiManager.ViewModel
 {
-    internal class DokumentBearbeitenViewModel : CommonViewModel
+    internal class DokumentBearbeitenViewModel : MyCommonViewModel
     {
         private bool _hasError;
         public bool HasError
         {
             get { return _hasError; }
-            set { SetCommonBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         private string _beschreibung;
@@ -25,8 +24,10 @@ namespace TeileListe.DateiManager.ViewModel
             get { return _beschreibung; }
             set
             {
-                SetCommonStringProperty("Beschreibung", ref _beschreibung, value);
-                HasError = HasValidationError();
+                if (SetProperty("Beschreibung", ref _beschreibung, value))
+                {
+                    HasError = HasValidationError();
+                }
             }
         }
 
@@ -36,8 +37,10 @@ namespace TeileListe.DateiManager.ViewModel
             get { return _selectedKategorie; }
             set
             {
-                SetCommonStringProperty("SelectedKategorie", ref _selectedKategorie, value);
-                HasError = HasValidationError();
+                if (SetProperty("SelectedKategorie", ref _selectedKategorie, value))
+                {
+                    HasError = HasValidationError();
+                }
             }
         }
 
@@ -68,7 +71,7 @@ namespace TeileListe.DateiManager.ViewModel
             IsOk = false;
 
             var list = new List<string>();
-            PluginManager.DbManager.GetDateiKategorien(ref list);
+            Classes.PluginManager.DbManager.GetDateiKategorien(ref list);
             KategorieList = new ObservableCollection<string>(list);
 
 

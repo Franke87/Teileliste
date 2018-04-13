@@ -1,4 +1,4 @@
-﻿namespace TeileListe.MyMessageBox
+﻿namespace TeileListe.Common.View
 {
     public partial class MyMessageBox
     {

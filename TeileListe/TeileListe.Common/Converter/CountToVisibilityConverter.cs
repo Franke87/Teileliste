@@ -3,13 +3,13 @@ using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace TeileListe.Converter
+namespace TeileListe.Common.Converter
 {
-    class CountToVisibilityConverter : IValueConverter
+    public class CountToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (int) value < 1 ? Visibility.Collapsed : Visibility.Visible;
+            return (int)value < 1 ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

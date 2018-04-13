@@ -449,42 +449,62 @@ namespace TeileListe.Table
             WritePrivateProfileSection("Dateien", null, string.Format(DateilisteFile, komponenteGuid));
             var count = 1;
 
-            foreach (var item in dateiListe)
+            if (dateiListe.Count == 0)
             {
-                if(!File.Exists(Path.Combine("Daten", komponenteGuid, item.Guid + "." + item.Dateiendung)))
+                try
                 {
-                    File.Copy(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung),
-                                Path.Combine("Daten", komponenteGuid, item.Guid + "." + item.Dateiendung));
+                    if (File.Exists(string.Format(DateilisteFile, komponenteGuid)))
+                    {
+                        File.Delete(string.Format(DateilisteFile, komponenteGuid));
+                    }
+                    if (Directory.Exists(Path.Combine("Daten", komponenteGuid)))
+                    {
+                        Directory.Delete(Path.Combine("Daten", komponenteGuid));
+                    }
                 }
-                
-                WritePrivateProfileString("Dateien", string.Format("{0}", count++), item.Guid, string.Format(DateilisteFile, komponenteGuid));
-                WritePrivateProfileSection(item.Guid, null, string.Format(DateilisteFile, komponenteGuid));
-                WritePrivateProfileString(item.Guid,
-                                            "Kategorie",
-                                            item.Kategorie,
-                                            string.Format(DateilisteFile, komponenteGuid));
-                WritePrivateProfileString(item.Guid,
-                                            "Beschreibung",
-                                            item.Beschreibung,
-                                            string.Format(DateilisteFile, komponenteGuid));
-                WritePrivateProfileString(item.Guid,
-                                            "Dateiendung",
-                                            item.Dateiendung,
-                                            string.Format(DateilisteFile, komponenteGuid));
+                catch (Exception)
+                {
+                }
             }
-
-            try
+            else
             {
                 foreach (var item in dateiListe)
                 {
-                    if (File.Exists(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung)))
+                    if (!File.Exists(Path.Combine("Daten", komponenteGuid, item.Guid + "." + item.Dateiendung)))
                     {
-                        File.Delete(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung));
+                        File.Copy(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung),
+                                    Path.Combine("Daten", komponenteGuid, item.Guid + "." + item.Dateiendung));
+                    }
+
+                    WritePrivateProfileString("Dateien", string.Format("{0}", count++), item.Guid, string.Format(DateilisteFile, komponenteGuid));
+                    WritePrivateProfileSection(item.Guid, null, string.Format(DateilisteFile, komponenteGuid));
+                    WritePrivateProfileString(item.Guid,
+                                                "Kategorie",
+                                                item.Kategorie,
+                                                string.Format(DateilisteFile, komponenteGuid));
+                    WritePrivateProfileString(item.Guid,
+                                                "Beschreibung",
+                                                item.Beschreibung,
+                                                string.Format(DateilisteFile, komponenteGuid));
+                    WritePrivateProfileString(item.Guid,
+                                                "Dateiendung",
+                                                item.Dateiendung,
+                                                string.Format(DateilisteFile, komponenteGuid));
+                }
+
+                try
+                {
+                    foreach (var item in dateiListe)
+                    {
+                        if (File.Exists(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung)))
+                        {
+                            File.Delete(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung));
+                        }
                     }
                 }
-            }
-            catch(Exception)
-            {
+                catch (Exception)
+                {
+                }
             }
         }
 

@@ -5,7 +5,7 @@
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"
         ShowInTaskbar="False"
-        Icon="../../Images/icon.ico"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Restekiste" 
         MinWidth="950" MinHeight="500">
     <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >

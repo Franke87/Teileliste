@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Microsoft.Win32;
-using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Enums;
 
 namespace TeileListe.Common.ViewModel

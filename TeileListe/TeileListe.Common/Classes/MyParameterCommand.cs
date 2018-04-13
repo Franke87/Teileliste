@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace TeileListe.Classes
+namespace TeileListe.Common.Classes
 {
     public class MyParameterCommand<TParameterType> : ICommand
     {
@@ -17,12 +17,12 @@ namespace TeileListe.Classes
             return true;
         }
 
-        #pragma warning disable 0067
+#pragma warning disable 0067
         public event EventHandler CanExecuteChanged;
 
         public void Execute(object parameter)
         {
-            _execute((TParameterType) parameter);
+            _execute((TParameterType)parameter);
         }
     }
 }

@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converter="clr-namespace:TeileListe.Converter"
              xmlns:viewModel="clr-namespace:TeileListe.Common.ViewModel"
+             xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
              mc:Ignorable="d" 
              d:DesignHeight="300" >
     <UserControl.Resources>
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
-        <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
-        <converter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
+        <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
     </UserControl.Resources>
     <Grid >
         <Grid.RowDefinitions>

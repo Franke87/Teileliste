@@ -88,9 +88,7 @@
     <Compile Include="API\View\UploadWaitwindow.xaml.cs">
       <DependentUpon>UploadWaitwindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\HilfsFunktionen.cs" />
     <Compile Include="Classes\PluginManager.cs" />
-    <Compile Include="Common\ViewModel\CommonViewModel.cs" />
     <Compile Include="Converter\DecimalToWeightConverter.cs" />
     <Compile Include="Converter\InverseEnumToVisibilityConverter.cs" />
     <Compile Include="DateiManager\UserControl\DateiBearbeitenControl.xaml.cs">
@@ -124,12 +122,6 @@
     <Compile Include="MessungHochladen\View\MessungHochladenDialog.xaml.cs">
       <DependentUpon>MessungHochladenDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MyMessageBox\MyMessageBox.xaml.cs">
-      <DependentUpon>MyMessageBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MyMessageBox\MyQuestionBox.xaml.cs">
-      <DependentUpon>MyQuestionBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="NeuesEinzelteil\ViewModel\RestekisteAuswahlViewModel.cs" />
     <Compile Include="NeuesEinzelteil\ViewModel\WunschlisteAuswahlViewModel.cs" />
     <Compile Include="Common\UserControl\WebAuswahlControl.xaml.cs">
@@ -149,17 +141,12 @@
     </Compile>
     <Compile Include="NeuesEinzelteil\ViewModel\DatenbankteilAuswahlViewModel.cs" />
     <Compile Include="NeuesEinzelteil\ViewModel\EinzelteilAuswahlViewModel.cs" />
-    <Compile Include="Classes\MyCommand.cs" />
-    <Compile Include="Classes\MyParameterCommand.cs" />
     <Compile Include="Classes\TeileImporter.cs" />
     <Compile Include="Converter\BoolToBrushConverter.cs" />
-    <Compile Include="Converter\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converter\CountToBoolConverter.cs" />
     <Compile Include="Converter\IntToPriceConverter.cs" />
-    <Compile Include="Converter\CountToVisibilityConverter.cs" />
     <Compile Include="Converter\IntToWeightConverter.cs" />
     <Compile Include="Converter\InverseBoolConverter.cs" />
-    <Compile Include="Converter\InverseCountToVisibilityConverter.cs" />
     <Compile Include="Converter\InverseStringToVisibilityConverter.cs" />
     <Compile Include="Converter\StringToVisibilityConverter.cs" />
     <Compile Include="Teileliste\UserControl\FahrradAuswahlControl.xaml.cs">
@@ -228,14 +215,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MessungHochladen\View\MessungHochladenDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MyMessageBox\MyMessageBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MyMessageBox\MyQuestionBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,9 +339,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\TeileListe.Common\TeileListe.Common.csproj">
       <Project>{E500FA1C-9FA3-4978-A384-3297E58011F5}</Project>
       <Name>TeileListe.Common</Name>
@@ -391,7 +367,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\error.png" />
+    <Folder Include="MyMessageBox\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

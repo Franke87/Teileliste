@@ -10,7 +10,7 @@
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Icon="../../Images/icon.ico"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="{Binding TitelText}" 
         MaxWidth="750" 
         MinWidth="500"

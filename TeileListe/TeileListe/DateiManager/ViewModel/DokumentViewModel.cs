@@ -5,14 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.ViewModel;
 using TeileListe.EinzelteilBearbeiten.View;
 
 namespace TeileListe.DateiManager.ViewModel
 {
-    internal class DokumentViewModel : CommonViewModel
+    internal class DokumentViewModel : MyCommonViewModel
     {
         #region Properties
 
@@ -20,28 +19,28 @@ namespace TeileListe.DateiManager.ViewModel
         public string Guid
         {
             get { return _guid; }
-            set { SetCommonStringProperty("Guid", ref _guid, value); }
+            set { SetProperty("Guid", ref _guid, value); }
         }
 
         private string _kategorie;
         public string Kategorie
         {
             get { return _kategorie; }
-            set { SetCommonStringProperty("Kategorie", ref _kategorie, value); }
+            set { SetProperty("Kategorie", ref _kategorie, value); }
         }
 
         private string _beschreibung;
         public string Beschreibung
         {
             get { return _beschreibung; }
-            set { SetCommonStringProperty("Beschreibung", ref _beschreibung, value); }
+            set { SetProperty("Beschreibung", ref _beschreibung, value); }
         }
 
         private string _groesse;
         public string Groesse
         {
             get { return _groesse; }
-            set { SetCommonStringProperty("Groesse", ref _groesse, value); }
+            set { SetProperty("Groesse", ref _groesse, value); }
         }
 
         public string Dateiendung { get; set; }
@@ -131,9 +130,9 @@ namespace TeileListe.DateiManager.ViewModel
                                     + Environment.NewLine
                                     + e.Message;
                     HilfsFunktionen.ShowMessageBox(window,
-                                                    "Dateimanager",
-                                                    message,
-                                                    true);
+                                                            "Dateimanager",
+                                                            message,
+                                                            true);
                 }
             }
         }

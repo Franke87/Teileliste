@@ -5,16 +5,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using TeileListe.API.View;
-using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Interface;
 using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
 using TeileListe.MessungHochladen.Dto;
 
 namespace TeileListe.MessungHochladen.ViewModel
 {
-    internal class MessungHochladenViewModel : CommonViewModel
+    internal class MessungHochladenViewModel : MyCommonViewModel
     {
         #region Properties
 
@@ -35,14 +34,14 @@ namespace TeileListe.MessungHochladen.ViewModel
         public string DatenbankInfos
         {
             get { return _datenbankInfos; }
-            set { SetCommonStringProperty("DatenbankInfos", ref _datenbankInfos, value); }
+            set { SetProperty("DatenbankInfos", ref _datenbankInfos, value); }
         }
 
         private bool _hasError;
         public bool HasError
         {
             get { return _hasError; }
-            set { SetCommonBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         private decimal _gewicht;
@@ -51,8 +50,10 @@ namespace TeileListe.MessungHochladen.ViewModel
             get { return _gewicht; }
             set
             {
-                SetDecimalProperty("Gewicht", ref _gewicht, value);
-                HasError = DateiViewModel.HasError || Gewicht == 0;
+                if (SetProperty("Gewicht", ref _gewicht, value))
+                {
+                    HasError = DateiViewModel.HasError || Gewicht == 0;
+                }
             }
         }
 
@@ -129,7 +130,7 @@ namespace TeileListe.MessungHochladen.ViewModel
                 new DatenbankDto {Datenbank = Datenbank}
             };
             
-            PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
+            Classes.PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
             var progressWindow = new UploadWaitwindow(Datenbank,
                                                         datenbanken[0].ApiToken,
@@ -194,7 +195,7 @@ namespace TeileListe.MessungHochladen.ViewModel
                 new DatenbankDto {Datenbank = Datenbank}
             };
             
-            PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
+            Classes.PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
             var dialog = new WaitWindow(Datenbank,
                                         datenbanken[0].ApiToken,

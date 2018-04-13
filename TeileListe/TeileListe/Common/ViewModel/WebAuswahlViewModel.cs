@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows;
 using TeileListe.API.View;
 using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Interface;
 using TeileListe.NeuesEinzelteil.ViewModel;
 
 namespace TeileListe.Common.ViewModel

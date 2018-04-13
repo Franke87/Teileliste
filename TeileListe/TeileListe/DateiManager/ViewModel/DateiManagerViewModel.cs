@@ -5,14 +5,13 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using TeileListe.Classes;
+using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.ViewModel;
 using TeileListe.DateiManager.View;
 
 namespace TeileListe.DateiManager.ViewModel
 {
-    internal class DateiManagerViewModel : CommonViewModel
+    internal class DateiManagerViewModel : MyCommonViewModel
     {
         #region Properties
 
@@ -20,12 +19,12 @@ namespace TeileListe.DateiManager.ViewModel
         public bool IsDirty
         {
             get { return _isDirty; }
-            set { SetCommonBoolProperty("IsDirty", ref _isDirty, value); }
+            set { SetProperty("IsDirty", ref _isDirty, value); }
         }
 
         public string CustomExportKuerzel
         {
-            get { return PluginManager.ExportManager.GetKuerzel(); }
+            get { return Classes.PluginManager.ExportManager.GetKuerzel(); }
         }
 
         private ObservableCollection<DokumentViewModel> _dateiListe;
@@ -61,7 +60,7 @@ namespace TeileListe.DateiManager.ViewModel
             if (Directory.Exists(Path.Combine("Daten", _komponenteGuid)))
             {
                 var liste = new List<DateiDto>();
-                PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref liste);
+                Classes.PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref liste);
 
                 foreach(var datei in liste)
                 {
@@ -157,7 +156,7 @@ namespace TeileListe.DateiManager.ViewModel
             _deletedItems.Clear();
 
             var teileliste = new List<DateiDto>();
-            PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref teileliste);
+            Classes.PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref teileliste);
             foreach (var item in teileliste)
             {
                 var viewModel = new DokumentViewModel(_komponenteGuid, item)
@@ -179,9 +178,9 @@ namespace TeileListe.DateiManager.ViewModel
 
             try
             {
-                PluginManager.DbManager.DeleteDateiInfos(_komponenteGuid, _deletedItems);
+                Classes.PluginManager.DbManager.DeleteDateiInfos(_komponenteGuid, _deletedItems);
                 _deletedItems.Clear();
-                PluginManager.DbManager.SaveDateiInfos(_komponenteGuid, DateiListe.Select(item => new DateiDto
+                Classes.PluginManager.DbManager.SaveDateiInfos(_komponenteGuid, DateiListe.Select(item => new DateiDto
                 {
                     Guid = item.Guid,
                     Kategorie = item.Kategorie,
