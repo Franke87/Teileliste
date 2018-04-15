@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using TeileListe.API.View;
+using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
 using TeileListe.Common.ViewModel;
@@ -22,6 +25,8 @@ namespace TeileListe.MessungHochladen.ViewModel
         public string Datenbank { get; set; }
         public string ProduktId { get; set; }
         public string DatenbankLink { get; set; }
+        private string _guid { get; set; }
+        public bool AuswahlEnabled { get; set; }
 
         public CommonDateiViewModel DateiViewModel { get; set; }
 
@@ -44,6 +49,17 @@ namespace TeileListe.MessungHochladen.ViewModel
             set { SetProperty("HasError", ref _hasError, value); }
         }
 
+        private bool _neuesAusgewaehlt;
+        public bool NeuesAusgewaehlt
+        {
+            get { return _neuesAusgewaehlt; }
+            set
+            {
+                SetProperty("NeuesAusgewaehlt", ref _neuesAusgewaehlt, value);
+                HasError = CheckForError();
+            }
+        }
+
         private decimal _gewicht;
         public decimal Gewicht
         {
@@ -52,7 +68,31 @@ namespace TeileListe.MessungHochladen.ViewModel
             {
                 if (SetProperty("Gewicht", ref _gewicht, value))
                 {
-                    HasError = DateiViewModel.HasError || Gewicht == 0;
+                    HasError = CheckForError();
+                }
+            }
+        }
+
+        private ObservableCollection<DateiAuswahlViewModel> _dateiListe;
+        public ObservableCollection<DateiAuswahlViewModel> DateiListe
+        {
+            get { return _dateiListe; }
+            set
+            {
+                SetProperty("DateiListe", ref _dateiListe, value);
+                HasError = CheckForError();
+            }
+        }
+
+        private DateiAuswahlViewModel _selectedDatei;
+        public DateiAuswahlViewModel SelectedDatei
+        {
+            get { return _selectedDatei; }
+            set
+            {
+                if (SetProperty("SelectedDatei", ref _selectedDatei, value))
+                {
+                    HasError = CheckForError();
                 }
             }
         }
@@ -112,8 +152,28 @@ namespace TeileListe.MessungHochladen.ViewModel
             DateiViewModel.PropertyChanged += ContentPropertyChanged;
 
             Gewicht = einzelteil.Gewicht;
+            _guid = einzelteil.Guid;
 
-            HasError = true;
+            var liste = new List<DateiDto>();
+            PluginManager.DbManager.GetDateiInfos(einzelteil.Guid, ref liste);
+            liste.RemoveAll(item => item.Kategorie != "Gewichtsmessung");
+            liste.RemoveAll(item => !(item.Dateiendung.ToLower() == "png"
+                                    || item.Dateiendung.ToLower() == "jpg"
+                                    || item.Dateiendung.ToLower() == "jpeg"));
+
+            NeuesAusgewaehlt = liste.Count == 0;
+            AuswahlEnabled = liste.Count > 0;
+
+            DateiListe = new ObservableCollection<DateiAuswahlViewModel>();
+
+            foreach(var item in liste)
+            {
+                DateiListe.Add(new DateiAuswahlViewModel(_guid, TitelText, item));
+            }
+
+            SelectedDatei = DateiListe.FirstOrDefault();
+
+            HasError = CheckForError();
         }
 
         #endregion
@@ -122,15 +182,49 @@ namespace TeileListe.MessungHochladen.ViewModel
 
         private void OnHochladen(Window window)
         {
-            byte[] imageArray = File.ReadAllBytes(DateiViewModel.Datei);
-            string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+            var dateiName = string.Empty;
+
+            if (_neuesAusgewaehlt)
+            {
+                dateiName = DateiViewModel.Datei;
+            }
+            else
+            {
+                dateiName = Path.Combine("Daten", _guid, SelectedDatei.Guid + "." + SelectedDatei.Dateiendung);
+
+                if (!File.Exists(dateiName))
+                {
+                    dateiName = Path.Combine("Daten", "Temp", SelectedDatei.Guid + "." + SelectedDatei.Dateiendung);
+                }
+            }
+
+            string base64ImageRepresentation;
+
+            try
+            {
+                byte[] imageArray = File.ReadAllBytes(dateiName);
+                base64ImageRepresentation = Convert.ToBase64String(imageArray);
+            }
+            catch(Exception ex)
+            {
+                var message = "Die Datei konnte nicht geöffnet werden." 
+                            + Environment.NewLine 
+                            + Environment.NewLine 
+                            + ex.Message;
+
+                HilfsFunktionen.ShowMessageBox(window,
+                                                TitelText,
+                                                message,
+                                                true);
+                return;
+            }
 
             var datenbanken = new List<DatenbankDto>
             {
                 new DatenbankDto {Datenbank = Datenbank}
             };
             
-            Classes.PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
+            PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
             var progressWindow = new UploadWaitwindow(Datenbank,
                                                         datenbanken[0].ApiToken,
@@ -144,13 +238,58 @@ namespace TeileListe.MessungHochladen.ViewModel
             {
                 Owner = window
             };
+
             progressWindow.ShowDialog();
 
             if (progressWindow.Success)
             {
+                var message = "Messung erfolgreich hochgeladen";
+
+                if (_neuesAusgewaehlt)
+                {
+                    try
+                    {
+                        var dateiListe = new List<DateiDto>();
+
+                        PluginManager.DbManager.GetDateiInfos(_guid, ref dateiListe);
+
+                        var datei = DateiViewModel.Datei;
+                        var guid = Guid.NewGuid().ToString();
+                        var dateiendung = Path.GetExtension(datei);
+                        if(dateiendung.StartsWith("."))
+                        {
+                            dateiendung = dateiendung.Substring(1);
+                        }
+
+                        File.Copy(datei, "Daten\\Temp\\" + guid + "." + dateiendung);
+
+                        dateiListe.Add(new DateiDto
+                        {
+                            Guid = guid,
+                            Kategorie = "Gewichtsmessung",
+                            Beschreibung = Path.GetFileNameWithoutExtension(datei),
+                            Dateiendung = dateiendung
+                        });
+
+                        PluginManager.DbManager.SaveDateiInfos(_guid, dateiListe);
+                    }
+                    catch (Exception ex)
+                    {
+                        message += Environment.NewLine + Environment.NewLine;
+
+                        message += "Die Datei kann nicht kopiert werden.";
+
+                        if (!string.IsNullOrWhiteSpace(ex.Message))
+                        {
+                            message += Environment.NewLine + Environment.NewLine;
+                            message += ex.Message;
+                        }
+                    }
+                }
+
                 HilfsFunktionen.ShowMessageBox(window,
                                                 TitelText,
-                                                "Messung erfolgreich hochgeladen",
+                                                message,
                                                 false);
             }
             else
@@ -195,7 +334,7 @@ namespace TeileListe.MessungHochladen.ViewModel
                 new DatenbankDto {Datenbank = Datenbank}
             };
             
-            Classes.PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
+            PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
             var dialog = new WaitWindow(Datenbank,
                                         datenbanken[0].ApiToken,
@@ -223,7 +362,12 @@ namespace TeileListe.MessungHochladen.ViewModel
 
         void ContentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            HasError = DateiViewModel.HasError || Gewicht == 0;
+            HasError = CheckForError();
+        }
+
+        bool CheckForError()
+        {
+            return Gewicht == 0 || NeuesAusgewaehlt ? DateiViewModel.HasError : SelectedDatei == null ;
         }
 
         #endregion

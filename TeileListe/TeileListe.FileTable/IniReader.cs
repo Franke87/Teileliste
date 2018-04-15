@@ -556,6 +556,8 @@ namespace TeileListe.Table
             var buffer = new StringBuilder(254);
             var counter = 1;
 
+            liste.Add("Gewichtsmessung");
+
             do
             {
                 if (GetPrivateProfileString("Kategorien",
@@ -577,7 +579,10 @@ namespace TeileListe.Table
 
             foreach (var item in liste)
             {
-                WritePrivateProfileString("Kategorien", string.Format("{0}", count++), item, KategorieFile);
+                if (item != "Gewichtsmessung")
+                {
+                    WritePrivateProfileString("Kategorien", string.Format("{0}", count++), item, KategorieFile);
+                }
             }
         }
 
@@ -707,9 +712,8 @@ namespace TeileListe.Table
 
             if (!File.Exists(KategorieFile))
             {
-                WritePrivateProfileString("Kategorien", "1", "Kaufbeleg", KategorieFile);
-                WritePrivateProfileString("Kategorien", "2", "Gewichtsmessung", KategorieFile);
-                WritePrivateProfileString("Kategorien", "3", "Artikelbild", KategorieFile);
+                WritePrivateProfileString("Kategorien", "1", "Rechnung", KategorieFile);
+                WritePrivateProfileString("Kategorien", "2", "Artikelfoto", KategorieFile);
             }
         }
     }

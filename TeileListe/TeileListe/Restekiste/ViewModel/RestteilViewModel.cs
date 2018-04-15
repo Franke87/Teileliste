@@ -222,6 +222,7 @@ namespace TeileListe.Restekiste.ViewModel
                 };
                 var viewModel = new MessungHochladenViewModel(new KomponenteDto
                                                                 {
+                                                                    Guid = Guid,
                                                                     Komponente = Komponente,
                                                                     Hersteller = Hersteller,
                                                                     Beschreibung = Beschreibung,

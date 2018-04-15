@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.ViewModel;
 
@@ -71,7 +72,7 @@ namespace TeileListe.DateiManager.ViewModel
             IsOk = false;
 
             var list = new List<string>();
-            Classes.PluginManager.DbManager.GetDateiKategorien(ref list);
+            PluginManager.DbManager.GetDateiKategorien(ref list);
             KategorieList = new ObservableCollection<string>(list);
 
 

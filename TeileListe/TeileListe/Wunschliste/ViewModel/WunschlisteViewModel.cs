@@ -147,7 +147,6 @@ namespace TeileListe.Wunschliste.ViewModel
                 using (var formatter = new CsvFormatter())
                 {
                     csvExport = formatter.GetFormattetWunschliste(Wunschliste);
-
                 }
 
                 PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,

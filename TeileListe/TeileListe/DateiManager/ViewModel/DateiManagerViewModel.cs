@@ -26,7 +26,7 @@ namespace TeileListe.DateiManager.ViewModel
 
         public string CustomExportKuerzel
         {
-            get { return Classes.PluginManager.ExportManager.GetKuerzel(); }
+            get { return PluginManager.ExportManager.GetKuerzel(); }
         }
 
         private ObservableCollection<DokumentViewModel> _dateiListe;
@@ -70,7 +70,7 @@ namespace TeileListe.DateiManager.ViewModel
             if (Directory.Exists(Path.Combine("Daten", _komponenteGuid)))
             {
                 var liste = new List<DateiDto>();
-                Classes.PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref liste);
+                PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref liste);
 
                 foreach(var datei in liste)
                 {
@@ -192,7 +192,7 @@ namespace TeileListe.DateiManager.ViewModel
             _deletedItems.Clear();
 
             var teileliste = new List<DateiDto>();
-            Classes.PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref teileliste);
+            PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref teileliste);
             foreach (var item in teileliste)
             {
                 var viewModel = new DokumentViewModel(_komponenteGuid, item)
@@ -214,9 +214,9 @@ namespace TeileListe.DateiManager.ViewModel
 
             try
             {
-                Classes.PluginManager.DbManager.DeleteDateiInfos(_komponenteGuid, _deletedItems);
+                PluginManager.DbManager.DeleteDateiInfos(_komponenteGuid, _deletedItems);
                 _deletedItems.Clear();
-                Classes.PluginManager.DbManager.SaveDateiInfos(_komponenteGuid, DateiListe.Select(item => new DateiDto
+                PluginManager.DbManager.SaveDateiInfos(_komponenteGuid, DateiListe.Select(item => new DateiDto
                 {
                     Guid = item.Guid,
                     Kategorie = item.Kategorie,
