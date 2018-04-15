@@ -101,11 +101,25 @@ namespace TeileListe.Table
             }
         }
 
-        public void DeleteKomponenten(string nameFahrrad, List<string> deletedItems)
+        public void DeleteKomponenten(string nameFahrrad, List<LoeschenDto> deletedItems)
         {
             foreach (var item in deletedItems)
             {
-                WritePrivateProfileSection(nameFahrrad.PadRight(32) + item, null, MainFile);
+                WritePrivateProfileSection(nameFahrrad.PadRight(32) + item.Guid, null, MainFile);
+
+                if(item.DokumenteLoeschen)
+                {
+                    try
+                    {
+                        if (Directory.Exists(Path.Combine("Daten", item.Guid)))
+                        {
+                            Directory.Delete(Path.Combine("Daten", item.Guid), true);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
             }
         }
 
@@ -200,11 +214,25 @@ namespace TeileListe.Table
             }
         }
 
-        public void DeleteEinzelteile(List<string> deletedItems)
+        public void DeleteEinzelteile(List<LoeschenDto> deletedItems)
         {
             foreach (var item in deletedItems)
             {
-                WritePrivateProfileSection(item, null, RestekisteFile);
+                WritePrivateProfileSection(item.Guid, null, RestekisteFile);
+
+                if (item.DokumenteLoeschen)
+                {
+                    try
+                    {
+                        if (Directory.Exists(Path.Combine("Daten", item.Guid)))
+                        {
+                            Directory.Delete(Path.Combine("Daten", item.Guid), true);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
             }
         }
 
@@ -283,11 +311,25 @@ namespace TeileListe.Table
             }
         }
 
-        public void DeleteWunschteile(List<string> deletedItems)
+        public void DeleteWunschteile(List<LoeschenDto> deletedItems)
         {
             foreach (var item in deletedItems)
             {
-                WritePrivateProfileSection(item, null, WunschlisteFile);
+                WritePrivateProfileSection(item.Guid, null, WunschlisteFile);
+
+                if (item.DokumenteLoeschen)
+                {
+                    try
+                    {
+                        if (Directory.Exists(Path.Combine("Daten", item.Guid)))
+                        {
+                            Directory.Delete(Path.Combine("Daten", item.Guid), true);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
             }
         }
 
@@ -703,6 +745,17 @@ namespace TeileListe.Table
             if (!Directory.Exists("Daten"))
             {
                 Directory.CreateDirectory("Daten");
+            }
+
+            if (Directory.Exists("Daten\\Temp"))
+            {
+                try
+                {
+                    Directory.Delete("Daten\\Temp", true);
+                }
+                catch (Exception)
+                {
+                }
             }
 
             if (!Directory.Exists("Daten\\Temp"))

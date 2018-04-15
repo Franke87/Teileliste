@@ -39,7 +39,7 @@ namespace TeileListe.Table
             _iniReader.GetKomponenteIds(nameFahrrad, ref collection);
         }
 
-        public void DeleteKomponenten(string nameFahrrad, List<string> deletedItems)
+        public void DeleteKomponenten(string nameFahrrad, List<LoeschenDto> deletedItems)
         {
             _iniReader.DeleteKomponenten(nameFahrrad, deletedItems);
         }
@@ -54,7 +54,7 @@ namespace TeileListe.Table
             _iniReader.SaveEinzelteile(liste);
         }
 
-        public void DeleteEinzelteile(List<string> deletedItems)
+        public void DeleteEinzelteile(List<LoeschenDto> deletedItems)
         {
             _iniReader.DeleteEinzelteile(deletedItems);
         }
@@ -69,7 +69,7 @@ namespace TeileListe.Table
             _iniReader.SaveWunschteile(liste);
         }
 
-        public void DeleteWunschteile(List<string> deletedItems)
+        public void DeleteWunschteile(List<LoeschenDto> deletedItems)
         {
             _iniReader.DeleteWunschteile(deletedItems);
         }

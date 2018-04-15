@@ -102,9 +102,9 @@ namespace TeileListe.Teileliste.ViewModel
             get { return PluginManager.ExportManager.GetKuerzel(); }
         }
 
-        private readonly List<string> _deletedKomponenten;
-        private readonly List<string> _deletedTeile;
-        private readonly List<string> _deletedWunschteile; 
+        private readonly List<LoeschenDto> _deletedKomponenten;
+        private readonly List<LoeschenDto> _deletedTeile;
+        private readonly List<LoeschenDto> _deletedWunschteile; 
 
         #endregion
 
@@ -202,11 +202,11 @@ namespace TeileListe.Teileliste.ViewModel
         internal TeilelisteViewModel()
         {
             KomponentenListe = new ObservableCollection<KomponenteViewModel>();
-            _deletedKomponenten = new List<string>();
+            _deletedKomponenten = new List<LoeschenDto>();
             ResteListe = new List<RestteilDto>();
-            _deletedTeile = new List<string>();
+            _deletedTeile = new List<LoeschenDto>();
             WunschListe = new List<WunschteilDto>();
-            _deletedWunschteile = new List<string>();
+            _deletedWunschteile = new List<LoeschenDto>();
             FahrradListe = new ObservableCollection<string>();
             ExportformatCsv = true;
             IsDirty = false;
@@ -374,7 +374,7 @@ namespace TeileListe.Teileliste.ViewModel
                             {
                                 var neuesTeil = new KomponenteViewModel(new KomponenteDto
                                 {
-                                    Guid = Guid.NewGuid().ToString()
+                                    Guid = teil.Guid
                                 })
                                 {
                                     Komponente = teil.Komponente,
@@ -399,9 +399,8 @@ namespace TeileListe.Teileliste.ViewModel
                                 neuesTeil.NachUntenAction = NachUntenSortieren;
                                 neuesTeil.LoeschenAction = Loeschen;
                                 KomponentenListe.Add(neuesTeil);
-                                _deletedTeile.Add(teil.Guid);
-                                ResteListe.Remove(
-                                    ResteListe.First(resteTeil => resteTeil.Guid == teil.Guid));
+                                _deletedTeile.Add(new LoeschenDto { Guid = teil.Guid, DokumenteLoeschen = false });
+                                ResteListe.Remove(ResteListe.First(resteTeil => resteTeil.Guid == teil.Guid));
                             }
                         }
                         UpdateResteKisteProperties();
@@ -415,7 +414,7 @@ namespace TeileListe.Teileliste.ViewModel
                             {
                                 var neuesTeil = new KomponenteViewModel(new KomponenteDto
                                 {
-                                    Guid = Guid.NewGuid().ToString()
+                                    Guid = teil.Guid
                                 })
                                 {
                                     Komponente = teil.Komponente,
@@ -438,7 +437,7 @@ namespace TeileListe.Teileliste.ViewModel
                                 neuesTeil.NachUntenAction = NachUntenSortieren;
                                 neuesTeil.LoeschenAction = Loeschen;
                                 KomponentenListe.Add(neuesTeil);
-                                _deletedWunschteile.Add(teil.Guid);
+                                _deletedWunschteile.Add(new LoeschenDto { Guid = teil.Guid, DokumenteLoeschen = false });
                                 WunschListe.Remove(
                                     WunschListe.First(wunschTeil => wunschTeil.Guid == teil.Guid));
                             }
@@ -730,7 +729,7 @@ namespace TeileListe.Teileliste.ViewModel
         private void Loeschen(string guid)
         {
             var item = KomponentenListe.First(teil => teil.Guid == guid);
-            _deletedKomponenten.Add(guid);
+            _deletedKomponenten.Add(new LoeschenDto { Guid = guid, DokumenteLoeschen = true });
             KomponentenListe.Remove(item);
             IsDirty = true;
         }
@@ -778,7 +777,7 @@ namespace TeileListe.Teileliste.ViewModel
                     Ausbauen(guid);
                     var neueKomponente = new KomponenteViewModel(new KomponenteDto
                     {
-                        Guid = Guid.NewGuid().ToString(),
+                        Guid = wunschteil.Guid,
                         Komponente = wunschteil.Komponente,
                         Hersteller = wunschteil.Hersteller,
                         Beschreibung = wunschteil.Beschreibung,
@@ -797,7 +796,7 @@ namespace TeileListe.Teileliste.ViewModel
                     neueKomponente.NachUntenAction = NachUntenSortieren;
                     neueKomponente.LoeschenAction = Loeschen;
                     KomponentenListe.Insert(index, neueKomponente);
-                    _deletedWunschteile.Add(wunschteil.Guid);
+                    _deletedWunschteile.Add(new LoeschenDto { Guid = wunschteil.Guid, DokumenteLoeschen = false });
                     WunschListe.Remove(wunschteil);
                 }
                 else
@@ -808,7 +807,7 @@ namespace TeileListe.Teileliste.ViewModel
                         Ausbauen(guid);
                         var neueKomponente = new KomponenteViewModel(new KomponenteDto
                         {
-                            Guid = Guid.NewGuid().ToString(),
+                            Guid = restteil.Guid,
                             Komponente = restteil.Komponente,
                             Hersteller = restteil.Hersteller,
                             Beschreibung = restteil.Beschreibung,
@@ -827,7 +826,7 @@ namespace TeileListe.Teileliste.ViewModel
                         neueKomponente.NachUntenAction = NachUntenSortieren;
                         neueKomponente.LoeschenAction = Loeschen;
                         KomponentenListe.Insert(index, neueKomponente);
-                        _deletedTeile.Add(restteil.Guid);
+                        _deletedTeile.Add(new LoeschenDto { Guid = restteil.Guid, DokumenteLoeschen = false });
                         ResteListe.Remove(restteil);
                     }
                 }
@@ -842,11 +841,11 @@ namespace TeileListe.Teileliste.ViewModel
             var einzelteil = KomponentenListe.First(teil => teil.Guid == guid);
             if(einzelteil != null)
             {
-                _deletedKomponenten.Add(guid);
+                _deletedKomponenten.Add(new LoeschenDto { Guid = guid, DokumenteLoeschen = false });
                 KomponentenListe.Remove(einzelteil);
                 ResteListe.Add(new RestteilDto
                 {
-                    Guid = Guid.NewGuid().ToString(),
+                    Guid = guid,
                     Beschreibung = einzelteil.Beschreibung, 
                     Groesse = einzelteil.Groesse,
                     Jahr = einzelteil.Jahr,

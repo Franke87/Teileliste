@@ -31,7 +31,7 @@ namespace TeileListe.Restekiste.ViewModel
 
         #region Properties
 
-        private readonly List<string> _deletedItems;
+        private readonly List<LoeschenDto> _deletedItems;
 
         private ObservableCollection<RestteilViewModel> _resteListe;
         public ObservableCollection<RestteilViewModel> ResteListe
@@ -66,7 +66,7 @@ namespace TeileListe.Restekiste.ViewModel
         internal RestekisteViewModel()
         {
             ResteListe = new ObservableCollection<RestteilViewModel>();
-            _deletedItems = new List<string>();
+            _deletedItems = new List<LoeschenDto>();
 
             ExportformatCsv = true;
 
@@ -305,7 +305,7 @@ namespace TeileListe.Restekiste.ViewModel
         private void Loeschen(string guid)
         {
             var item = ResteListe.First(teil => teil.Guid == guid);
-            _deletedItems.Add(item.Guid);
+            _deletedItems.Add(new LoeschenDto { Guid = item.Guid, DokumenteLoeschen = true });
             ResteListe.Remove(item);
             IsDirty = true;
         }

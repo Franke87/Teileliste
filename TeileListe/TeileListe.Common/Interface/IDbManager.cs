@@ -12,15 +12,15 @@ namespace TeileListe.Common.Interface
 
         void GetKomponente(string nameFahrrad, ref List<KomponenteDto> collection);
         void SaveKomponente(string nameFahrrad, List<KomponenteDto> collection);
-        void DeleteKomponenten(string nameFahrrad, List<string> deletedItems);
+        void DeleteKomponenten(string nameFahrrad, List<LoeschenDto> deletedItems);
 
         void GetEinzelteile(ref List<RestteilDto> liste);
         void SaveEinzelteile(List<RestteilDto> liste);
-        void DeleteEinzelteile(List<string> deletedItems);
+        void DeleteEinzelteile(List<LoeschenDto> deletedItems);
 
         void GetWunschteile(ref List<WunschteilDto> liste);
         void SaveWunschteile(List<WunschteilDto> liste);
-        void DeleteWunschteile(List<string> deletedItems);
+        void DeleteWunschteile(List<LoeschenDto> deletedItems);
 
         void GetDatenbankDaten(ref List<DatenbankDto> datenbanken);
         void SaveDatenbankDaten(List<DatenbankDto> datenbanken);

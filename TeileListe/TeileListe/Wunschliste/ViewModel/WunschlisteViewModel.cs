@@ -32,7 +32,7 @@ namespace TeileListe.Wunschliste.ViewModel
 
         #region Properties
 
-        private readonly List<string> _deletedItems;
+        private readonly List<LoeschenDto> _deletedItems;
 
         private ObservableCollection<WunschteilViewModel> _wunschliste;
         public ObservableCollection<WunschteilViewModel> Wunschliste
@@ -67,7 +67,7 @@ namespace TeileListe.Wunschliste.ViewModel
         internal WunschlisteViewModel()
         {
             Wunschliste = new ObservableCollection<WunschteilViewModel>();
-            _deletedItems = new List<string>();
+            _deletedItems = new List<LoeschenDto>();
 
             ExportformatCsv = true;
 
@@ -311,7 +311,7 @@ namespace TeileListe.Wunschliste.ViewModel
         private void Loeschen(string guid)
         {
             var item = Wunschliste.First(teil => teil.Guid == guid);
-            _deletedItems.Add(item.Guid);
+            _deletedItems.Add(new LoeschenDto { Guid = item.Guid, DokumenteLoeschen = true });
             Wunschliste.Remove(item);
             IsDirty = true;
         }
