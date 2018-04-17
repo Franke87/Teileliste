@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
+using TeileListe.KategorienVerwalten.View;
 
 namespace TeileListe.KategorienVerwalten.ViewModel
 {
@@ -56,7 +57,8 @@ namespace TeileListe.KategorienVerwalten.ViewModel
                 {
                     LoeschenAction = Loeschen,
                     NachObenAction = NachObenSortieren,
-                    NachUntenAction = NachUntenSortieren
+                    NachUntenAction = NachUntenSortieren, 
+                    GetBlackList = GetBlackList
                 };
                 viewModel.PropertyChanged += ContentPropertyChanged;
                 KategorienListe.Add(viewModel);
@@ -72,7 +74,8 @@ namespace TeileListe.KategorienVerwalten.ViewModel
                     {
                         LoeschenAction = Loeschen,
                         NachObenAction = NachObenSortieren,
-                        NachUntenAction = NachUntenSortieren
+                        NachUntenAction = NachUntenSortieren,
+                        GetBlackList = GetBlackList
                     };
                     viewModel.PropertyChanged += ContentPropertyChanged;
                     KategorienListe.Add(viewModel);
@@ -97,7 +100,8 @@ namespace TeileListe.KategorienVerwalten.ViewModel
                 {
                     LoeschenAction = Loeschen,
                     NachObenAction = NachObenSortieren,
-                    NachUntenAction = NachUntenSortieren
+                    NachUntenAction = NachUntenSortieren,
+                    GetBlackList = GetBlackList
                 };
                 viewModel.PropertyChanged += ContentPropertyChanged;
                 KategorienListe.Add(viewModel);
@@ -120,26 +124,30 @@ namespace TeileListe.KategorienVerwalten.ViewModel
 
         internal void Hinzufuegen(Window window)
         {
-            //var dialog = new NeuesEinzelteilDialog
-            //{
-            //    Top = window.Top + 40,
-            //    Left = window.Left + (window.ActualWidth - 600) / 2,
-            //    Owner = window
-            //};
-            //var viewModel = new NeuesEinzelteilViewModel(EinzelteilBearbeitenEnum.Wunschteil,
-            //                                                new List<EinzelteilAuswahlViewModel>(),
-            //                                                new List<WunschteilAuswahlViewModel>())
-            //{
-            //    CloseAction = dialog.Close
-            //};
-            //dialog.DataContext = viewModel;
-            //dialog.ShowDialog();
+            var dialog = new KategorieBearbeitenView()
+            {
+                Owner = window
+            };
+            var viewModel = new KategorieBearbeitenViewModel(GetBlackList(), "")
+            {
+                CloseAction = dialog.Close
+            };
+            dialog.DataContext = viewModel;
+            dialog.ShowDialog();
 
-            //if (viewModel.IsOk)
-            //{
-            //}
-
-            IsDirty = true;
+            if (viewModel.IsOk)
+            {
+                var newViewModel = new KategorieViewModel(viewModel.Kategorie)
+                {
+                    LoeschenAction = Loeschen,
+                    NachObenAction = NachObenSortieren,
+                    NachUntenAction = NachUntenSortieren,
+                    GetBlackList = GetBlackList
+                };
+                newViewModel.PropertyChanged += ContentPropertyChanged;
+                KategorienListe.Add(newViewModel);
+                IsDirty = true;
+            }
         }
 
         private void Loeschen(string guid)
@@ -179,6 +187,11 @@ namespace TeileListe.KategorienVerwalten.ViewModel
                     IsDirty = true;
                 }
             }
+        }
+
+        public string GetBlackList()
+        {
+            return KategorienListe.Aggregate(string.Empty, (current, item) => current + (";" + item.Kategorie + ";"));
         }
 
         public void OnClosing(object sender, CancelEventArgs e)

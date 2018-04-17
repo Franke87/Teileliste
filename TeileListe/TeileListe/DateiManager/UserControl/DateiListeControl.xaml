@@ -24,8 +24,8 @@
                     <RowDefinition Height="1" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="8*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
                     <ColumnDefinition SharedSizeGroup="C" />
                     <ColumnDefinition SharedSizeGroup="A" />
                     <ColumnDefinition SharedSizeGroup="B" />
@@ -43,15 +43,15 @@
             <DataTemplate>
                 <Grid >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
                         <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
                         <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Kategorie}" Text="{Binding Kategorie}" Opacity="0.4" />
-                    <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Beschreibung}" HorizontalAlignment="Stretch" Text="{Binding Beschreibung}" />
-                    <TextBlock Grid.Column="2" Text="{Binding Dateiendung}" />
+                    <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Kategorie}" Text="{Binding Kategorie}" Opacity="0.4" Margin="0,0,5,0" />
+                    <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Beschreibung}" HorizontalAlignment="Stretch" Text="{Binding Beschreibung}" Margin="0,0,5,0" />
+                    <TextBlock Grid.Column="2" Text="{Binding Dateiendung}" Margin="0,0,5,0" />
                     <usercontrol:MyContextBar Grid.Column="3" AusbauenVisible="Collapsed" LeerenVisible="Collapsed" GewichtsdatenbankVisible="Collapsed" DateiManagerToolTip="Dokument öffnen" />
                     <TextBlock Grid.Column="4" Margin="5,0" HorizontalAlignment="Right" Text="{Binding Groesse}" />
                 </Grid>

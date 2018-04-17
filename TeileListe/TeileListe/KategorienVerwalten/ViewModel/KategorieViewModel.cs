@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using TeileListe.Common.Classes;
+using TeileListe.KategorienVerwalten.View;
 
 namespace TeileListe.KategorienVerwalten.ViewModel
 {
@@ -20,6 +21,7 @@ namespace TeileListe.KategorienVerwalten.ViewModel
         public Action<string> NachObenAction { get; set; }
         public Action<string> NachUntenAction { get; set; }
         public Action<string> LoeschenAction { get; set; }
+        public Func<string> GetBlackList { get; set; }
 
         #endregion
 
@@ -64,41 +66,21 @@ namespace TeileListe.KategorienVerwalten.ViewModel
 
         private void OnChange(Window window)
         {
-            //var dialog = new EinzelteilBearbeitenDialog(true);
-            //var viewModel = new EinzelteilBearbeitenViewModel(new KomponenteDto
-            //{
-            //    Komponente = Komponente,
-            //    Hersteller = Hersteller,
-            //    Beschreibung = Beschreibung,
-            //    Groesse = Groesse,
-            //    Jahr = Jahr,
-            //    Shop = "",
-            //    Link = "",
-            //    DatenbankId = DatenbankId,
-            //    DatenbankLink = DatenbankLink,
-            //    Preis = Preis,
-            //    Gewicht = Gewicht,
-            //    Gekauft = false,
-            //    Gewogen = false,
-            //},
-            //                                                    EinzelteilBearbeitenEnum.Restteil)
-            //{ CloseAction = dialog.Close };
-            //dialog.Owner = window;
-            //dialog.DataContext = viewModel;
-            //dialog.ShowDialog();
+            var dialog = new KategorieBearbeitenView()
+            {
+                Owner = window
+            };
+            var viewModel = new KategorieBearbeitenViewModel(GetBlackList(), Kategorie)
+            {
+                CloseAction = dialog.Close
+            };
+            dialog.DataContext = viewModel;
+            dialog.ShowDialog();
 
-            //if (viewModel.IsOk)
-            //{
-            //    Komponente = viewModel.Komponente;
-            //    Hersteller = viewModel.Hersteller;
-            //    Beschreibung = viewModel.Beschreibung;
-            //    Groesse = viewModel.Groesse;
-            //    Jahr = viewModel.Jahr;
-            //    DatenbankId = viewModel.DatenbankId;
-            //    DatenbankLink = viewModel.DatenbankLink;
-            //    Preis = viewModel.Preis;
-            //    Gewicht = viewModel.Gewicht;
-            //}
+            if (viewModel.IsOk)
+            {
+                Kategorie = viewModel.Kategorie;
+            }
         }
 
         private void OnLoeschen()

@@ -63,6 +63,8 @@ namespace TeileListe.DateiManager.ViewModel
 
         public Action CloseAction { get; set; }
 
+        public string TitelText { get { return "Dateimanager"; } }
+
         private bool MitDateiauswahl { get; set; }
         private string _originalKategorie;
 

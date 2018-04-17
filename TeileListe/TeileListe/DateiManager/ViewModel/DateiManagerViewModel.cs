@@ -141,24 +141,27 @@ namespace TeileListe.DateiManager.ViewModel
                 try
                 {
                     var datei = viewModel.DateiViewModel.Datei;
-                    var dateieindung = Path.GetExtension(datei);
-                    if(!string.IsNullOrWhiteSpace(dateieindung))
+                    var dateiendung = Path.GetExtension(datei);
+                    if(!string.IsNullOrWhiteSpace(dateiendung))
                     {
-                        if(dateieindung.Substring(0,1) == ".")
+                        if(dateiendung.Substring(0,1) == ".")
                         {
-                            dateieindung = dateieindung.Substring(1);
+                            dateiendung = dateiendung.Substring(1);
                         }
                     }
+
+                    dateiendung = dateiendung.ToLower();
+
                     var guid = Guid.NewGuid().ToString();
 
-                    File.Copy(datei, "Daten\\Temp\\" + guid + "." + dateieindung);
+                    File.Copy(datei, "Daten\\Temp\\" + guid + "." + dateiendung);
 
                     var newItem = new DokumentViewModel(_komponenteGuid, new DateiDto()
                     {
                         Guid = guid,
                         Beschreibung = viewModel.Beschreibung,
                         Kategorie = viewModel.SelectedKategorie,
-                        Dateiendung = dateieindung
+                        Dateiendung = dateiendung
                     })
                     {
                         NachObenAction = NachObenSortieren,

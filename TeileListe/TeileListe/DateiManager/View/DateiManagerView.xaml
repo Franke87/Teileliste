@@ -10,8 +10,8 @@
         ShowInTaskbar="False"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Dateimanager" 
-        Width="600" Height="300"
-        MinWidth="600" MinHeight="300">
+        Width="650" Height="300"
+        MinWidth="650" MinHeight="300">
     <Window.Resources >
         <converter:CountToBoolConverter x:Key="CountToBoolConverter" />
     </Window.Resources>

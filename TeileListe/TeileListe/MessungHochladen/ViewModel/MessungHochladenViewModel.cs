@@ -261,6 +261,8 @@ namespace TeileListe.MessungHochladen.ViewModel
                             dateiendung = dateiendung.Substring(1);
                         }
 
+                        dateiendung = dateiendung.ToLower();
+
                         File.Copy(datei, "Daten\\Temp\\" + guid + "." + dateiendung);
 
                         dateiListe.Add(new DateiDto
