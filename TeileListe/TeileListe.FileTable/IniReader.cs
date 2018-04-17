@@ -616,7 +616,7 @@ namespace TeileListe.Table
 
         public void SaveDateiKategorien(List<string> liste)
         {
-            WritePrivateProfileSection("Kategorien", null, MainFile);
+            WritePrivateProfileSection("Kategorien", null, KategorieFile);
             var count = 1;
 
             foreach (var item in liste)

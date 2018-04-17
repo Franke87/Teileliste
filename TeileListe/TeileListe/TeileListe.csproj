@@ -116,6 +116,14 @@
     </Compile>
     <Compile Include="Enums\DateiOeffnenEnum.cs" />
     <Compile Include="Enums\NeuesEinzelteilEnum.cs" />
+    <Compile Include="KategorienVerwalten\UserControl\KategorienListeControl.xaml.cs">
+      <DependentUpon>KategorienListeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="KategorienVerwalten\ViewModel\KategorienVerwaltenViewModel.cs" />
+    <Compile Include="KategorienVerwalten\ViewModel\KategorieViewModel.cs" />
+    <Compile Include="KategorienVerwalten\View\KategorienVerwaltenView.xaml.cs">
+      <DependentUpon>KategorienVerwaltenView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MessungHochladen\Dto\MessungHochladenDto.cs" />
     <Compile Include="MessungHochladen\Dto\ProduktHochladenDto.cs" />
     <Compile Include="MessungHochladen\ViewModel\DateiAuswahlViewModel.cs" />
@@ -212,6 +220,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EinzelteilZuordnen\View\EinzelteilZuordnenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KategorienVerwalten\UserControl\KategorienListeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KategorienVerwalten\View\KategorienVerwaltenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

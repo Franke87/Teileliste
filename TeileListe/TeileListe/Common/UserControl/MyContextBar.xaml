@@ -34,7 +34,7 @@
             <TextBlock Margin="3,0,0,0" ToolTip="leeren" Visibility="{Binding LeerenVisible, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
                 <Hyperlink Command="{Binding ClearCommand}" TextDecorations="" >&#x232B;</Hyperlink>
             </TextBlock>
-            <TextBlock Margin="3,0,0,0" ToolTip="{Binding DateiManagerToolTip, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
+            <TextBlock Margin="3,0,0,0" ToolTip="{Binding DateiManagerToolTip, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" Visibility="{Binding DateiManagerToolTip, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}, Converter={StaticResource StringToVisibilityConverter}}" >
                 <Hyperlink Command="{Binding FileCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" TextDecorations="" >&#x1F4C1;</Hyperlink>
             </TextBlock>
             <TextBlock Margin="3,0,0,0" Visibility="{Binding GewichtsdatenbankVisible, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >

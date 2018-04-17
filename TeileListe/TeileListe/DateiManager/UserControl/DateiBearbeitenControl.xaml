@@ -30,7 +30,7 @@
             <Label HorizontalAlignment="Left" Margin="-5,2,0,0" Content="_Kategorie:" Opacity="0.4" Target="{Binding ElementName=KategorieText}" />
             <ComboBox Grid.Column="1" Name="KategorieText" Margin="0,4,0,0" ItemsSource="{Binding KategorieList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedKategorie, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,7,0,0"  >
-                <Hyperlink Command="{Binding KategorieBearbeitenCommand}" >
+                <Hyperlink Command="{Binding KategorieBearbeitenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
                     <TextBlock Text="Kategorien bearbeiten" />
                 </Hyperlink>
             </TextBlock>

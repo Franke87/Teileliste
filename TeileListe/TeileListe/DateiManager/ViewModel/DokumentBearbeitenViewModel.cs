@@ -4,9 +4,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.ViewModel;
+using TeileListe.KategorienVerwalten.View;
+using TeileListe.KategorienVerwalten.ViewModel;
 
 namespace TeileListe.DateiManager.ViewModel
 {
@@ -56,10 +59,12 @@ namespace TeileListe.DateiManager.ViewModel
         public bool IsOk { get; set; }
 
         public MyCommand OnOkCommand { get; set; }
+        public MyParameterCommand<Window> KategorieBearbeitenCommand { get; set; }
 
         public Action CloseAction { get; set; }
 
         private bool MitDateiauswahl { get; set; }
+        private string _originalKategorie;
 
         internal DokumentBearbeitenViewModel(string kategorie, bool mitDateiauswahl)
         {
@@ -67,22 +72,23 @@ namespace TeileListe.DateiManager.ViewModel
             DateiViewModel.PropertyChanged += ContentPropertyChanged;
 
             OnOkCommand = new MyCommand(OnOkFunc);
+            KategorieBearbeitenCommand = new MyParameterCommand<Window>(OnKategorieBearbeiten);
 
             MitDateiauswahl = mitDateiauswahl;
             IsOk = false;
+            _originalKategorie = kategorie;
 
             var list = new List<string>();
             PluginManager.DbManager.GetDateiKategorien(ref list);
             KategorieList = new ObservableCollection<string>(list);
 
-
             if(!string.IsNullOrWhiteSpace(kategorie))
             {
-                if (!KategorieList.Any(item => item == kategorie))
+                if (!KategorieList.Any(item => item == _originalKategorie))
                 {
-                    KategorieList.Add(kategorie);
+                    KategorieList.Add(_originalKategorie);
                 }
-                SelectedKategorie = KategorieList.FirstOrDefault(item => item == kategorie);
+                SelectedKategorie = KategorieList.FirstOrDefault(item => item == _originalKategorie);
             }
             else
             {
@@ -94,6 +100,31 @@ namespace TeileListe.DateiManager.ViewModel
         {
             IsOk = true;
             CloseAction();
+        }
+
+        public void OnKategorieBearbeiten(Window window)
+        {
+            var selected = SelectedKategorie;
+
+            var dialog = new KategorienVerwaltenView(window);
+            var viewModel = new KategorienVerwaltenViewModel(_originalKategorie);
+            dialog.DataContext = viewModel;
+            dialog.Closing += viewModel.OnClosing;
+            dialog.ShowDialog();
+            dialog.Closing -= viewModel.OnClosing;
+
+            var list = new List<string>();
+            PluginManager.DbManager.GetDateiKategorien(ref list);
+            KategorieList = new ObservableCollection<string>(list);
+
+            if (!string.IsNullOrWhiteSpace(selected) && KategorieList.Any(item => item == selected))
+            {
+                SelectedKategorie = KategorieList.FirstOrDefault(item => item == selected);
+            }
+            else
+            {
+                SelectedKategorie = KategorieList.FirstOrDefault();
+            }
         }
 
         void ContentPropertyChanged(object sender, PropertyChangedEventArgs e)
