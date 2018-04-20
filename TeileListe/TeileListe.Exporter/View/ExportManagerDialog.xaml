@@ -32,14 +32,13 @@
             <Rectangle Grid.Row="3" Fill="LightGray" />
             <Grid Grid.Row="4" Margin="0,5,0,0" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <CheckBox Margin="0,13,0,0" Grid.Row="0" Grid.Column="0" Content="mit csv-Datei der Komponenten" IsChecked="{Binding MitCsv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CsvVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <Button Padding="10,0,10,0" Height="23" Grid.Column="2" VerticalAlignment="Bottom" IsDefault="True" IsEnabled="{Binding IsOk}" Content="Exportieren" Command="{Binding ExportCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,9,0,0"/>
-                <Button Padding="10,0,10,0" Height="23" Grid.Column="3" VerticalAlignment="Bottom" Content="Abbrechen" IsCancel="True" Margin="15,9,0,0" />
+                <CheckBox Margin="0,13,0,0" Grid.Row="0" Grid.Column="0" Content="mit Komponenten exportieren (Datei kann wieder importiert werden)" IsChecked="{Binding MitCsv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CsvVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button Padding="10,0,10,0" Height="23" Grid.Column="1" VerticalAlignment="Bottom" IsDefault="True" IsEnabled="{Binding IsOk}" Content="Exportieren" Command="{Binding ExportCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,9,0,0"/>
+                <Button Padding="10,0,10,0" Height="23" Grid.Column="2" VerticalAlignment="Bottom" Content="Abbrechen" IsCancel="True" Margin="15,9,0,0" />
             </Grid>
         </Grid>
     </Border>

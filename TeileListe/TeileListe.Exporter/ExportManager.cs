@@ -90,30 +90,33 @@ namespace TeileListe.Exporter
         private void PackAndOpenZipFile(IEnumerable<ZipOrdnerDto> fileList, string baseFileName, string csvDatei)
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var file = Path.Combine(path, HilfsFunktionen.GetValidFileName(baseFileName) + ".zip");
+            var secureBaseFileName = HilfsFunktionen.GetValidFileName(baseFileName);
+            var file = Path.Combine(path, secureBaseFileName + ".zip");
             var i = 1;
 
             while (File.Exists(file))
             {
-                file = Path.Combine(path, string.Format(baseFileName + " ({0}).zip", i++));
+                file = Path.Combine(path, string.Format(secureBaseFileName + " ({0}).zip", i++));
             }
 
             using (FileStream fs = new FileStream(file, FileMode.Create))
             {
                 using (ZipArchive arch = new ZipArchive(fs, ZipArchiveMode.Create))
                 {
-                    if(!string.IsNullOrWhiteSpace(csvDatei))
+                    if (!string.IsNullOrWhiteSpace(csvDatei))
                     {
-                        var entry = arch.CreateEntry(HilfsFunktionen.GetValidFileName(baseFileName) + ".csv");
+                        var entry = arch.CreateEntry("Komponenten.csv");
                         entry.LastWriteTime = DateTimeOffset.Now;
                         using (var entryStream = entry.Open())
                         {
-                            using (var streamWriter = new StreamWriter(entryStream))
+                            using (var streamWriter = new StreamWriter(entryStream, System.Text.Encoding.Default))
                             {
                                 streamWriter.Write(csvDatei);
                             }
                         }
                     }
+
+                    var zipFileList = new List<Tuple<string, string>>();
 
                     foreach (var folder in fileList)
                     {
@@ -124,8 +127,40 @@ namespace TeileListe.Exporter
                             var subFolder = HilfsFunktionen.GetValidFileName(item.Kategorie);
                             var fileName = HilfsFunktionen.GetValidFileName(item.Beschreibung);
 
+                            var baseFile = Path.Combine(folderName, subFolder, fileName);
+                            var secureFileName = baseFile;
+
+                            var j = 1;
+
+                            while (!IsUniqueFileName(secureFileName, item.Dateiendung, zipFileList))
+                            {
+                                secureFileName = string.Format("{0} ({1})", secureFileName, j++);
+                            }
+
+                            zipFileList.Add(new Tuple<string, string>(item.Guid, secureFileName + "." + item.Dateiendung));
+
                             arch.CreateEntryFromFile(Path.Combine("Daten", folder.ParentGuid, item.Guid + "." + item.Dateiendung),
-                                                        Path.Combine(folderName, subFolder, fileName + "." + item.Dateiendung));
+                                                        secureFileName + "." + item.Dateiendung);
+                        }
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(csvDatei))
+                    {
+                        var entry = arch.CreateEntry("Dateiverzeichnis.csv");
+                        entry.LastWriteTime = DateTimeOffset.Now;
+                        using (var entryStream = entry.Open())
+                        {
+                            using (var streamWriter = new StreamWriter(entryStream, System.Text.Encoding.Default))
+                            {
+                                var dateiMap = string.Empty;
+
+                                foreach (var item in zipFileList)
+                                {
+                                    dateiMap += item.Item1 + ";" + item.Item2 + Environment.NewLine;
+                                }
+
+                                streamWriter.Write(dateiMap);
+                            }
                         }
                     }
                 }
@@ -135,6 +170,12 @@ namespace TeileListe.Exporter
             {
                 Arguments = "/select, \"" + file + "\""
             });
+        }
+
+        private bool IsUniqueFileName(string fileName, string dateiendung, IEnumerable<Tuple<string, string>> fileList)
+        {
+            var file = fileName + "." + dateiendung;
+            return !fileList.Any(item => item.Item2 == file);
         }
     }
 }

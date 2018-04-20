@@ -20,7 +20,8 @@ namespace TeileListe.Classes
                     if (line != null
                         && !line.Equals("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen")
                         && !line.Equals("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink")
-                        && (line.Count(x => x == ';') == 7 || line.Count(x => x == ';') == 12)
+                        && !line.Equals("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink;Guid")
+                        && (line.Count(x => x == ';') == 7 || line.Count(x => x == ';') == 12 || line.Count(x => x == ';') == 13)
                         && line.Length > 7
                         && !line.StartsWith("Summe gesamt")
                         && !line.StartsWith("Summe bez./gew."))
@@ -28,9 +29,10 @@ namespace TeileListe.Classes
                         var values = line.Split(';');
                         if (!string.IsNullOrWhiteSpace(values[0]))
                         {
+                            var guid = Guid.NewGuid().ToString();
                             var dto = new KomponenteDto
                             {
-                                Guid = Guid.NewGuid().ToString(),
+                                Guid = guid,
                                 Komponente = values[0],
                                 Beschreibung = values[1],
                                 Shop = values[2],
@@ -47,13 +49,19 @@ namespace TeileListe.Classes
                                 dto.Gewicht = intValue;
                             }
                             dto.Gewogen = values[7] == "True";
-                            if (values.Length == 13)
+                            if (values.Length >= 13)
                             {
                                 dto.Hersteller = values[8];
                                 dto.Groesse = values[9];
                                 dto.Jahr = values[10];
                                 dto.DatenbankId = values[11];
                                 dto.DatenbankLink = values[12];
+
+                                if(values.Length == 14)
+                                {
+                                    var fileGuid = values[14];
+
+                                }
                             }
                             else
                             {
