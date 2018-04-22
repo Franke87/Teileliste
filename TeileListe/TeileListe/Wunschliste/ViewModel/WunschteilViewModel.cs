@@ -1,4 +1,5 @@
-﻿using System; 
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
@@ -191,7 +192,7 @@ namespace TeileListe.Wunschliste.ViewModel
         private void OnFileManager(Window window)
         {
             var dialog = new DateiManagerView(window);
-            var viewModel = new DateiManagerViewModel(Guid, Komponente, Hersteller, Beschreibung);
+            var viewModel = new DateiManagerViewModel(Guid, Komponente, Hersteller, Beschreibung, false, new List<DateiDto>());
             dialog.DataContext = viewModel;
             dialog.Closing += viewModel.OnClosing;
             dialog.ShowDialog();

@@ -32,6 +32,7 @@ namespace TeileListe.Restekiste.ViewModel
         #region Properties
 
         private readonly List<LoeschenDto> _deletedItems;
+        private readonly List<Tuple<string, List<DateiDto>>> _dateiCache;
 
         private ObservableCollection<RestteilViewModel> _resteListe;
         public ObservableCollection<RestteilViewModel> ResteListe
@@ -67,6 +68,7 @@ namespace TeileListe.Restekiste.ViewModel
         {
             ResteListe = new ObservableCollection<RestteilViewModel>();
             _deletedItems = new List<LoeschenDto>();
+            _dateiCache = new List<Tuple<string, List<DateiDto>>>();
 
             ExportformatCsv = true;
 
@@ -161,6 +163,21 @@ namespace TeileListe.Restekiste.ViewModel
             ResteListe.Clear();
             _deletedItems.Clear();
 
+            foreach (var item in _dateiCache)
+            {
+                foreach (var file in item.Item2)
+                {
+                    try
+                    {
+                        File.Delete(Path.Combine("Daten", "Temp", file.Guid + "." + file.Dateiendung));
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+            _dateiCache.Clear();
+
             var teileliste = new List<RestteilDto>();
             PluginManager.DbManager.GetEinzelteile(ref teileliste);
             foreach (var item in teileliste)
@@ -169,7 +186,9 @@ namespace TeileListe.Restekiste.ViewModel
                 {
                     LoeschenAction = Loeschen,
                     NachObenAction = NachObenSortieren,
-                    NachUntenAction = NachUntenSortieren
+                    NachUntenAction = NachUntenSortieren, 
+                    GetDateiCacheFunc = GetDateiCache,
+                    SaveDateiCache = AktualisiereDateiCache
                 };
                 viewModel.PropertyChanged += ContentPropertyChanged;
                 ResteListe.Add(viewModel);
@@ -195,7 +214,17 @@ namespace TeileListe.Restekiste.ViewModel
                                         Preis = item.Preis,
                                         Gewicht = item.Gewicht
                                     }).ToList());
+            foreach(var item in _dateiCache)
+            {
+                PluginManager.DbManager.SaveDateiInfos(item.Item1, item.Item2);
+            }
 
+            foreach(var item in ResteListe)
+            {
+                item.IsNeueKomponente = false;
+            }
+            
+            _dateiCache.Clear();
             IsDirty = false;
         }
 
@@ -238,9 +267,12 @@ namespace TeileListe.Restekiste.ViewModel
                         {
                             NachObenAction = NachObenSortieren,
                             NachUntenAction = NachUntenSortieren,
-                            LoeschenAction = Loeschen
+                            LoeschenAction = Loeschen,
+                            GetDateiCacheFunc = GetDateiCache,
+                            SaveDateiCache = AktualisiereDateiCache
                         };
                         neuesEinzelteil.PropertyChanged += ContentPropertyChanged;
+                        neuesEinzelteil.IsNeueKomponente = true;
                         ResteListe.Add(neuesEinzelteil);
 
                         break;
@@ -255,10 +287,14 @@ namespace TeileListe.Restekiste.ViewModel
                                 NachObenAction = NachObenSortieren,
                                 NachUntenAction = NachUntenSortieren,
                                 LoeschenAction = Loeschen,
+                                GetDateiCacheFunc = GetDateiCache,
+                                SaveDateiCache = AktualisiereDateiCache
                             };
                             neuesEinzelteil.PropertyChanged += ContentPropertyChanged;
+                            neuesEinzelteil.IsNeueKomponente = true;
                             ResteListe.Add(neuesEinzelteil);
                         }
+                        _dateiCache.AddRange(importer.DateiCache);
 
                         break;
                     }
@@ -284,7 +320,9 @@ namespace TeileListe.Restekiste.ViewModel
                                 {
                                     NachObenAction = NachObenSortieren,
                                     NachUntenAction = NachUntenSortieren,
-                                    LoeschenAction = Loeschen
+                                    LoeschenAction = Loeschen,
+                                    GetDateiCacheFunc = GetDateiCache,
+                                    SaveDateiCache = AktualisiereDateiCache
                                 };
                                 neuesEinzelteil.PropertyChanged += ContentPropertyChanged;
                                 ResteListe.Add(neuesEinzelteil);
@@ -307,6 +345,22 @@ namespace TeileListe.Restekiste.ViewModel
             var item = ResteListe.First(teil => teil.Guid == guid);
             _deletedItems.Add(new LoeschenDto { Guid = item.Guid, DokumenteLoeschen = true });
             ResteListe.Remove(item);
+            var datei = _dateiCache.FirstOrDefault(teil => teil.Item1 == guid);
+            if(datei != null)
+            {
+                foreach (var file in datei.Item2)
+                {
+                    try
+                    {
+                        File.Delete(Path.Combine("Daten", "Temp", file.Guid + "." + file.Dateiendung));
+                    }
+                    catch(Exception)
+                    {
+                    }
+                }
+                _dateiCache.Remove(datei);
+            }
+            
             IsDirty = true;
         }
 
@@ -341,6 +395,33 @@ namespace TeileListe.Restekiste.ViewModel
             }
         }
 
+        public void AktualisiereDateiCache(string guid, List<DateiDto> cache)
+        {
+            var item = _dateiCache.FirstOrDefault(komponente => komponente.Item1 == guid);
+
+            if (item != null)
+            {
+                item.Item2.Clear();
+                item.Item2.AddRange(cache);
+            }
+            else
+            {
+                _dateiCache.Add(new Tuple<string, List<DateiDto>>(guid, cache));
+            }
+        }
+
+        public List<DateiDto> GetDateiCache(string guid)
+        {
+            var cache = _dateiCache.FirstOrDefault(item => item.Item1 == guid);
+
+            if(cache != null)
+            {
+                return cache.Item2;
+            }
+
+            return new List<DateiDto>();
+        }
+
         #endregion
 
         #region Hilfsfunktionen
@@ -354,6 +435,22 @@ namespace TeileListe.Restekiste.ViewModel
                 if (HilfsFunktionen.ShowQuestionBox(owner, "Restekiste"))
                 {
                     Sichern();
+                }
+                else
+                {
+                    foreach (var item in _dateiCache)
+                    {
+                        foreach (var file in item.Item2)
+                        {
+                            try
+                            {
+                                File.Delete(Path.Combine("Daten", "Temp", file.Guid + "." + file.Dateiendung));
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
                 }
             }
         }

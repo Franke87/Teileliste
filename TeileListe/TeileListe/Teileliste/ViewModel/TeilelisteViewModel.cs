@@ -104,7 +104,7 @@ namespace TeileListe.Teileliste.ViewModel
 
         private readonly List<LoeschenDto> _deletedKomponenten;
         private readonly List<LoeschenDto> _deletedTeile;
-        private readonly List<LoeschenDto> _deletedWunschteile; 
+        private readonly List<LoeschenDto> _deletedWunschteile;
 
         #endregion
 

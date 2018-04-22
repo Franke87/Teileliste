@@ -36,13 +36,16 @@ namespace TeileListe.DateiManager.ViewModel
             set { SetProperty("DateiListe", ref _dateiListe, value); }
         }
 
+        private readonly bool _isCachedKomponente;
+        public List<DateiDto> DateiCache { get; set; }
+
         private string _komponenteGuid;
         private string _komponenteKomponente;
         private string _komponenteHersteller;
         private string _komponenteBeschreibung;
 
         private readonly List<string> _deletedItems;
-
+        
         public MyParameterCommand<Window> SichernCommand { get; set; }
         public MyParameterCommand<Window> HinzufuegenCommand { get; set; }
         public MyParameterCommand<Window> ExportCommand { get; set; }
@@ -52,7 +55,12 @@ namespace TeileListe.DateiManager.ViewModel
 
         #region Konstruktor
 
-        internal DateiManagerViewModel(string guid, string komponente, string hersteller, string beschreibung)
+        internal DateiManagerViewModel(string guid,
+            string komponente,
+            string hersteller,
+            string beschreibung,
+            bool isCachedKomponente,
+            List<DateiDto> dateiListe)
         {
             DateiListe = new ObservableCollection<DokumentViewModel>();
             _deletedItems = new List<string>();
@@ -67,14 +75,15 @@ namespace TeileListe.DateiManager.ViewModel
             _komponenteHersteller = hersteller;
             _komponenteBeschreibung = beschreibung;
 
-            if (Directory.Exists(Path.Combine("Daten", _komponenteGuid)))
-            {
-                var liste = new List<DateiDto>();
-                PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref liste);
+            _isCachedKomponente = isCachedKomponente;
 
-                foreach(var datei in liste)
+            if (_isCachedKomponente)
+            {
+                DateiCache = new List<DateiDto>(dateiListe);
+
+                foreach (var item in DateiCache)
                 {
-                    var viewModel = new DokumentViewModel(_komponenteGuid, datei)
+                    var viewModel = new DokumentViewModel(_komponenteGuid, item)
                     {
                         NachObenAction = NachObenSortieren,
                         NachUntenAction = NachUntenSortieren,
@@ -83,6 +92,29 @@ namespace TeileListe.DateiManager.ViewModel
                     viewModel.PropertyChanged += ContentPropertyChanged;
 
                     DateiListe.Add(viewModel);
+                }
+            }
+            else
+            {
+                DateiCache = new List<DateiDto>();
+
+                if (Directory.Exists(Path.Combine("Daten", _komponenteGuid)))
+                {
+                    var liste = new List<DateiDto>();
+                    PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref liste);
+
+                    foreach (var datei in liste)
+                    {
+                        var viewModel = new DokumentViewModel(_komponenteGuid, datei)
+                        {
+                            NachObenAction = NachObenSortieren,
+                            NachUntenAction = NachUntenSortieren,
+                            LoeschenAction = Loeschen
+                        };
+                        viewModel.PropertyChanged += ContentPropertyChanged;
+
+                        DateiListe.Add(viewModel);
+                    }
                 }
             }
 
@@ -195,17 +227,35 @@ namespace TeileListe.DateiManager.ViewModel
             _deletedItems.Clear();
 
             var teileliste = new List<DateiDto>();
-            PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref teileliste);
-            foreach (var item in teileliste)
+            if (_isCachedKomponente)
             {
-                var viewModel = new DokumentViewModel(_komponenteGuid, item)
+                foreach (var item in DateiCache)
                 {
-                    LoeschenAction = Loeschen,
-                    NachObenAction = NachObenSortieren,
-                    NachUntenAction = NachUntenSortieren
-                };
-                viewModel.PropertyChanged += ContentPropertyChanged;
-                DateiListe.Add(viewModel);
+                    var viewModel = new DokumentViewModel(_komponenteGuid, item)
+                    {
+                        NachObenAction = NachObenSortieren,
+                        NachUntenAction = NachUntenSortieren,
+                        LoeschenAction = Loeschen
+                    };
+                    viewModel.PropertyChanged += ContentPropertyChanged;
+
+                    DateiListe.Add(viewModel);
+                }
+            }
+            else
+            {
+                PluginManager.DbManager.GetDateiInfos(_komponenteGuid, ref teileliste);
+                foreach (var item in teileliste)
+                {
+                    var viewModel = new DokumentViewModel(_komponenteGuid, item)
+                    {
+                        LoeschenAction = Loeschen,
+                        NachObenAction = NachObenSortieren,
+                        NachUntenAction = NachUntenSortieren
+                    };
+                    viewModel.PropertyChanged += ContentPropertyChanged;
+                    DateiListe.Add(viewModel);
+                }
             }
 
             IsDirty = false;
@@ -217,15 +267,47 @@ namespace TeileListe.DateiManager.ViewModel
 
             try
             {
-                PluginManager.DbManager.DeleteDateiInfos(_komponenteGuid, _deletedItems);
-                _deletedItems.Clear();
-                PluginManager.DbManager.SaveDateiInfos(_komponenteGuid, DateiListe.Select(item => new DateiDto
+                if (_isCachedKomponente)
                 {
-                    Guid = item.Guid,
-                    Kategorie = item.Kategorie,
-                    Beschreibung = item.Beschreibung,
-                    Dateiendung = item.Dateiendung
-                }).ToList());
+                    foreach(var item in _deletedItems)
+                    {
+                        var deletedItem = DateiCache.FirstOrDefault(teil => teil.Guid == item);
+                        if(deletedItem != null)
+                        {
+                            try
+                            {
+                                File.Delete(Path.Combine("Daten", "Temp", deletedItem.Guid + "." + deletedItem.Dateiendung));
+                            }
+                            catch(Exception)
+                            {
+                            }
+                        }
+                    }
+                    DateiCache.Clear();
+
+                    foreach(var item in DateiListe)
+                    {
+                        DateiCache.Add(new DateiDto
+                                        {
+                                            Guid = item.Guid,
+                                            Kategorie = item.Kategorie,
+                                            Beschreibung = item.Beschreibung,
+                                            Dateiendung = item.Dateiendung
+                                        });
+                    }
+                }
+                else
+                {
+                    PluginManager.DbManager.DeleteDateiInfos(_komponenteGuid, _deletedItems);
+                    _deletedItems.Clear();
+                    PluginManager.DbManager.SaveDateiInfos(_komponenteGuid, DateiListe.Select(item => new DateiDto
+                    {
+                        Guid = item.Guid,
+                        Kategorie = item.Kategorie,
+                        Beschreibung = item.Beschreibung,
+                        Dateiendung = item.Dateiendung
+                    }).ToList());
+                }
 
                 IsDirty = false;
             }

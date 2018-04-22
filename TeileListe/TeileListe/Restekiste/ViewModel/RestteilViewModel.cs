@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using TeileListe.Classes;
@@ -35,6 +36,8 @@ namespace TeileListe.Restekiste.ViewModel
         public Action<string> NachObenAction { get; set; }
         public Action<string> NachUntenAction { get; set; }
         public Action<string> LoeschenAction { get; set; }
+        public Func<string, List<DateiDto>> GetDateiCacheFunc { get; set; }
+        public Action<string, List<DateiDto>> SaveDateiCache { get; set; }
 
         #endregion
 
@@ -143,10 +146,14 @@ namespace TeileListe.Restekiste.ViewModel
             set { SetEinzelteilIntProperty("Gewicht", ref _gewicht, value); }
         }
 
+        public bool IsNeueKomponente { get; set; }
+
         #endregion
 
         internal RestteilViewModel(RestteilDto restteil)
         {
+            IsNeueKomponente = false;
+
             Guid = restteil.Guid;
             Komponente = restteil.Komponente;
             Hersteller = restteil.Hersteller;
@@ -172,11 +179,21 @@ namespace TeileListe.Restekiste.ViewModel
         private void OnFileManager(Window window)
         {
             var dialog = new DateiManagerView(window);
-            var viewModel = new DateiManagerViewModel(Guid, Komponente, Hersteller, Beschreibung);
+            var cache = IsNeueKomponente ? GetDateiCacheFunc(Guid) : new List<DateiDto>();
+            var viewModel = new DateiManagerViewModel(Guid,
+                                                        Komponente,
+                                                        Hersteller,
+                                                        Beschreibung,
+                                                        IsNeueKomponente,
+                                                        cache);
             dialog.DataContext = viewModel;
             dialog.Closing += viewModel.OnClosing;
             dialog.ShowDialog();
             dialog.Closing -= viewModel.OnClosing;
+            if(IsNeueKomponente)
+            {
+                SaveDateiCache(Guid, viewModel.DateiCache);
+            }
         }
 
         private void OnDatenbank(Window window)

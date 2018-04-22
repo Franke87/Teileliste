@@ -6,7 +6,7 @@ using TeileListe.Enums;
 
 namespace TeileListe.Common.ViewModel
 {
-    public class CommonDateiViewModel : INotifyPropertyChanged
+    public class CommonDateiViewModel : MyCommonViewModel
     {
         #region Actions
 
@@ -22,7 +22,7 @@ namespace TeileListe.Common.ViewModel
         public bool HasError
         {
             get { return _hasError; }
-            set { SetNeuesEinzelteilBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         private string _datei;
@@ -31,7 +31,7 @@ namespace TeileListe.Common.ViewModel
             get { return _datei; }
             set
             {
-                SetNeuesEinzelteilStringProperty("Datei", ref _datei, value);
+                SetProperty("Datei", ref _datei, value);
                 HasError = string.IsNullOrWhiteSpace(Datei);
             }
         }
@@ -50,7 +50,7 @@ namespace TeileListe.Common.ViewModel
                 case DateiOeffnenEnum.Csv:
                 {
                     ext = ".csv";
-                    filter = "csv-Dateien (.csv)|*.csv";
+                    filter = "Importdateien (.csv oder .zip)| *.csv; *.zip";
                     break;
                 }
                 case DateiOeffnenEnum.Image:
@@ -93,55 +93,5 @@ namespace TeileListe.Common.ViewModel
 
         #endregion
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetNeuesEinzelteilIntProperty(string propertyName,
-                                                    ref int backingField,
-                                                    int newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetNeuesEinzelteilStringProperty(string propertyName,
-                                                        ref string backingField,
-                                                        string newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetNeuesEinzelteilBoolProperty(string propertyName,
-                                                        ref bool backingField,
-                                                        bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        #endregion
     }
 }
