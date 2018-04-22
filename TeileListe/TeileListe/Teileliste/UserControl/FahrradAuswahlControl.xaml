@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Padding="10,0,10,0" Height="23" Content="Hinzufügen" Command="{Binding NeuesFahrradCommand}" IsEnabled="{Binding IsDirty, Converter={StaticResource InverseBoolConverter}}" />
+            <Button Grid.Column="0" Padding="10,0,10,0" Height="23" Content="Hinzufügen" Command="{Binding NeuesFahrradCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="{Binding IsDirty, Converter={StaticResource InverseBoolConverter}}" />
         </Grid>
     </Grid>
 </UserControl>

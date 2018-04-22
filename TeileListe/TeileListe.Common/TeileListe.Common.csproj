@@ -56,6 +56,7 @@
     <Compile Include="Converter\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converter\InverseCountToVisibilityConverter.cs" />
     <Compile Include="Dto\DateiDto.cs" />
+    <Compile Include="Dto\DateiVerzeichnisEintragDto.cs" />
     <Compile Include="Dto\DatenbankDto.cs" />
     <Compile Include="Dto\EinzelteilExportDto.cs" />
     <Compile Include="Dto\LoeschenDto.cs" />

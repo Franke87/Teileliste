@@ -34,7 +34,7 @@ namespace TeileListe.Teileliste.ViewModel
         public MyCommand HinzufuegenCommand { get; set; }
         public MyParameterCommand<Window> RestekisteCommand { get; set; }
         public MyParameterCommand<Window> WunschlisteCommand { get; set; }
-        public MyCommand NeuesFahrradCommand { get; set; }
+        public MyParameterCommand<Window> NeuesFahrradCommand { get; set; }
 
         #endregion
 
@@ -217,7 +217,7 @@ namespace TeileListe.Teileliste.ViewModel
             HinzufuegenCommand = new MyCommand(Hinzufuegen);
             RestekisteCommand = new MyParameterCommand<Window>(Restekiste);
             WunschlisteCommand = new MyParameterCommand<Window>(Wunschliste);
-            NeuesFahrradCommand = new MyCommand(OnNeuesFahrrad);
+            NeuesFahrradCommand = new MyParameterCommand<Window>(OnNeuesFahrrad);
             
             var liste = new List<string>();
             PluginManager.DbManager.GetFahrraeder(ref liste);
@@ -238,7 +238,7 @@ namespace TeileListe.Teileliste.ViewModel
 
         #region Commandfunktionen
 
-        private void OnNeuesFahrrad()
+        private void OnNeuesFahrrad(Window window)
         {
             var dialog = new NeuesFahrradDialog();
             var viewModel =
@@ -256,9 +256,25 @@ namespace TeileListe.Teileliste.ViewModel
                 PluginManager.DbManager.SaveFahrraeder(FahrradListe.ToList());
                 if (!viewModel.NeuesFahrradAusgewaehlt)
                 {
-                    var importer = new TeileImporter();
-                    PluginManager.DbManager.SaveKomponente(viewModel.Name, 
-                                                            importer.ImportFahrrad(viewModel.Datei));
+                    try
+                    {
+                        var importer = new TeileImporter();
+                        PluginManager.DbManager.SaveKomponente(viewModel.Name,
+                                                                importer.ImportFahrrad(viewModel.Datei));
+                        foreach (var datei in importer.DateiCache)
+                        {
+                            PluginManager.DbManager.SaveDateiInfos(datei.Item1, datei.Item2);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        var message = "Die Datei konnte nicht importiert werden.";
+
+                        message += Environment.NewLine + Environment.NewLine + ex.Message;
+
+                        HilfsFunktionen.ShowMessageBox(window, "Teileliste", message, true);
+                    }
+                    
                 }
 
                 SelectedFahrrad = viewModel.Name;

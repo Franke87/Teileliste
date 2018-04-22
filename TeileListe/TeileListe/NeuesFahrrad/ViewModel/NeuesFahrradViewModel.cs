@@ -76,7 +76,7 @@ namespace TeileListe.NeuesFahrrad.ViewModel
             bool hasError = string.IsNullOrWhiteSpace(_name) || Blacklist.Contains(";" + _name + ";");
             if (!hasError && !NeuesFahrradAusgewaehlt)
             {
-                hasError = string.IsNullOrWhiteSpace(Datei) || !Datei.EndsWith(".csv");
+                hasError = string.IsNullOrWhiteSpace(Datei) || !(Datei.EndsWith(".csv") || Datei.EndsWith(".zip"));
             }
             return hasError;
         }
@@ -85,8 +85,7 @@ namespace TeileListe.NeuesFahrrad.ViewModel
         {
             var dialog = new OpenFileDialog 
             {
-                DefaultExt = ".csv", 
-                Filter = "csv-Dateien (.csv)|*.csv", 
+                Filter = "Importdateien (.csv oder .zip)| *.csv; *.zip",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 DereferenceLinks = false
             };

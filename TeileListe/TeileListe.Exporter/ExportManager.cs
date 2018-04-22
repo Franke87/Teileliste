@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Windows.Interop;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
@@ -116,7 +117,7 @@ namespace TeileListe.Exporter
                         }
                     }
 
-                    var zipFileList = new List<Tuple<string, string>>();
+                    var zipFileList = new List<DateiVerzeichnisEintragDto>();
 
                     foreach (var folder in fileList)
                     {
@@ -137,7 +138,14 @@ namespace TeileListe.Exporter
                                 secureFileName = string.Format("{0} ({1})", secureFileName, j++);
                             }
 
-                            zipFileList.Add(new Tuple<string, string>(item.Guid, secureFileName + "." + item.Dateiendung));
+                            zipFileList.Add(new DateiVerzeichnisEintragDto
+                            {
+                                ParentGuid = folder.ParentGuid,
+                                FileName = secureFileName + "." + item.Dateiendung,
+                                Kategorie = item.Kategorie,
+                                Dateiendung = item.Dateiendung,
+                                Beschreibung = item.Beschreibung
+                            });
 
                             arch.CreateEntryFromFile(Path.Combine("Daten", folder.ParentGuid, item.Guid + "." + item.Dateiendung),
                                                         secureFileName + "." + item.Dateiendung);
@@ -150,16 +158,21 @@ namespace TeileListe.Exporter
                         entry.LastWriteTime = DateTimeOffset.Now;
                         using (var entryStream = entry.Open())
                         {
-                            using (var streamWriter = new StreamWriter(entryStream, System.Text.Encoding.Default))
+                            using (var streamWriter = new StreamWriter(entryStream, Encoding.Default))
                             {
-                                var dateiMap = string.Empty;
+                                var dateiMap = new StringBuilder();
 
                                 foreach (var item in zipFileList)
                                 {
-                                    dateiMap += item.Item1 + ";" + item.Item2 + Environment.NewLine;
+                                    dateiMap.AppendLine(string.Format("{0};{1};{2};{3};{4}",
+                                                                        item.ParentGuid,
+                                                                        item.FileName,
+                                                                        item.Dateiendung,
+                                                                        item.Kategorie == null ? "" : item.Kategorie.Replace(";", ""),
+                                                                        item.Beschreibung == null ? "" : item.Beschreibung.Replace(";", "")));
                                 }
 
-                                streamWriter.Write(dateiMap);
+                                streamWriter.Write(dateiMap.ToString());
                             }
                         }
                     }
@@ -172,10 +185,10 @@ namespace TeileListe.Exporter
             });
         }
 
-        private bool IsUniqueFileName(string fileName, string dateiendung, IEnumerable<Tuple<string, string>> fileList)
+        private bool IsUniqueFileName(string fileName, string dateiendung, IEnumerable<DateiVerzeichnisEintragDto> fileList)
         {
             var file = fileName + "." + dateiendung;
-            return !fileList.Any(item => item.Item2 == file);
+            return !fileList.Any(item => item.FileName == file);
         }
     }
 }
