@@ -18,7 +18,7 @@ using TeileListe.MessungHochladen.ViewModel;
 
 namespace TeileListe.Teileliste.ViewModel
 {
-    internal class KomponenteViewModel : INotifyPropertyChanged
+    internal class KomponenteViewModel : MyCommonViewModel
     {
         #region Commands
 
@@ -41,35 +41,35 @@ namespace TeileListe.Teileliste.ViewModel
         public string Guid
         {
             get { return _guid; }
-            set { SetKomponenteStringProperty("Guid", ref _guid, value); }
+            set { SetProperty("Guid", ref _guid, value); }
         }
 
         private List<AlternativeViewModel> _alternativen;
         public List<AlternativeViewModel> Alternativen
         {
             get { return _alternativen; }
-            set { SetKomponenteAlternativeListProperty("Alternativen", ref _alternativen, value); }
+            set { SetProperty("Alternativen", ref _alternativen, value); }
         }
 
         private int _gewicht;
         public int Gewicht
         {
             get { return _gewicht; }
-            set { SetKomponenteIntProperty("Gewicht", ref _gewicht, value); }
+            set { SetProperty("Gewicht", ref _gewicht, value); }
         }
 
         private int _preis;
         public int Preis
         {
             get { return _preis; }
-            set { SetKomponenteIntProperty("Preis", ref _preis, value); }
+            set { SetProperty("Preis", ref _preis, value); }
         }
 
         private string _komponente;
         public string Komponente
         {
             get { return _komponente; }
-            set { SetKomponenteStringProperty("Komponente", ref _komponente, value); }
+            set { SetProperty("Komponente", ref _komponente, value); }
         }
 
         private string _hersteller;
@@ -78,12 +78,8 @@ namespace TeileListe.Teileliste.ViewModel
             get { return _hersteller; }
             set
             {
-                SetKomponenteStringProperty("Hersteller", ref _hersteller, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Hersteller", ref _hersteller, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -93,12 +89,8 @@ namespace TeileListe.Teileliste.ViewModel
             get { return _beschreibung; }
             set
             {
-                SetKomponenteStringProperty("Beschreibung", ref _beschreibung, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Beschreibung", ref _beschreibung, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -108,12 +100,8 @@ namespace TeileListe.Teileliste.ViewModel
             get { return _groesse; }
             set
             {
-                SetKomponenteStringProperty("Groesse", ref _groesse, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Groesse", ref _groesse, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -123,12 +111,8 @@ namespace TeileListe.Teileliste.ViewModel
             get { return _jahr; }
             set
             {
-                SetKomponenteStringProperty("Jahr", ref _jahr, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Jahr", ref _jahr, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -141,59 +125,63 @@ namespace TeileListe.Teileliste.ViewModel
         public string Shop
         {
             get { return _shop; }
-            set { SetKomponenteStringProperty("Shop", ref _shop, value); }
+            set { SetProperty("Shop", ref _shop, value); }
         }
 
         private string _link;
         public string Link
         {
             get { return _link; }
-            set { SetKomponenteStringProperty("Link", ref _link, value); }
+            set { SetProperty("Link", ref _link, value); }
         }
 
         private string _datenbankId;
         public string DatenbankId
         {
             get { return _datenbankId; }
-            set { SetKomponenteStringProperty("DatenbankId", ref _datenbankId, value); }
+            set { SetProperty("DatenbankId", ref _datenbankId, value); }
         }
 
         private string _datenbankLink;
         public string DatenbankLink
         {
             get { return _datenbankLink; }
-            set { SetKomponenteStringProperty("DatenbankLink", ref _datenbankLink, value); }
+            set { SetProperty("DatenbankLink", ref _datenbankLink, value); }
         }
 
         private bool _gekauft;
         public bool Gekauft
         {
             get { return _gekauft; }
-            set { SetKomponenteBoolProperty("Gekauft", ref _gekauft, value); }
+            set { SetProperty("Gekauft", ref _gekauft, value); }
         }
 
         private bool _gewogen;
         public bool Gewogen
         {
             get { return _gewogen; }
-            set { SetKomponenteBoolProperty("Gewogen", ref _gewogen, value); }
+            set { SetProperty("Gewogen", ref _gewogen, value); }
         }
 
         private bool _alternativenAnzeigen;
         public bool AlternativenAnzeigen
         {
             get { return _alternativenAnzeigen; }
-            set { SetKomponenteBoolProperty("AlternativenAnzeigen", ref _alternativenAnzeigen, value); }
+            set { SetProperty("AlternativenAnzeigen", ref _alternativenAnzeigen, value); }
         }
 
+        public bool IsNeueKomponente { get; set; }
+
         #endregion
-        
+
         #region Actions
 
         public Action<string> AusbauenAction { get; set; }
         public Action<string> NachObenAction { get; set; }
         public Action<string> NachUntenAction { get; set; }
         public Action<string> LoeschenAction { get; set; }
+        public Func<string, List<DateiDto>> GetDateiCacheFunc { get; set; }
+        public Action<string, List<DateiDto>> SaveDateiCache { get; set; }
 
         #endregion
 
@@ -211,6 +199,8 @@ namespace TeileListe.Teileliste.ViewModel
             LoeschenCommand = new MyCommand(OnLoeschen);
             NachObenCommand = new MyCommand(NachOben);
             NachUntenCommand = new MyCommand(NachUnten);
+
+            IsNeueKomponente = false;
 
             Guid = dto.Guid;
             Komponente = dto.Komponente;
@@ -238,11 +228,16 @@ namespace TeileListe.Teileliste.ViewModel
         private void OnFileManager(Window window)
         {
             var dialog = new DateiManagerView(window);
-            var viewModel = new DateiManagerViewModel(Guid, Komponente, Hersteller, Beschreibung, false, new List<DateiDto>());
+            var cache = IsNeueKomponente ? GetDateiCacheFunc(Guid) : new List<DateiDto>();
+            var viewModel = new DateiManagerViewModel(Guid, Komponente, Hersteller, Beschreibung, IsNeueKomponente, cache);
             dialog.DataContext = viewModel;
             dialog.Closing += viewModel.OnClosing;
             dialog.ShowDialog();
             dialog.Closing -= viewModel.OnClosing;
+            if (IsNeueKomponente)
+            {
+                SaveDateiCache(Guid, viewModel.DateiCache);
+            }
         }
 
         private void OnAlternativen()
@@ -419,64 +414,5 @@ namespace TeileListe.Teileliste.ViewModel
 
         #endregion
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetKomponenteIntProperty(string propertyName, ref int backingField, int newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetKomponenteAlternativeListProperty(string propertyName, 
-                                                        ref List<AlternativeViewModel> backingField, 
-                                                        List<AlternativeViewModel> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetKomponenteStringProperty(string propertyName, ref string backingField, string newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetKomponenteBoolProperty(string propertyName, ref bool backingField, bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        #endregion
     }
 }

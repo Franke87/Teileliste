@@ -17,7 +17,7 @@ using TeileListe.MessungHochladen.ViewModel;
 
 namespace TeileListe.Restekiste.ViewModel
 {
-    internal class RestteilViewModel : INotifyPropertyChanged
+    internal class RestteilViewModel : MyCommonViewModel
     {
         #region Commands
 
@@ -58,7 +58,7 @@ namespace TeileListe.Restekiste.ViewModel
         public string Komponente
         {
             get { return _komponente; }
-            set { SetEinzelteilStringProperty("Komponente", ref _komponente, value); }
+            set { SetProperty("Komponente", ref _komponente, value); }
         }
 
         public string Beschreibung
@@ -66,12 +66,8 @@ namespace TeileListe.Restekiste.ViewModel
             get { return _beschreibung; }
             set
             {
-                SetEinzelteilStringProperty("Beschreibung", ref _beschreibung, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Beschreibung", ref _beschreibung, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -80,12 +76,8 @@ namespace TeileListe.Restekiste.ViewModel
             get { return _hersteller; }
             set
             {
-                SetEinzelteilStringProperty("Hersteller", ref _hersteller, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Hersteller", ref _hersteller, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -94,12 +86,8 @@ namespace TeileListe.Restekiste.ViewModel
             get { return _groesse; }
             set
             {
-                SetEinzelteilStringProperty("Groesse", ref _groesse, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Groesse", ref _groesse, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -108,12 +96,8 @@ namespace TeileListe.Restekiste.ViewModel
             get { return _jahr; }
             set
             {
-                SetEinzelteilStringProperty("Jahr", ref _jahr, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Jahr", ref _jahr, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -125,25 +109,25 @@ namespace TeileListe.Restekiste.ViewModel
         public string DatenbankId
         {
             get { return _datenbankId; }
-            set { SetEinzelteilStringProperty("DatenbankId", ref _datenbankId, value); }
+            set { SetProperty("DatenbankId", ref _datenbankId, value); }
         }
 
         public string DatenbankLink
         {
             get { return _datenbankLink; }
-            set { SetEinzelteilStringProperty("DatenbankLink", ref _datenbankLink, value); }
+            set { SetProperty("DatenbankLink", ref _datenbankLink, value); }
         }
 
         public int Preis
         {
             get { return _preis; }
-            set { SetEinzelteilIntProperty("Preis", ref _preis, value); }
+            set { SetProperty("Preis", ref _preis, value); }
         }
 
         public int Gewicht
         {
             get { return _gewicht; }
-            set { SetEinzelteilIntProperty("Gewicht", ref _gewicht, value); }
+            set { SetProperty("Gewicht", ref _gewicht, value); }
         }
 
         public bool IsNeueKomponente { get; set; }
@@ -327,36 +311,5 @@ namespace TeileListe.Restekiste.ViewModel
 
         #endregion
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetEinzelteilIntProperty(string propertyName, ref int backingField, int newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetEinzelteilStringProperty(string propertyName, ref string backingField, string newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        #endregion
     }
 }

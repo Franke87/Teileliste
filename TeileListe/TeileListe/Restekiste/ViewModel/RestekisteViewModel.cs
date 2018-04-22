@@ -18,7 +18,7 @@ using TeileListe.NeuesEinzelteil.ViewModel;
 
 namespace TeileListe.Restekiste.ViewModel
 {
-    internal class RestekisteViewModel : INotifyPropertyChanged
+    internal class RestekisteViewModel : MyCommonViewModel
     {
         #region Commands
 
@@ -38,21 +38,21 @@ namespace TeileListe.Restekiste.ViewModel
         public ObservableCollection<RestteilViewModel> ResteListe
         {
             get { return _resteListe; }
-            set { SetRestekisteCollectionProperty("ResteListe", ref _resteListe, value); }
+            set { SetProperty("ResteListe", ref _resteListe, value); }
         }
 
         private bool _exportformatCsv;
         public bool ExportformatCsv
         {
             get { return _exportformatCsv; }
-            set { SetRestekisteBoolProperty("ExportformatCsv", ref _exportformatCsv, value); }
+            set { SetProperty("ExportformatCsv", ref _exportformatCsv, value); }
         }
 
         private bool _isDirty;
         public bool IsDirty
         {
             get { return _isDirty; }
-            set { SetRestekisteBoolProperty("IsDirty", ref _isDirty, value); }
+            set { SetProperty("IsDirty", ref _isDirty, value); }
         }
 
         public string CustomExportKuerzel
@@ -477,51 +477,5 @@ namespace TeileListe.Restekiste.ViewModel
 
         #endregion
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetRestekisteIntProperty(string propertyName, ref int backingField, int newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetRestekisteCollectionProperty(string propertyName, 
-                                                        ref ObservableCollection<RestteilViewModel> backingField, 
-                                                        ObservableCollection<RestteilViewModel> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetRestekisteBoolProperty(string propertyName, ref bool backingField, bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        #endregion
     }
 }
