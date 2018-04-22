@@ -18,7 +18,7 @@ using TeileListe.MessungHochladen.ViewModel;
 
 namespace TeileListe.Wunschliste.ViewModel
 {
-    class WunschteilViewModel : INotifyPropertyChanged
+    class WunschteilViewModel : MyCommonViewModel
     {
         #region Commands
 
@@ -38,6 +38,8 @@ namespace TeileListe.Wunschliste.ViewModel
         public Action<string> NachObenAction { get; set; }
         public Action<string> NachUntenAction { get; set; }
         public Action<string> LoeschenAction { get; set; }
+        public Func<string, List<DateiDto>> GetDateiCacheFunc { get; set; }
+        public Action<string, List<DateiDto>> SaveDateiCache { get; set; }
 
         #endregion
 
@@ -60,7 +62,7 @@ namespace TeileListe.Wunschliste.ViewModel
         public string Komponente
         {
             get { return _komponente; }
-            set { SetWunschteilProperty("Komponente", ref _komponente, value); }
+            set { SetProperty("Komponente", ref _komponente, value); }
         }
 
         public string Hersteller
@@ -68,12 +70,8 @@ namespace TeileListe.Wunschliste.ViewModel
             get { return _hersteller; }
             set
             {
-                SetWunschteilProperty("Hersteller", ref _hersteller, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Hersteller", ref _hersteller, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -82,12 +80,8 @@ namespace TeileListe.Wunschliste.ViewModel
             get { return _beschreibung; }
             set
             {
-                SetWunschteilProperty("Beschreibung", ref _beschreibung, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Beschreibung", ref _beschreibung, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -96,12 +90,8 @@ namespace TeileListe.Wunschliste.ViewModel
             get { return _groesse; }
             set
             {
-                SetWunschteilProperty("Groesse", ref _groesse, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Groesse", ref _groesse, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -110,12 +100,8 @@ namespace TeileListe.Wunschliste.ViewModel
             get { return _jahr; }
             set
             {
-                SetWunschteilProperty("Jahr", ref _jahr, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("AnzeigeName"));
-                }
+                SetProperty("Jahr", ref _jahr, value);
+                UpdateProperty("AnzeigeName");
             }
         }
 
@@ -127,38 +113,40 @@ namespace TeileListe.Wunschliste.ViewModel
         public string Shop
         {
             get { return _shop; }
-            set { SetWunschteilProperty("Shop", ref _shop, value); }
+            set { SetProperty("Shop", ref _shop, value); }
         }
 
         public string Link
         {
             get { return _link; }
-            set { SetWunschteilProperty("Link", ref _link, value); }
+            set { SetProperty("Link", ref _link, value); }
         }
 
         public string DatenbankId
         {
             get { return _datenbankId; }
-            set { SetWunschteilProperty("DatenbankId", ref _datenbankId, value); }
+            set { SetProperty("DatenbankId", ref _datenbankId, value); }
         }
 
         public string DatenbankLink
         {
             get { return _datenbankLink; }
-            set { SetWunschteilProperty("DatenbankLink", ref _datenbankLink, value); }
+            set { SetProperty("DatenbankLink", ref _datenbankLink, value); }
         }
 
         public int Preis
         {
             get { return _preis; }
-            set { SetWunschteilProperty("Preis", ref _preis, value); }
+            set { SetProperty("Preis", ref _preis, value); }
         }
 
         public int Gewicht
         {
             get { return _gewicht; }
-            set { SetWunschteilProperty("Gewicht", ref _gewicht, value); }
+            set { SetProperty("Gewicht", ref _gewicht, value); }
         }
+
+        public bool IsNeueKomponente { get; set; }
 
         #endregion
 
@@ -177,6 +165,8 @@ namespace TeileListe.Wunschliste.ViewModel
             Preis = wunschteil.Preis;
             Gewicht = wunschteil.Gewicht;
 
+            IsNeueKomponente = false;
+
             ChangeCommand = new MyParameterCommand<Window>(OnChange);
             DatenbankCommand = new MyParameterCommand<Window>(OnDatenbank);
             ShopCommand = new MyParameterCommand<Window>(OnShopClick);
@@ -192,11 +182,17 @@ namespace TeileListe.Wunschliste.ViewModel
         private void OnFileManager(Window window)
         {
             var dialog = new DateiManagerView(window);
-            var viewModel = new DateiManagerViewModel(Guid, Komponente, Hersteller, Beschreibung, false, new List<DateiDto>());
+            var cache = IsNeueKomponente ? GetDateiCacheFunc(Guid) : new List<DateiDto>();
+            var viewModel = new DateiManagerViewModel(Guid, Komponente, Hersteller, Beschreibung, IsNeueKomponente, cache);
             dialog.DataContext = viewModel;
             dialog.Closing += viewModel.OnClosing;
             dialog.ShowDialog();
             dialog.Closing -= viewModel.OnClosing;
+
+            if (IsNeueKomponente)
+            {
+                SaveDateiCache(Guid, viewModel.DateiCache);
+            }
         }
 
         private void OnDatenbank(Window window)
@@ -358,40 +354,5 @@ namespace TeileListe.Wunschliste.ViewModel
 
         #endregion
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetWunschteilProperty<T>(string propertyName, ref T backingField, T newValue)
-        {
-            bool changed;
-
-// ReSharper disable CompareNonConstrainedGenericWithNull
-            if (newValue == null && backingField != null || newValue != null && backingField == null)
-
-            {
-                changed = true;
-            }
-            else if ((newValue == null && backingField == null) || backingField.Equals(newValue))
-            {
-                changed = false;
-            }
-            else
-            {
-                changed = true;
-            }
-            if (changed)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-// ReSharper restore CompareNonConstrainedGenericWithNull
-        }
-
-        #endregion
     }
 }

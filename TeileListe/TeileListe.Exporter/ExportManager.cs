@@ -147,8 +147,13 @@ namespace TeileListe.Exporter
                                 Beschreibung = item.Beschreibung
                             });
 
-                            arch.CreateEntryFromFile(Path.Combine("Daten", folder.ParentGuid, item.Guid + "." + item.Dateiendung),
-                                                        secureFileName + "." + item.Dateiendung);
+                            var fileToExport = Path.Combine("Daten", folder.ParentGuid, item.Guid + "." + item.Dateiendung);
+                            if(!File.Exists(fileToExport))
+                            {
+                                fileToExport = Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung);
+                            }
+
+                            arch.CreateEntryFromFile(fileToExport, secureFileName + "." + item.Dateiendung);
                         }
                     }
 

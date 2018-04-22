@@ -19,7 +19,7 @@ using TeileListe.NeuesEinzelteil.ViewModel;
 
 namespace TeileListe.Wunschliste.ViewModel
 {
-    internal class WunschlisteViewModel : INotifyPropertyChanged
+    internal class WunschlisteViewModel : MyCommonViewModel
     {
         #region Commands
 
@@ -33,26 +33,27 @@ namespace TeileListe.Wunschliste.ViewModel
         #region Properties
 
         private readonly List<LoeschenDto> _deletedItems;
+        private readonly List<Tuple<string, List<DateiDto>>> _dateiCache;
 
         private ObservableCollection<WunschteilViewModel> _wunschliste;
         public ObservableCollection<WunschteilViewModel> Wunschliste
         {
             get { return _wunschliste; }
-            set { SetWunschlisteCollectionProperty("Wunschliste", ref _wunschliste, value); }
+            set { SetProperty("Wunschliste", ref _wunschliste, value); }
         }
 
         private bool _exportformatCsv;
         public bool ExportformatCsv
         {
             get { return _exportformatCsv; }
-            set { SetWunschlisteBoolProperty("ExportformatCsv", ref _exportformatCsv, value); }
+            set { SetProperty("ExportformatCsv", ref _exportformatCsv, value); }
         }
 
         private bool _isDirty;
         public bool IsDirty
         {
             get { return _isDirty; }
-            set { SetWunschlisteBoolProperty("IsDirty", ref _isDirty, value); }
+            set { SetProperty("IsDirty", ref _isDirty, value); }
         }
 
         public string CustomExportKuerzel
@@ -68,6 +69,7 @@ namespace TeileListe.Wunschliste.ViewModel
         {
             Wunschliste = new ObservableCollection<WunschteilViewModel>();
             _deletedItems = new List<LoeschenDto>();
+            _dateiCache = new List<Tuple<string, List<DateiDto>>>();
 
             ExportformatCsv = true;
 
@@ -120,26 +122,41 @@ namespace TeileListe.Wunschliste.ViewModel
             }
             else
             {
-                var liste = Wunschliste.Select(item => new EinzelteilExportDto
-                                                {
-                                                    Guid = item.Guid,
-                                                    Komponente = item.Komponente,
-                                                    Hersteller = item.Hersteller,
-                                                    Beschreibung = item.Beschreibung,
-                                                    Groesse = item.Groesse,
-                                                    Jahr = item.Jahr,
-                                                    DatenbankId = item.DatenbankId,
-                                                    DatenbankLink = item.DatenbankLink,
-                                                    Preis = item.Preis,
-                                                    Gewicht = item.Gewicht, 
-                                                    DokumentenListe = new List<DateiDto>()
-                                                }).ToList();
-
-                foreach (var item in liste)
+                var liste = new List<EinzelteilExportDto>();
+                
+                foreach (var item in Wunschliste)
                 {
-                    var dateiListe = new List<DateiDto>();
-                    PluginManager.DbManager.GetDateiInfos(item.Guid, ref dateiListe);
-                    item.DokumentenListe.AddRange(dateiListe);
+                    var wunschteil = new EinzelteilExportDto
+                    {
+                        Guid = item.Guid,
+                        Komponente = item.Komponente,
+                        Hersteller = item.Hersteller,
+                        Beschreibung = item.Beschreibung,
+                        Groesse = item.Groesse,
+                        Jahr = item.Jahr,
+                        DatenbankId = item.DatenbankId,
+                        DatenbankLink = item.DatenbankLink,
+                        Preis = item.Preis,
+                        Gewicht = item.Gewicht,
+                        DokumentenListe = new List<DateiDto>()
+                    };
+
+                    if (item.IsNeueKomponente)
+                    {
+                        var cachedItem = _dateiCache.FirstOrDefault(teil => teil.Item1 == wunschteil.Guid);
+                        if (cachedItem != null)
+                        {
+                            wunschteil.DokumentenListe.AddRange(cachedItem.Item2);
+                        }
+                    }
+                    else
+                    {
+                        var dateiListe = new List<DateiDto>();
+                        PluginManager.DbManager.GetDateiInfos(item.Guid, ref dateiListe);
+                        wunschteil.DokumentenListe.AddRange(dateiListe);
+                    }
+
+                    liste.Add(wunschteil);
                 }
 
                 var csvExport = "";
@@ -161,6 +178,21 @@ namespace TeileListe.Wunschliste.ViewModel
             Wunschliste.Clear();
             _deletedItems.Clear();
 
+            foreach (var item in _dateiCache)
+            {
+                foreach (var file in item.Item2)
+                {
+                    try
+                    {
+                        File.Delete(Path.Combine("Daten", "Temp", file.Guid + "." + file.Dateiendung));
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+            _dateiCache.Clear();
+
             var teileliste = new List<WunschteilDto>();
 
             PluginManager.DbManager.GetWunschteile(ref teileliste);
@@ -171,7 +203,9 @@ namespace TeileListe.Wunschliste.ViewModel
                 {
                     LoeschenAction = Loeschen,
                     NachObenAction = NachObenSortieren,
-                    NachUntenAction = NachUntenSortieren
+                    NachUntenAction = NachUntenSortieren,
+                    GetDateiCacheFunc = GetDateiCache,
+                    SaveDateiCache = AktualisiereDateiCache
                 };
                 viewModel.PropertyChanged += ContentPropertyChanged;
                 Wunschliste.Add(viewModel);
@@ -199,6 +233,16 @@ namespace TeileListe.Wunschliste.ViewModel
                                         Preis = item.Preis,
                                         Gewicht = item.Gewicht
                                     }).ToList());
+
+            foreach (var item in _dateiCache)
+            {
+                PluginManager.DbManager.SaveDateiInfos(item.Item1, item.Item2);
+            }
+
+            foreach (var item in Wunschliste)
+            {
+                item.IsNeueKomponente = false;
+            }
 
             IsDirty = false;
         }
@@ -244,10 +288,14 @@ namespace TeileListe.Wunschliste.ViewModel
                         {
                             NachObenAction = NachObenSortieren,
                             NachUntenAction = NachUntenSortieren,
-                            LoeschenAction = Loeschen
+                            LoeschenAction = Loeschen,
+                            GetDateiCacheFunc = GetDateiCache,
+                            SaveDateiCache = AktualisiereDateiCache
                         };
                         neuesWunschteil.PropertyChanged += ContentPropertyChanged;
+                        neuesWunschteil.IsNeueKomponente = true;
                         Wunschliste.Add(neuesWunschteil);
+                        
                         break;
                     }
                     case SourceEnum.AusDatei:
@@ -255,15 +303,20 @@ namespace TeileListe.Wunschliste.ViewModel
                         var importer = new TeileImporter();
                         foreach (var item in importer.ImportWunschteile(viewModel.DateiViewModel.Datei))
                         {
-                            var neuesWusnchteil = new WunschteilViewModel(item)
+                            var neuesWunschteil = new WunschteilViewModel(item)
                             {
                                 NachObenAction = NachObenSortieren,
                                 NachUntenAction = NachUntenSortieren,
-                                LoeschenAction = Loeschen, 
+                                LoeschenAction = Loeschen,
+                                GetDateiCacheFunc = GetDateiCache,
+                                SaveDateiCache = AktualisiereDateiCache
                             };
-                            neuesWusnchteil.PropertyChanged += ContentPropertyChanged;
-                            Wunschliste.Add(neuesWusnchteil);
+                            neuesWunschteil.PropertyChanged += ContentPropertyChanged;
+                            neuesWunschteil.IsNeueKomponente = true;
+                            Wunschliste.Add(neuesWunschteil);
                         }
+                        _dateiCache.AddRange(importer.DateiCache);
+
                         break;
                     }
                     case SourceEnum.AusGewichtsdatenbank:
@@ -272,7 +325,7 @@ namespace TeileListe.Wunschliste.ViewModel
                         {
                             if (teil.IsChecked)
                             {
-                                var neuesWusnchteil = new WunschteilViewModel(new WunschteilDto
+                                var neuesWunschteil = new WunschteilViewModel(new WunschteilDto
                                 {
                                     Guid = Guid.NewGuid().ToString(),
                                     Komponente = teil.Komponente,
@@ -290,10 +343,13 @@ namespace TeileListe.Wunschliste.ViewModel
                                 {
                                     NachObenAction = NachObenSortieren,
                                     NachUntenAction = NachUntenSortieren,
-                                    LoeschenAction = Loeschen
+                                    LoeschenAction = Loeschen,
+                                    GetDateiCacheFunc = GetDateiCache,
+                                    SaveDateiCache = AktualisiereDateiCache
                                 };
-                                neuesWusnchteil.PropertyChanged += ContentPropertyChanged;
-                                Wunschliste.Add(neuesWusnchteil);
+                                neuesWunschteil.PropertyChanged += ContentPropertyChanged;
+                                neuesWunschteil.IsNeueKomponente = true;
+                                Wunschliste.Add(neuesWunschteil);
                             }
                         }
                         break;
@@ -313,6 +369,22 @@ namespace TeileListe.Wunschliste.ViewModel
             var item = Wunschliste.First(teil => teil.Guid == guid);
             _deletedItems.Add(new LoeschenDto { Guid = item.Guid, DokumenteLoeschen = true });
             Wunschliste.Remove(item);
+            var datei = _dateiCache.FirstOrDefault(teil => teil.Item1 == guid);
+            if (datei != null)
+            {
+                foreach (var file in datei.Item2)
+                {
+                    try
+                    {
+                        File.Delete(Path.Combine("Daten", "Temp", file.Guid + "." + file.Dateiendung));
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                _dateiCache.Remove(datei);
+            }
+
             IsDirty = true;
         }
 
@@ -347,6 +419,33 @@ namespace TeileListe.Wunschliste.ViewModel
             }
         }
 
+        public void AktualisiereDateiCache(string guid, List<DateiDto> cache)
+        {
+            var item = _dateiCache.FirstOrDefault(komponente => komponente.Item1 == guid);
+
+            if (item != null)
+            {
+                item.Item2.Clear();
+                item.Item2.AddRange(cache);
+            }
+            else
+            {
+                _dateiCache.Add(new Tuple<string, List<DateiDto>>(guid, cache));
+            }
+        }
+
+        public List<DateiDto> GetDateiCache(string guid)
+        {
+            var cache = _dateiCache.FirstOrDefault(item => item.Item1 == guid);
+
+            if (cache != null)
+            {
+                return cache.Item2;
+            }
+
+            return new List<DateiDto>();
+        }
+
         #endregion
 
         #region Hilfsfunktionen
@@ -361,6 +460,22 @@ namespace TeileListe.Wunschliste.ViewModel
                 {
                     Sichern();
                 }
+                else
+                {
+                    foreach (var item in _dateiCache)
+                    {
+                        foreach (var file in item.Item2)
+                        {
+                            try
+                            {
+                                File.Delete(Path.Combine("Daten", "Temp", file.Guid + "." + file.Dateiendung));
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -371,51 +486,5 @@ namespace TeileListe.Wunschliste.ViewModel
 
         #endregion
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetWunschlisteIntProperty(string propertyName, ref int backingField, int newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetWunschlisteCollectionProperty(string propertyName,
-                                                        ref ObservableCollection<WunschteilViewModel> backingField,
-                                                        ObservableCollection<WunschteilViewModel> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetWunschlisteBoolProperty(string propertyName, ref bool backingField, bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        #endregion
     }
 }

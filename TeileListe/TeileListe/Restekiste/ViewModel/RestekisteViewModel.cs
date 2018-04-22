@@ -121,26 +121,41 @@ namespace TeileListe.Restekiste.ViewModel
             }
             else
             {
-                var liste = ResteListe.Select(item => new EinzelteilExportDto
-                                                    {
-                                                        Guid = item.Guid,
-                                                        Komponente = item.Komponente,
-                                                        Hersteller = item.Hersteller,
-                                                        Beschreibung = item.Beschreibung,
-                                                        Groesse = item.Groesse,
-                                                        Jahr = item.Jahr,
-                                                        DatenbankId = item.DatenbankId,
-                                                        DatenbankLink = item.DatenbankLink,
-                                                        Preis = item.Preis,
-                                                        Gewicht = item.Gewicht, 
-                                                        DokumentenListe = new List<DateiDto>()
-                                                    }).ToList();
+                var liste = new List<EinzelteilExportDto>();
 
-                foreach (var item in liste)
+                foreach (var item in ResteListe)
                 {
-                    var dateiListe = new List<DateiDto>();
-                    PluginManager.DbManager.GetDateiInfos(item.Guid, ref dateiListe);
-                    item.DokumentenListe.AddRange(dateiListe);
+                    var einzelteil = new EinzelteilExportDto
+                    {
+                        Guid = item.Guid,
+                        Komponente = item.Komponente,
+                        Hersteller = item.Hersteller,
+                        Beschreibung = item.Beschreibung,
+                        Groesse = item.Groesse,
+                        Jahr = item.Jahr,
+                        DatenbankId = item.DatenbankId,
+                        DatenbankLink = item.DatenbankLink,
+                        Preis = item.Preis,
+                        Gewicht = item.Gewicht,
+                        DokumentenListe = new List<DateiDto>()
+                    };
+
+                    if (item.IsNeueKomponente)
+                    {
+                        var cachedItem = _dateiCache.FirstOrDefault(teil => teil.Item1 == einzelteil.Guid);
+                        if (cachedItem != null)
+                        {
+                            einzelteil.DokumentenListe.AddRange(cachedItem.Item2);
+                        }
+                    }
+                    else
+                    {
+                        var dateiListe = new List<DateiDto>();
+                        PluginManager.DbManager.GetDateiInfos(item.Guid, ref dateiListe);
+                        einzelteil.DokumentenListe.AddRange(dateiListe);
+                    }
+
+                    liste.Add(einzelteil);
                 }
 
                 var csvExport = "";
@@ -148,7 +163,6 @@ namespace TeileListe.Restekiste.ViewModel
                 using (var formatter = new CsvFormatter())
                 {
                     csvExport = formatter.GetFormattetRestekiste(ResteListe);
-
                 }
 
                 PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
@@ -325,6 +339,7 @@ namespace TeileListe.Restekiste.ViewModel
                                     SaveDateiCache = AktualisiereDateiCache
                                 };
                                 neuesEinzelteil.PropertyChanged += ContentPropertyChanged;
+                                neuesEinzelteil.IsNeueKomponente = true;
                                 ResteListe.Add(neuesEinzelteil);
                             }
                         }
