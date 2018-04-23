@@ -37,5 +37,8 @@ namespace TeileListe.API.PostClasses
     {
         [DataMember(Name = "id")]
         public decimal ProduktId { get; set; }
+
+        [DataMember(Name = "url")]
+        public string ProduktUrl { get; set; }
     }
 }

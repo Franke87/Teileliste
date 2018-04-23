@@ -141,38 +141,15 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
                 if (progressWindow.Success)
                 {
-                    var dialog = new WaitWindow(AnlegenViewModel.AusgewaelteDatenbank,
-                                                 datenbanken[0].ApiToken,
-                                                 "",
-                                                 "",
-                                                 progressWindow.ResultProduktId)
-                    { 
-                        Owner = window 
-                    };
-                    dialog.ShowDialog();
-                    if (dialog.Success)
-                    {
-                        ResultDatenbankLink = dialog.ResultProduktLink;
-                        ResultDatenbankId = AnlegenViewModel.AusgewaelteDatenbank + ":" + progressWindow.ResultProduktId;
+                    ResultDatenbankLink = progressWindow.ResultProduktUrl;
+                    ResultDatenbankId = AnlegenViewModel.AusgewaelteDatenbank + ":" + progressWindow.ResultProduktId;
 
-                        HilfsFunktionen.ShowMessageBox(window, 
-                                                        TitelText, 
-                                                        "Messung erfolgreich hochgeladen", 
-                                                        false);
-                        IsOk = true;
-                        CloseAction();
-                    }
-                    else
-                    {
-                        HilfsFunktionen.ShowMessageBox(window,
-                                                        TitelText,
-                                                        "Der Artikel konnte in der Gewichtsdatenbank angelegt, " +
-                                                        "die Informationen aber nicht wieder abgerufen werden. " +
-                                                        "Bitte verknüpfen Sie den Artikel manuell." + Environment.NewLine +
-                                                        dialog.ErrorText,
-                                                        true);
-                        CloseAction();
-                    }
+                    HilfsFunktionen.ShowMessageBox(window,
+                                                    TitelText,
+                                                    "Messung erfolgreich hochgeladen",
+                                                    false);
+                    IsOk = true;
+                    CloseAction();
                 }
                 else
                 {

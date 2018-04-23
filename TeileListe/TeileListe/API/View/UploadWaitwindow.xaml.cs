@@ -15,6 +15,7 @@ namespace TeileListe.API.View
         public bool Success { get; set; }
         public string WaitText { get; set; }
         public string ResultProduktId { get; set; }
+        public string ResultProduktUrl { get; set; }
         public string ErrorText;
         private readonly UploadApiEventArgs _eventArgs;
 
@@ -92,6 +93,7 @@ namespace TeileListe.API.View
                         if (result.Status == "OK")
                         {
                             ResultProduktId = String.Format("{0}", (int) result.Data.Produkt.ProduktId);
+                            ResultProduktUrl = result.Data.Produkt.ProduktUrl;
                             e.Result = true;
                         }
                     }
