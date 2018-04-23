@@ -34,6 +34,7 @@ namespace TeileListe.MessungHochladen.ViewModel
         public MyParameterCommand<Window> OnHochladenCommand { get; set; }
         public MyParameterCommand<Window> ArtikelAufrufenCommand { get; set; }
         public Action CloseAction { get; set; }
+        public Action<DateiDto> SaveDateiAction { get; set; }
 
         private string _datenbankInfos;
         public string DatenbankInfos
@@ -101,7 +102,7 @@ namespace TeileListe.MessungHochladen.ViewModel
 
         #region Konstruktor
 
-        internal MessungHochladenViewModel(KomponenteDto einzelteil, EinzelteilBearbeitenEnum typ)
+        internal MessungHochladenViewModel(KomponenteDto einzelteil, List<DateiDto> listeDateien, EinzelteilBearbeitenEnum typ)
         {
             DatenbankInfos = "";
 
@@ -154,8 +155,7 @@ namespace TeileListe.MessungHochladen.ViewModel
             Gewicht = einzelteil.Gewicht;
             _guid = einzelteil.Guid;
 
-            var liste = new List<DateiDto>();
-            PluginManager.DbManager.GetDateiInfos(einzelteil.Guid, ref liste);
+            var liste = new List<DateiDto>(listeDateien);
             liste.RemoveAll(item => item.Kategorie != "Gewichtsmessung");
             liste.RemoveAll(item => !(item.Dateiendung.ToLower() == "png"
                                     || item.Dateiendung.ToLower() == "jpg"
@@ -249,10 +249,6 @@ namespace TeileListe.MessungHochladen.ViewModel
                 {
                     try
                     {
-                        var dateiListe = new List<DateiDto>();
-
-                        PluginManager.DbManager.GetDateiInfos(_guid, ref dateiListe);
-
                         var datei = DateiViewModel.Datei;
                         var guid = Guid.NewGuid().ToString();
                         var dateiendung = Path.GetExtension(datei);
@@ -265,15 +261,13 @@ namespace TeileListe.MessungHochladen.ViewModel
 
                         File.Copy(datei, "Daten\\Temp\\" + guid + "." + dateiendung);
 
-                        dateiListe.Add(new DateiDto
+                        SaveDateiAction(new DateiDto
                         {
                             Guid = guid,
                             Kategorie = "Gewichtsmessung",
                             Beschreibung = Path.GetFileNameWithoutExtension(datei),
                             Dateiendung = dateiendung
                         });
-
-                        PluginManager.DbManager.SaveDateiInfos(_guid, dateiListe);
                     }
                     catch (Exception ex)
                     {

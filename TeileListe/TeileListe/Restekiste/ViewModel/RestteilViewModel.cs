@@ -221,6 +221,15 @@ namespace TeileListe.Restekiste.ViewModel
                     Left = window.Left + (window.ActualWidth - 600) / 2,
                     Owner = window
                 };
+                var liste = new List<DateiDto>();
+                if(IsNeueKomponente)
+                {
+                    liste.AddRange(GetDateiCacheFunc(Guid));
+                }
+                else
+                {
+                    PluginManager.DbManager.GetDateiInfos(Guid, ref liste);
+                }
                 var viewModel = new MessungHochladenViewModel(new KomponenteDto
                                                                 {
                                                                     Guid = Guid,
@@ -233,13 +242,32 @@ namespace TeileListe.Restekiste.ViewModel
                                                                     DatenbankLink = DatenbankLink,
                                                                     Gewicht = Gewicht
                                                                 },
+                                                                liste,
                                                                 EinzelteilBearbeitenEnum.Restteil)
                 {
-                    CloseAction = dialog.Close
+                    CloseAction = dialog.Close,
+                    SaveDateiAction = SaveDatei
                 };
 
                 dialog.DataContext = viewModel;
                 dialog.ShowDialog();
+            }
+        }
+
+        private void SaveDatei(DateiDto datei)
+        {
+            var liste = new List<DateiDto>();
+            if (IsNeueKomponente)
+            {
+                liste.AddRange(GetDateiCacheFunc(Guid));
+                liste.Add(datei);
+                SaveDateiCache(Guid, liste);
+            }
+            else
+            {
+                PluginManager.DbManager.GetDateiInfos(Guid, ref liste);
+                liste.Add(datei);
+                PluginManager.DbManager.SaveDateiInfos(Guid, liste);
             }
         }
 
