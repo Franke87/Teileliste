@@ -9,12 +9,17 @@
              mc:Ignorable="d" 
               >
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <commonConverter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
         <converter:DecimalToWeightConverter x:Key="DecimalToWeightConverter" />
         <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
         <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
     </UserControl.Resources>
     <Grid Margin="0,0,0,10">
        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -135,8 +140,35 @@
         <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="KommentarText" Text="{Binding Kommentar, Mode=TwoWay}" />
         <Label Grid.Row="9" Grid.Column="0" Margin="-5,0,0,0" Content="_Link des Produkts:" Opacity="0.4" Target="{Binding ElementName=LinkText}" />
         <TextBox Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="LinkText" Text="{Binding Link, Mode=TwoWay}" />
-        <Label Grid.Row="10" Grid.Column="0" HorizontalAlignment="Left" Margin="-5,0,0,0" Content="_Foto (JPG oder PNG)*:" Opacity="0.4" Target="{Binding ElementName=NameDatei}" />
-        <TextBox Grid.Row="10" Grid.Column="1" Margin="0,4,0,0" Name="NameDatei" Text="{Binding DateiViewModel.Datei, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <Button Grid.Row="10" Grid.Column="2"  Content="..." MinWidth="23" Margin="10,4,0,0" Command="{Binding DateiViewModel.OnFileSelect}" />
+        <RadioButton Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3" Content="neues Foto auswählen" IsChecked="{Binding NeuesAusgewaehlt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <RadioButton Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" IsEnabled="{Binding AuswahlEnabled}" Content="aus hinterlegten Dokumenten" IsChecked="{Binding NeuesAusgewaehlt, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
+        <Label Grid.Row="12" Grid.Column="0" HorizontalAlignment="Left" Margin="-5,0,0,0" Content="_Foto (JPG oder PNG)*:" Opacity="0.4" Target="{Binding ElementName=NameDatei}"  />
+        <TextBox Grid.Row="12" Grid.Column="1" Margin="0,4,0,0" Name="NameDatei" Text="{Binding DateiViewModel.Datei, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding NeuesAusgewaehlt, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <Button Grid.Row="12" Grid.Column="2"  Content="..." MinWidth="23" Margin="10,4,0,0" Command="{Binding DateiViewModel.OnFileSelect}" Visibility="{Binding NeuesAusgewaehlt, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <ListView Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,1,0,0" MaxHeight="200" Grid.IsSharedSizeScope="True" ItemsSource="{Binding DateiListe}" SelectedItem="{Binding SelectedDatei}" Visibility="{Binding NeuesAusgewaehlt, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment"  Value="Stretch"></Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate >
+                <DataTemplate >
+                    <Grid >
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Stretch" Text="{Binding Beschreibung}" Grid.Column="0" />
+                        <TextBlock Grid.Column="1" Margin="5,0"  >
+                                    <Hyperlink Command="{Binding DateiOeffnenCommand}" >
+                                        <TextBlock Text="öffnen" />
+                                    </Hyperlink>
+                                </TextBlock>
+                        <TextBlock Text="{Binding Dateiendung}" HorizontalAlignment="Right" Grid.Column="2" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

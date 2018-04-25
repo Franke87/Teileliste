@@ -10,10 +10,11 @@ using TeileListe.Common.Dto;
 using TeileListe.Common.Interface;
 using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
+using TeileListe.MessungHochladen.ViewModel;
 
 namespace TeileListe.EinzelteilZuordnen.ViewModel
 {
-    public class ArtikelAnlegenViewModel : INotifyPropertyChanged
+    public class ArtikelAnlegenViewModel : MyCommonViewModel
     {
         #region Properties
 
@@ -23,7 +24,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _beschreibung; }
             set
             {
-                SetArtikelAnlegenStringProperty("Beschreibung", ref _beschreibung, value);
+                SetProperty("Beschreibung", ref _beschreibung, value);
                 HasError = HasValidationError();
             }
         }
@@ -32,7 +33,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
         public string Groesse
         {
             get { return _groesse; }
-            set { SetArtikelAnlegenStringProperty("Groesse", ref _groesse, value); }
+            set { SetProperty("Groesse", ref _groesse, value); }
         }
 
         private string _jahr;
@@ -41,7 +42,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _jahr; }
             set
             {
-                SetArtikelAnlegenStringProperty("Jahr", ref _jahr, value);
+                SetProperty("Jahr", ref _jahr, value);
                 HasError = HasValidationError();
             }
         }
@@ -52,7 +53,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _gewicht; }
             set 
             { 
-                SetArtikelAnlegenDecimalValue("Gewicht", ref _gewicht, value);
+                SetProperty("Gewicht", ref _gewicht, value);
                 HasError = HasValidationError();
             }
         }
@@ -61,28 +62,28 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
         public decimal GewichtHersteller
         {
             get { return _gewichtHersteller; }
-            set { SetArtikelAnlegenDecimalValue("GewichtHersteller", ref _gewichtHersteller, value); }
+            set { SetProperty("GewichtHersteller", ref _gewichtHersteller, value); }
         }
 
         private string _kommentar;
         public string Kommentar
         {
             get { return _kommentar; }
-            set { SetArtikelAnlegenStringProperty("Kommentar", ref _kommentar, value); }
+            set { SetProperty("Kommentar", ref _kommentar, value); }
         }
 
         private string _link;
         public string Link
         {
             get { return _link; }
-            set { SetArtikelAnlegenStringProperty("Link", ref _link, value); }
+            set { SetProperty("Link", ref _link, value); }
         }
 
         private bool _hasError;
         public bool HasError
         {
             get { return _hasError; }
-            set { SetArtikelAnlegenBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         public bool HerstellerKategorieOk
@@ -136,7 +137,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _userApiToken; }
             set
             {
-                if (SetArtikelAnlegenStringProperty("UserApiToken", ref _userApiToken, value))
+                if (SetProperty("UserApiToken", ref _userApiToken, value))
                 {
                     _datenbanken.First(x => x.Datenbank == AusgewaelteDatenbank).ApiToken = UserApiToken;
                     _apiTokenChanged = true;
@@ -149,7 +150,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
         public ObservableCollection<KeyValuePair<string, string>> HerstellerList
         {
             get { return _herstellerList; }
-            set { SetArtikelAnlegenCollectionHerstellerProperty("HerstellerList", ref _herstellerList, value); }
+            set { SetProperty("HerstellerList", ref _herstellerList, value); }
 
         }
 
@@ -160,7 +161,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _selectedHersteller; }
             set
             {
-                SetArtikelAnlegenKeyValuePairProperty("SelectedHersteller", ref _selectedHersteller, value);
+                SetProperty("SelectedHersteller", ref _selectedHersteller, value);
                 HasError = HasValidationError();
             }
         }
@@ -172,13 +173,9 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _kategorienList; }
             set
             {
-                if (SetArtikelAnlegenCollectionProperty("KategorienList", ref _kategorienList, value))
+                if (SetProperty("KategorienList", ref _kategorienList, value))
                 {
-                    var propertyChanged = PropertyChanged;
-                    if (propertyChanged != null)
-                    {
-                        propertyChanged(this, new PropertyChangedEventArgs("HerstellerKategorieOk"));
-                    }
+                    UpdateProperty("HerstellerKategorieOk");
                     HasError = HasValidationError();
                 }
             }
@@ -191,24 +188,58 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _ausgewaelteDatenbank; }
             set
             {
-                if (SetArtikelAnlegenStringProperty("AusgewaelteDatenbank", ref _ausgewaelteDatenbank, value))
+                if (SetProperty("AusgewaelteDatenbank", ref _ausgewaelteDatenbank, value))
                 {
                     UserApiToken = _datenbanken.First(x => x.Datenbank == AusgewaelteDatenbank).ApiToken;
                     _apiTokenChanged = false;
                     HerstellerList.Clear();
                     KategorienList.Clear();
                     SelectedHersteller = HerstellerList.FirstOrDefault();
-                    var propertyChanged = PropertyChanged;
-                    if (propertyChanged != null)
-                    {
-                        propertyChanged(this, new PropertyChangedEventArgs("HerstellerKategorieOk"));
-                    }
+                    UpdateProperty("HerstellerKategorieOk");
+                    HasError = HasValidationError();
+                }
+            }
+        }
+
+        private ObservableCollection<DateiAuswahlViewModel> _dateiListe;
+        public ObservableCollection<DateiAuswahlViewModel> DateiListe
+        {
+            get { return _dateiListe; }
+            set
+            {
+                SetProperty("DateiListe", ref _dateiListe, value);
+                HasError = HasValidationError();
+            }
+        }
+
+        private bool _neuesAusgewaehlt;
+        public bool NeuesAusgewaehlt
+        {
+            get { return _neuesAusgewaehlt; }
+            set
+            {
+                SetProperty("NeuesAusgewaehlt", ref _neuesAusgewaehlt, value);
+                HasError = HasValidationError();
+            }
+        }
+
+        private DateiAuswahlViewModel _selectedDatei;
+        public DateiAuswahlViewModel SelectedDatei
+        {
+            get { return _selectedDatei; }
+            set
+            {
+                if (SetProperty("SelectedDatei", ref _selectedDatei, value))
+                {
                     HasError = HasValidationError();
                 }
             }
         }
 
         public CommonDateiViewModel DateiViewModel { get; set; }
+
+        public string Guid { get; set; }
+        public bool AuswahlEnabled { get; set; }
 
         #endregion
 
@@ -221,7 +252,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
         #region Konstruktor
 
-        public ArtikelAnlegenViewModel(List<DatenbankDto> datenbanken, KomponenteDto einzelteil)
+        public ArtikelAnlegenViewModel(List<DatenbankDto> datenbanken, List<DateiDto> listeDateien, KomponenteDto einzelteil)
         {
             OnAbrufenCommand = new MyParameterCommand<Window>(OnAbrufen);
             SelectedKategorieChangedCommand = new MyCommand(OnKategorieChanged);
@@ -259,8 +290,28 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             Kommentar = "";
             Link = "";
 
+            Guid = einzelteil.Guid;
+
+            var liste = new List<DateiDto>(listeDateien);
+            liste.RemoveAll(item => item.Kategorie != "Gewichtsmessung");
+            liste.RemoveAll(item => !(item.Dateiendung.ToLower() == "png"
+                                    || item.Dateiendung.ToLower() == "jpg"
+                                    || item.Dateiendung.ToLower() == "jpeg"));
+
+            NeuesAusgewaehlt = liste.Count == 0;
+            AuswahlEnabled = liste.Count > 0;
+
+            DateiListe = new ObservableCollection<DateiAuswahlViewModel>();
+
+            foreach (var item in liste)
+            {
+                DateiListe.Add(new DateiAuswahlViewModel(Guid, "Teileliste", item));
+            }
+
+            SelectedDatei = DateiListe.FirstOrDefault();
+
             _apiTokenChanged = false;
-            HasError = true;
+            HasError = HasValidationError();
         }
 
         #endregion
@@ -314,11 +365,17 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
         public bool HasValidationError()
         {
-            return !HerstellerKategorieOk 
-                || DateiViewModel.HasError
-                || string.IsNullOrWhiteSpace(Beschreibung)
-                || Gewicht == 0
-                || string.IsNullOrWhiteSpace(Jahr);
+            bool hasError = !HerstellerKategorieOk
+                            || string.IsNullOrWhiteSpace(Beschreibung)
+                            || Gewicht == 0
+                            || string.IsNullOrWhiteSpace(Jahr);
+
+            if (!hasError)
+            {
+                hasError = NeuesAusgewaehlt ? DateiViewModel.HasError : SelectedDatei == null; 
+            }
+
+            return hasError;
         }
 
         public bool IsAnySelected(KategorienViewModel viewModel)
@@ -365,11 +422,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
         public void OnKategorieChanged()
         {
-            var propertyChanged = PropertyChanged;
-            if (propertyChanged != null)
-            {
-                propertyChanged(this, new PropertyChangedEventArgs("HerstellerKategorieOk"));
-            }
+            UpdateProperty("HerstellerKategorieOk");
             HasError = HasValidationError();
         }
 
@@ -396,11 +449,8 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                     SetAction(item);
                 }
 
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("HerstellerKategorieOk"));
-                }
+                UpdateProperty("HerstellerKategorieOk");
+
                 HasError = HasValidationError();
             }
             else
@@ -409,109 +459,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             }
         }
 
-
         #endregion
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal bool SetArtikelAnlegenDecimalValue(string propertyName,
-            ref decimal backingField,
-            decimal newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-                return true;
-            }
-            return false;
-        }
-
-        internal bool SetArtikelAnlegenCollectionProperty(string propertyName,
-            ref ObservableCollection<KategorienViewModel> backingField,
-            ObservableCollection<KategorienViewModel> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-                return true;
-            }
-            return false;
-        }
-
-        internal void SetArtikelAnlegenKeyValuePairProperty(string propertyName,
-            ref KeyValuePair<string, string> backingField,
-            KeyValuePair<string, string> newValue)
-        {
-            if (backingField.Key != newValue.Key || backingField.Value != newValue.Value)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetArtikelAnlegenCollectionHerstellerProperty(string propertyName,
-            ref ObservableCollection<KeyValuePair<string, string>> backingField,
-            ObservableCollection<KeyValuePair<string, string>> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal bool SetArtikelAnlegenStringProperty(string propertyName,
-                                                        ref string backingField,
-                                                        string newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-                return true;
-            }
-            return false;
-        }
-
-        internal void SetArtikelAnlegenBoolProperty(string propertyName,
-                                                        ref bool backingField,
-                                                        bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        #endregion
     }
 }

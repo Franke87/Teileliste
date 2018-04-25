@@ -293,8 +293,19 @@ namespace TeileListe.Teileliste.ViewModel
                     Owner = window
                 };
 
+                var liste = new List<DateiDto>();
+                if (IsNeueKomponente)
+                {
+                    liste.AddRange(GetDateiCacheFunc(Guid));
+                }
+                else
+                {
+                    PluginManager.DbManager.GetDateiInfos(Guid, ref liste);
+                }
+
                 var viewModel = new EinzelteilZuordnenViewModel(new KomponenteDto
                                                                 {
+                                                                    Guid = Guid,
                                                                     Komponente = Komponente,
                                                                     Hersteller = Hersteller,
                                                                     Beschreibung = Beschreibung,
@@ -302,9 +313,11 @@ namespace TeileListe.Teileliste.ViewModel
                                                                     Jahr = Jahr,
                                                                     Gewicht = Gewicht
                                                                 }, 
+                                                                liste,
                                                                 EinzelteilBearbeitenEnum.Komponente)
                 {
-                    CloseAction = dialog.Close
+                    CloseAction = dialog.Close,
+                    SaveDateiAction = SaveDatei
                 };
                 dialog.DataContext = viewModel;
                 dialog.ShowDialog();

@@ -363,7 +363,7 @@ namespace TeileListe.MessungHochladen.ViewModel
 
         bool CheckForError()
         {
-            return Gewicht == 0 || NeuesAusgewaehlt ? DateiViewModel.HasError : SelectedDatei == null ;
+            return Gewicht == 0 || NeuesAusgewaehlt ? DateiViewModel.HasError : SelectedDatei == null;
         }
 
         #endregion

@@ -46,8 +46,9 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
         public MyParameterCommand<Window> OnOkCommand { get; set; }
         public Action CloseAction { get; set; }
+        public Action<DateiDto> SaveDateiAction { get; set; }
 
-        public EinzelteilZuordnenViewModel(KomponenteDto einzelteil, EinzelteilBearbeitenEnum typ)
+        public EinzelteilZuordnenViewModel(KomponenteDto einzelteil, List<DateiDto> listeDateien, EinzelteilBearbeitenEnum typ)
         {
             
             IsOk = false;
@@ -94,7 +95,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             DatenbankViewModel = new WebAuswahlViewModel(datenbanken, true);
             DatenbankViewModel.PropertyChanged += ContentPropertyChanged;
 
-            AnlegenViewModel = new ArtikelAnlegenViewModel(datenbanken, einzelteil);
+            AnlegenViewModel = new ArtikelAnlegenViewModel(datenbanken, listeDateien, einzelteil);
             AnlegenViewModel.PropertyChanged += ContentPropertyChanged;
 
             BestehendSuchen = true;
@@ -115,8 +116,42 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                 
                 PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
-                byte[] imageArray = File.ReadAllBytes(AnlegenViewModel.DateiViewModel.Datei);
-                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                var dateiName = string.Empty;
+
+                if (AnlegenViewModel.NeuesAusgewaehlt)
+                {
+                    dateiName = AnlegenViewModel.DateiViewModel.Datei;
+                }
+                else
+                {
+                    dateiName = Path.Combine("Daten", AnlegenViewModel.Guid, AnlegenViewModel.SelectedDatei.Guid + "." + AnlegenViewModel.SelectedDatei.Dateiendung);
+
+                    if (!File.Exists(dateiName))
+                    {
+                        dateiName = Path.Combine("Daten", "Temp", AnlegenViewModel.SelectedDatei.Guid + "." + AnlegenViewModel.SelectedDatei.Dateiendung);
+                    }
+                }
+
+                string base64ImageRepresentation;
+
+                try
+                {
+                    byte[] imageArray = File.ReadAllBytes(dateiName);
+                    base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                }
+                catch (Exception ex)
+                {
+                    var message = "Die Datei konnte nicht geöffnet werden."
+                                + Environment.NewLine
+                                + Environment.NewLine
+                                + ex.Message;
+
+                    HilfsFunktionen.ShowMessageBox(window,
+                                                    TitelText,
+                                                    message,
+                                                    true);
+                    return;
+                }
 
                 var progressWindow = new UploadWaitwindow(AnlegenViewModel.AusgewaelteDatenbank,
                                                             datenbanken[0].ApiToken,
@@ -144,9 +179,49 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                     ResultDatenbankLink = progressWindow.ResultProduktUrl;
                     ResultDatenbankId = AnlegenViewModel.AusgewaelteDatenbank + ":" + progressWindow.ResultProduktId;
 
+                    var message = "Messung erfolgreich hochgeladen";
+
+                    if (AnlegenViewModel.NeuesAusgewaehlt)
+                    {
+                        try
+                        {
+                            var datei = AnlegenViewModel.DateiViewModel.Datei;
+                            var guid = Guid.NewGuid().ToString();
+                            var dateiendung = Path.GetExtension(datei);
+                            if (dateiendung.StartsWith("."))
+                            {
+                                dateiendung = dateiendung.Substring(1);
+                            }
+
+                            dateiendung = dateiendung.ToLower();
+
+                            File.Copy(datei, "Daten\\Temp\\" + guid + "." + dateiendung);
+
+                            SaveDateiAction(new DateiDto
+                            {
+                                Guid = guid,
+                                Kategorie = "Gewichtsmessung",
+                                Beschreibung = Path.GetFileNameWithoutExtension(datei),
+                                Dateiendung = dateiendung
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            message += Environment.NewLine + Environment.NewLine;
+
+                            message += "Die Datei kann nicht kopiert werden.";
+
+                            if (!string.IsNullOrWhiteSpace(ex.Message))
+                            {
+                                message += Environment.NewLine + Environment.NewLine;
+                                message += ex.Message;
+                            }
+                        }
+                    }
+
                     HilfsFunktionen.ShowMessageBox(window,
                                                     TitelText,
-                                                    "Messung erfolgreich hochgeladen",
+                                                    message,
                                                     false);
                     IsOk = true;
                     CloseAction();

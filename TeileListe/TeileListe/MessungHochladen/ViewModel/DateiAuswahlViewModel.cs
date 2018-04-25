@@ -7,7 +7,7 @@ using TeileListe.Common.Dto;
 
 namespace TeileListe.MessungHochladen.ViewModel
 {
-    internal class DateiAuswahlViewModel : MyCommonViewModel
+    public class DateiAuswahlViewModel : MyCommonViewModel
     {
         public string Guid { get; set; }
         public string Beschreibung { get; set; }
