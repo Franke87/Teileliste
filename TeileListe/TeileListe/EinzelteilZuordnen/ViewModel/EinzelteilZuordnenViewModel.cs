@@ -7,14 +7,13 @@ using TeileListe.API.View;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Interface;
 using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
 using TeileListe.MessungHochladen.Dto;
 
 namespace TeileListe.EinzelteilZuordnen.ViewModel
 {
-    public class EinzelteilZuordnenViewModel : INotifyPropertyChanged
+    public class EinzelteilZuordnenViewModel : MyCommonViewModel
     {
         private bool _bestehendSuchen;
         public bool BestehendSuchen
@@ -22,7 +21,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _bestehendSuchen; }
             set
             {
-                SetNeuesEinzelteilBoolProperty("BestehendSuchen", ref _bestehendSuchen, value);
+                SetProperty("BestehendSuchen", ref _bestehendSuchen, value);
                 HasError = BestehendSuchen ? DatenbankViewModel.HasError : AnlegenViewModel.HasError;
             }
         }
@@ -31,7 +30,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
         public bool HasError
         {
             get { return _hasError; }
-            set { SetNeuesEinzelteilBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         public bool IsOk { get; set; }
@@ -247,27 +246,5 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
         {
             HasError = BestehendSuchen ? DatenbankViewModel.HasError : AnlegenViewModel.HasError;
         }
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetNeuesEinzelteilBoolProperty(string propertyName, 
-                                                    ref bool backingField, 
-                                                    bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        #endregion
-
     }
 }

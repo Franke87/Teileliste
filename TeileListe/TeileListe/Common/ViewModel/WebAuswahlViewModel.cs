@@ -11,7 +11,7 @@ using TeileListe.NeuesEinzelteil.ViewModel;
 
 namespace TeileListe.Common.ViewModel
 {
-    public class WebAuswahlViewModel : INotifyPropertyChanged
+    public class WebAuswahlViewModel : MyCommonViewModel
     {
         #region Properties
 
@@ -24,7 +24,7 @@ namespace TeileListe.Common.ViewModel
             get { return _selectedItem; }
             set
             {
-                SetNeuesEinzelteilSelectionProperty("SelectedItem", ref _selectedItem, value);
+                SetProperty("SelectedItem", ref _selectedItem, value);
                 HasError = IsSingleSelection ? SelectedItem == null : !Datenbankteile.Any(teil => teil.IsChecked);
             }
         }
@@ -36,7 +36,7 @@ namespace TeileListe.Common.ViewModel
             get { return _datenbankteile; }
             set
             {
-                SetNeuesEinzelteilCollectionProperty("Datenbankteile", ref _datenbankteile, value);
+                SetProperty("Datenbankteile", ref _datenbankteile, value);
                 HasError = IsSingleSelection ? SelectedItem != null : !Datenbankteile.Any(teil => teil.IsChecked);
             }
         }
@@ -54,7 +54,7 @@ namespace TeileListe.Common.ViewModel
             get { return _userApiToken; }
             set
             {
-                if (SetNeuesEinzelteilStringProperty("UserApiToken", ref _userApiToken, value))
+                if (SetProperty("UserApiToken", ref _userApiToken, value))
                 {
                     _datenbanken.First(x => x.Datenbank == AusgewaelteDatenbank).ApiToken = UserApiToken;
                     _apiTokenChanged = true;
@@ -67,7 +67,7 @@ namespace TeileListe.Common.ViewModel
         public ObservableCollection<KeyValuePair<string, string>> HerstellerList
         {
             get { return _herstellerList; }
-            set { SetNeuesEinzelteilCollectionHerstellerProperty("HerstellerList", ref _herstellerList, value); }
+            set { SetProperty("HerstellerList", ref _herstellerList, value); }
 
         }
 
@@ -76,7 +76,7 @@ namespace TeileListe.Common.ViewModel
         public KeyValuePair<string, string> SelectedHersteller
         {
             get { return _selectedHersteller; }
-            set { SetNeuesEinzelteilKeyValuePairProperty("SelectedHersteller", ref _selectedHersteller, value); }
+            set { SetProperty("SelectedHersteller", ref _selectedHersteller, value); }
         }
 
         private ObservableCollection<KategorienViewModel> _kategorienList;
@@ -86,13 +86,9 @@ namespace TeileListe.Common.ViewModel
             get { return _kategorienList; }
             set
             {
-                if (SetNeuesEinzelteilCollectionProperty("KategorienList", ref _kategorienList, value))
+                if (SetProperty("KategorienList", ref _kategorienList, value))
                 {
-                    var propertyChanged = PropertyChanged;
-                    if (propertyChanged != null)
-                    {
-                        propertyChanged(this, new PropertyChangedEventArgs("KannSuchen"));
-                    }
+                    UpdateProperty("KannSuchen");
                 }
             }
         }
@@ -104,7 +100,7 @@ namespace TeileListe.Common.ViewModel
             get { return _ausgewaelteDatenbank; }
             set
             {
-                if (SetNeuesEinzelteilStringProperty("AusgewaelteDatenbank", ref _ausgewaelteDatenbank, value))
+                if (SetProperty("AusgewaelteDatenbank", ref _ausgewaelteDatenbank, value))
                 {
                     UserApiToken = _datenbanken.First(x => x.Datenbank == AusgewaelteDatenbank).ApiToken;
                     _apiTokenChanged = false;
@@ -113,11 +109,7 @@ namespace TeileListe.Common.ViewModel
                     SelectedHersteller = HerstellerList.FirstOrDefault();
                     Datenbankteile.Clear();
                     SelectedItem = null;
-                    var propertyChanged = PropertyChanged;
-                    if (propertyChanged != null)
-                    {
-                        propertyChanged(this, new PropertyChangedEventArgs("KannSuchen"));
-                    }
+                    UpdateProperty("KannSuchen");
                 }
             }
         }
@@ -129,12 +121,8 @@ namespace TeileListe.Common.ViewModel
             get { return _herstellerSuchen; }
             set
             {
-                SetNeuesEinzelteilBoolProperty("HerstellerSuchen", ref _herstellerSuchen, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("KannSuchen"));
-                }
+                SetProperty("HerstellerSuchen", ref _herstellerSuchen, value);
+                UpdateProperty("KannSuchen");
             }
         }
 
@@ -145,12 +133,8 @@ namespace TeileListe.Common.ViewModel
             get { return _kategorieSuchen; }
             set
             {
-                SetNeuesEinzelteilBoolProperty("KategorieSuchen", ref _kategorieSuchen, value);
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("KannSuchen"));
-                }
+                SetProperty("KategorieSuchen", ref _kategorieSuchen, value);
+                UpdateProperty("KannSuchen");
             }
         }
 
@@ -199,7 +183,7 @@ namespace TeileListe.Common.ViewModel
         public bool HasError
         {
             get { return _hasError; }
-            set { SetNeuesEinzelteilBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         #endregion
@@ -277,11 +261,7 @@ namespace TeileListe.Common.ViewModel
 
         public void OnKategorieChanged()
         {
-            var propertyChanged = PropertyChanged;
-            if (propertyChanged != null)
-            {
-                propertyChanged(this, new PropertyChangedEventArgs("KannSuchen"));
-            }
+            UpdateProperty("KannSuchen");
         }
 
         public void OnAbrufen(Window window)
@@ -306,11 +286,7 @@ namespace TeileListe.Common.ViewModel
                     SetAction(item);
                 }
 
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs("KannSuchen"));
-                }
+                UpdateProperty("KannSuchen");
             }
             else
             {
@@ -400,124 +376,6 @@ namespace TeileListe.Common.ViewModel
             else
             {
                 HilfsFunktionen.ShowMessageBox(window, "Teileliste", progressWindow.ErrorText, true);
-            }
-        }
-
-        #endregion
-
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal bool SetNeuesEinzelteilCollectionProperty(string propertyName,
-            ref ObservableCollection<KategorienViewModel> backingField,
-            ObservableCollection<KategorienViewModel> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-                return true;
-            }
-            return false;
-        }
-
-        internal bool SetNeuesEinzelteilSelectionProperty(string propertyName,
-            ref DatenbankteilAuswahlViewModel backingField,
-            DatenbankteilAuswahlViewModel newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-                return true;
-            }
-            return false;
-        }
-
-        internal void SetNeuesEinzelteilKeyValuePairProperty(string propertyName,
-            ref KeyValuePair<string, string> backingField,
-            KeyValuePair<string, string> newValue)
-        {
-            if (backingField.Key != newValue.Key || backingField.Value != newValue.Value)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetNeuesEinzelteilCollectionHerstellerProperty(string propertyName,
-            ref ObservableCollection<KeyValuePair<string, string>> backingField,
-            ObservableCollection<KeyValuePair<string, string>> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetNeuesEinzelteilCollectionProperty(string propertyName,
-                                                            ref ObservableCollection<DatenbankteilAuswahlViewModel> backingField,
-                                                            ObservableCollection<DatenbankteilAuswahlViewModel> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal bool SetNeuesEinzelteilStringProperty(string propertyName,
-                                                        ref string backingField,
-                                                        string newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-                return true;
-            }
-            return false;
-        }
-
-        internal void SetNeuesEinzelteilBoolProperty(string propertyName,
-                                                        ref bool backingField,
-                                                        bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
             }
         }
 

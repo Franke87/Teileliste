@@ -4,13 +4,12 @@ using System.ComponentModel;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Interface;
 using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
 
 namespace TeileListe.NeuesEinzelteil.ViewModel
 {
-    class NeuesEinzelteilViewModel : INotifyPropertyChanged
+    class NeuesEinzelteilViewModel : MyCommonViewModel
     {
         #region Properties
 
@@ -30,7 +29,7 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
             get { return _auswahl; }
             set
             {
-                SetNeueKomponenteEnumProperty("Auswahl", ref _auswahl, value);
+                SetProperty("Auswahl", ref _auswahl, value);
                 switch (value)
                 {
                     case SourceEnum.AusDatei:
@@ -66,7 +65,7 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
         public bool HasError
         {
             get { return _hasError; }
-            set { SetNeuesEinzelteilBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         public MyCommand OnOkCommand { get; set; }
@@ -169,72 +168,6 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
                     HasError = WunschlisteViewModel.HasError;
                 }
                 break;
-            }
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetNeuesEinzelteilIntProperty(string propertyName, 
-                                                    ref int backingField, 
-                                                    int newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetNeuesEinzelteilStringProperty(string propertyName, 
-                                                        ref string backingField, 
-                                                        string newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetNeuesEinzelteilBoolProperty(string propertyName, 
-                                                        ref bool backingField, 
-                                                        bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetNeueKomponenteEnumProperty(string propertyName,
-                                                        ref SourceEnum backingField,
-                                                        SourceEnum newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
             }
         }
 

@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using TeileListe.API.View;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Interface;
 using TeileListe.Enums;
 
 namespace TeileListe.EinzelteilBearbeiten.ViewModel
 {
-    internal class EinzelteilBearbeitenViewModel : INotifyPropertyChanged
+    internal class EinzelteilBearbeitenViewModel : MyCommonViewModel
     {
         #region Properties
 
@@ -26,7 +24,7 @@ namespace TeileListe.EinzelteilBearbeiten.ViewModel
         public bool HasError
         {
             get { return _hasError; }
-            set { SetEinzelteilBearbeitenBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         private string _komponente;
@@ -35,7 +33,7 @@ namespace TeileListe.EinzelteilBearbeiten.ViewModel
             get { return _komponente; }
             set
             {
-                SetEinzelteilBearbeitenStringProperty("Komponente", ref _komponente, value);
+                SetProperty("Komponente", ref _komponente, value);
                 HasError = string.IsNullOrWhiteSpace(Komponente);
             }
         }
@@ -44,49 +42,49 @@ namespace TeileListe.EinzelteilBearbeiten.ViewModel
         public string Hersteller
         {
             get { return _hersteller; }
-            set { SetEinzelteilBearbeitenStringProperty("Hersteller", ref _hersteller, value); }
+            set { SetProperty("Hersteller", ref _hersteller, value); }
         }
 
         private string _beschreibung;
         public string Beschreibung
         {
             get { return _beschreibung; }
-            set { SetEinzelteilBearbeitenStringProperty("Beschreibung", ref _beschreibung, value); }
+            set { SetProperty("Beschreibung", ref _beschreibung, value); }
         }
 
         private string _groesse;
         public string Groesse
         {
             get { return _groesse; }
-            set { SetEinzelteilBearbeitenStringProperty("Groesse", ref _groesse, value); }
+            set { SetProperty("Groesse", ref _groesse, value); }
         }
 
         private string _jahr;
         public string Jahr
         {
             get { return _jahr; }
-            set { SetEinzelteilBearbeitenStringProperty("Jahr", ref _jahr, value); }
+            set { SetProperty("Jahr", ref _jahr, value); }
         }
 
         private string _shop;
         public string Shop
         {
             get { return _shop; }
-            set { SetEinzelteilBearbeitenStringProperty("Shop", ref _shop, value); }
+            set { SetProperty("Shop", ref _shop, value); }
         }
 
         private string _link;
         public string Link
         {
             get { return _link; }
-            set { SetEinzelteilBearbeitenStringProperty("Link", ref _link, value); }
+            set { SetProperty("Link", ref _link, value); }
         }
 
         private string _datenbankId;
         public string DatenbankId
         {
             get { return _datenbankId; }
-            set { SetEinzelteilBearbeitenStringProperty("DatenbankId", ref _datenbankId, value); }
+            set { SetProperty("DatenbankId", ref _datenbankId, value); }
         }
 
         public string DatenbankAnzeigeString
@@ -109,42 +107,42 @@ namespace TeileListe.EinzelteilBearbeiten.ViewModel
         public string DatenbankLink
         {
             get { return _datenbankLink; }
-            set { SetEinzelteilBearbeitenStringProperty("DatenbankLink", ref _datenbankLink, value); }
+            set { SetProperty("DatenbankLink", ref _datenbankLink, value); }
         }
 
         private int _preis;
         public int Preis
         {
             get { return _preis; }
-            set { SetEinzelteilBearbeitenIntProperty("Preis", ref _preis, value); }
+            set { SetProperty("Preis", ref _preis, value); }
         }
 
         private int _gewicht;
         public int Gewicht
         {
             get { return _gewicht; }
-            set { SetEinzelteilBearbeitenIntProperty("Gewicht", ref _gewicht, value); }
+            set { SetProperty("Gewicht", ref _gewicht, value); }
         }
 
         private bool _gekauft;
         public bool Gekauft
         {
             get { return _gekauft; }
-            set { SetEinzelteilBearbeitenBoolProperty("Gekauft", ref _gekauft, value); }
+            set { SetProperty("Gekauft", ref _gekauft, value); }
         }
 
         private bool _gewogen;
         public bool Gewogen
         {
             get { return _gewogen; }
-            set { SetEinzelteilBearbeitenBoolProperty("Gewogen", ref _gewogen, value); }
+            set { SetProperty("Gewogen", ref _gewogen, value); }
         }
 
         private string _datenbankInfos;
         public string DatenbankInfos
         {
             get { return _datenbankInfos; }
-            set { SetEinzelteilBearbeitenStringProperty("DatenbankInfos", ref _datenbankInfos, value); }
+            set { SetProperty("DatenbankInfos", ref _datenbankInfos, value); }
         }
 
         public MyCommand OnOkCommand { get; set; }
@@ -292,51 +290,6 @@ namespace TeileListe.EinzelteilBearbeiten.ViewModel
         {
             IsOk = true;
             CloseAction();
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetEinzelteilBearbeitenIntProperty(string propertyName, ref int backingField, int newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetEinzelteilBearbeitenStringProperty(string propertyName, ref string backingField, string newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetEinzelteilBearbeitenBoolProperty(string propertyName, ref bool backingField, bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
         }
 
         #endregion

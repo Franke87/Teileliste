@@ -2,18 +2,17 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using TeileListe.Common.Classes;
 
 namespace TeileListe.NeuesEinzelteil.ViewModel
 {
-    class RestekisteAuswahlViewModel : INotifyPropertyChanged
+    internal class RestekisteAuswahlViewModel : MyCommonViewModel
     {
-        #region Properties
-
         private bool _hasError;
         public bool HasError
         {
             get { return _hasError; }
-            set { SetRestekisteAuswahlBoolProperty("HasError", ref _hasError, value); }
+            set { SetProperty("HasError", ref _hasError, value); }
         }
 
         private ObservableCollection<EinzelteilAuswahlViewModel> _einzelteile;
@@ -23,12 +22,10 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
             get { return _einzelteile; }
             set
             {
-                SetRestekisteAuswahlCollectionProperty("EinzelTeile", ref _einzelteile, value);
+                SetProperty("EinzelTeile", ref _einzelteile, value);
                 HasError = !_einzelteile.Any(teil => teil.IsChecked);
             }
         }
-
-        #endregion
 
         public RestekisteAuswahlViewModel(List<EinzelteilAuswahlViewModel> listRestekiste)
         {
@@ -42,43 +39,9 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
             HasError = true;
         }
 
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetRestekisteAuswahlCollectionProperty(string propertyName,
-            ref ObservableCollection<EinzelteilAuswahlViewModel> backingField,
-            ObservableCollection<EinzelteilAuswahlViewModel> newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
-        internal void SetRestekisteAuswahlBoolProperty(string propertyName, ref bool backingField, bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
-        }
-
         private void ContentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             HasError = !EinzelTeile.Any(item => item.IsChecked);
         }
-
-        #endregion
     }
 }

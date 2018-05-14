@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using TeileListe.Classes;
-using TeileListe.Common.Classes;
+﻿using TeileListe.Common.Classes;
 
 namespace TeileListe.NeuesEinzelteil.ViewModel
 {
-    public class EinzelteilAuswahlViewModel : INotifyPropertyChanged
+    public class EinzelteilAuswahlViewModel : MyCommonViewModel
     {
         public string Guid { get; set; }
         public string Komponente { get; set; }
@@ -27,22 +25,7 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
         public bool IsChecked
         {
             get { return _isChecked; }
-            set { SetEinzelteilAuswahlBoolProperty("IsChecked", ref _isChecked, value); }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetEinzelteilAuswahlBoolProperty(string propertyName, ref bool backingField, bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
+            set { SetProperty("IsChecked", ref _isChecked, value); }
         }
     }
 }

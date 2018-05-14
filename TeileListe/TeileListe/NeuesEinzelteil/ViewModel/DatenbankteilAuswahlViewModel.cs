@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
-using TeileListe.Common.Classes;
+﻿using TeileListe.Common.Classes;
 
 namespace TeileListe.NeuesEinzelteil.ViewModel
 {
-    public class DatenbankteilAuswahlViewModel : INotifyPropertyChanged
+    public class DatenbankteilAuswahlViewModel : MyCommonViewModel
     {
         public string Komponente { get; set; }
         public string Hersteller { get; set; }
@@ -24,22 +23,7 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
         public bool IsChecked
         {
             get { return _isChecked; }
-            set { SetWunschteilAuswahlBoolProperty("IsChecked", ref _isChecked, value); }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void SetWunschteilAuswahlBoolProperty(string propertyName, ref bool backingField, bool newValue)
-        {
-            if (backingField != newValue)
-            {
-                backingField = newValue;
-                var propertyChanged = PropertyChanged;
-                if (propertyChanged != null)
-                {
-                    propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                }
-            }
+            set { SetProperty("IsChecked", ref _isChecked, value); }
         }
     }
 }
