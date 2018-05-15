@@ -37,7 +37,7 @@
                 <TextBox Grid.Row="0" Grid.Column="1" MaxLength="32" Name="NameText" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
             <RadioButton Margin="5,10,0,0" GroupName="NeuesFahrradGroup" Grid.ColumnSpan="3" Grid.Row="1" Grid.Column="0" Content="Neues Fahrrad" IsChecked="{Binding NeuesFahrradAusgewaehlt, Mode=TwoWay}" />
-            <RadioButton Margin="5,5,0,0" GroupName="NeuesFahrradGroup" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="0" Content="Aus csv-Datei" />
+            <RadioButton Margin="5,5,0,0" GroupName="NeuesFahrradGroup" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="0" Content="Aus Datei" />
             <Grid Grid.Row="3" Grid.Column="0" Margin="5,5,0,0" Grid.ColumnSpan="3" Visibility="{Binding NeuesFahrradAusgewaehlt, Converter={StaticResource InverseBoolToVisibilityConverter}}" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

@@ -176,11 +176,7 @@ namespace TeileListe.Teileliste.ViewModel
             set
             {
                 SetProperty("IsDirty", ref _isDirty, value);
-                UpdateProperty("GesamtPreis");
-                UpdateProperty("GesamtGewicht");
-                UpdateProperty("SchonGewogen");
-                UpdateProperty("BereitsGezahlt");
-                UpdateProperty("SummeEinsparpotenzial");
+                UpdateTeilelisteProperties();
             }
         }
 
@@ -666,11 +662,7 @@ namespace TeileListe.Teileliste.ViewModel
 
             UpdateResteKisteProperties();
             UpdateWunschlisteProperties();
-            UpdateProperty("GesamtPreis");
-            UpdateProperty("GesamtGewicht");
-            UpdateProperty("SchonGewogen");
-            UpdateProperty("BereitsGezahlt");
-            UpdateProperty("SummeEinsparpotenzial");
+            UpdateTeilelisteProperties();
             IsDirty = false;
         }
 
@@ -919,6 +911,7 @@ namespace TeileListe.Teileliste.ViewModel
             
             UpdateResteKisteProperties();
             UpdateWunschlisteProperties();
+            UpdateTeilelisteProperties();
         }
 
         public void Ausbauen(string guid)
@@ -975,6 +968,15 @@ namespace TeileListe.Teileliste.ViewModel
 
         #region Hilfsfunktionen
 
+        private void UpdateTeilelisteProperties()
+        {
+            UpdateProperty("GesamtPreis");
+            UpdateProperty("GesamtGewicht");
+            UpdateProperty("SchonGewogen");
+            UpdateProperty("BereitsGezahlt");
+            UpdateProperty("SummeEinsparpotenzial");
+        }
+
         private void UpdateResteKisteProperties()
         {
             UpdateProperty("InhaltRestekiste");
@@ -1025,11 +1027,7 @@ namespace TeileListe.Teileliste.ViewModel
             if (String.CompareOrdinal(e.PropertyName, "AlternativenAnzeigen") != 0)
             {
                 IsDirty = true;
-                UpdateProperty("GesamtPreis");
-                UpdateProperty("GesamtGewicht");
-                UpdateProperty("SchonGewogen");
-                UpdateProperty("BereitsGezahlt");
-                UpdateProperty("SummeEinsparpotenzial");
+                UpdateTeilelisteProperties();
             }
         }
 
