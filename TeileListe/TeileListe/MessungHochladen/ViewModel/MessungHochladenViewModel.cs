@@ -207,7 +207,7 @@ namespace TeileListe.MessungHochladen.ViewModel
             }
             catch(Exception ex)
             {
-                var message = "Die Datei konnte nicht geöffnet werden." 
+                var message = "Die Datei konnte nicht geöffnet werden."
                             + Environment.NewLine 
                             + Environment.NewLine 
                             + ex.Message;
@@ -243,7 +243,7 @@ namespace TeileListe.MessungHochladen.ViewModel
 
             if (progressWindow.Success)
             {
-                var message = "Messung erfolgreich hochgeladen";
+                var message = "Die Messung wurde erfolgreich hochgeladen.";
 
                 if (_neuesAusgewaehlt)
                 {
@@ -273,7 +273,7 @@ namespace TeileListe.MessungHochladen.ViewModel
                     {
                         message += Environment.NewLine + Environment.NewLine;
 
-                        message += "Die Datei kann nicht kopiert werden.";
+                        message += "Die Datei konnte nicht kopiert werden.";
 
                         if (!string.IsNullOrWhiteSpace(ex.Message))
                         {
@@ -309,7 +309,7 @@ namespace TeileListe.MessungHochladen.ViewModel
                 }
                 catch (Exception e)
                 {
-                    var message = "Der Link konnte nicht geöffnet werden" 
+                    var message = "Der Link konnte nicht geöffnet werden." 
                                     + Environment.NewLine 
                                     + Environment.NewLine 
                                     + e.Message;

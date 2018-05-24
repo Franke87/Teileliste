@@ -441,7 +441,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                 HerstellerList.Clear();
                 KategorienList.Clear();
                 HerstellerList = new ObservableCollection<KeyValuePair<string, string>>(progressWindow.ResultHerstellerDto.Data);
-                SelectedHersteller = HerstellerList.ElementAtOrDefault(-1); // HerstellerList.FirstOrDefault();
+                SelectedHersteller = HerstellerList.ElementAtOrDefault(-1);
 
                 KategorienList = new ObservableCollection<KategorienViewModel>(progressWindow.ResultKategorienList);
                 foreach (var item in KategorienList)

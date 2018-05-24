@@ -141,9 +141,9 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                 catch (Exception ex)
                 {
                     var message = "Die Datei konnte nicht geöffnet werden."
-                                + Environment.NewLine
-                                + Environment.NewLine
-                                + ex.Message;
+                                    + Environment.NewLine
+                                    + Environment.NewLine
+                                    + ex.Message;
 
                     HilfsFunktionen.ShowMessageBox(window,
                                                     TitelText,
@@ -178,7 +178,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                     ResultDatenbankLink = progressWindow.ResultProduktUrl;
                     ResultDatenbankId = AnlegenViewModel.AusgewaelteDatenbank + ":" + progressWindow.ResultProduktId;
 
-                    var message = "Messung erfolgreich hochgeladen";
+                    var message = "Die Messung wurde erfolgreich hochgeladen.";
 
                     if (AnlegenViewModel.NeuesAusgewaehlt)
                     {
@@ -208,7 +208,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                         {
                             message += Environment.NewLine + Environment.NewLine;
 
-                            message += "Die Datei kann nicht kopiert werden.";
+                            message += "Die Datei konnte nicht kopiert werden.";
 
                             if (!string.IsNullOrWhiteSpace(ex.Message))
                             {

@@ -208,7 +208,7 @@ namespace TeileListe.DateiManager.ViewModel
                 }
                 catch(Exception ex)
                 {
-                    var message = "Die Datei kann nicht kopiert werden.";
+                    var message = "Die Datei konnte nicht kopiert werden.";
 
                     if (!string.IsNullOrWhiteSpace(ex.Message))
                     {
@@ -313,7 +313,7 @@ namespace TeileListe.DateiManager.ViewModel
             }
             catch (Exception ex)
             {
-                var message = "Fehler beim Speichern der Dateien";
+                var message = "Beim Speichern der Dateien ist ein Fehler aufgetreten.";
 
                 if(!string.IsNullOrWhiteSpace(ex.Message))
                 {
@@ -365,9 +365,9 @@ namespace TeileListe.DateiManager.ViewModel
             }
             catch(Exception ex)
             {
-                var message = "Das Dokument kann nicht entfernt werden.";
+                var message = "Die Datei konnte nicht entfernt werden.";
                 message += Environment.NewLine + Environment.NewLine;
-                message += "Stellen Sie sicher, dass das Dokument nicht geöffnet ist und versuchen Sie es dann erneut.";
+                message += "Stellen Sie sicher, dass die Datei nicht geöffnet ist und versuchen Sie es dann erneut.";
 
                 if (!string.IsNullOrWhiteSpace(ex.Message))
                 {

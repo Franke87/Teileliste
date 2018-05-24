@@ -309,7 +309,7 @@ namespace TeileListe.Wunschliste.ViewModel
                 }
                 catch (Exception e)
                 {
-                    var message = "Der Link konnte nicht geöffnet werden" 
+                    var message = "Der Link konnte nicht geöffnet werden." 
                                     + Environment.NewLine 
                                     + Environment.NewLine 
                                     + e.Message;

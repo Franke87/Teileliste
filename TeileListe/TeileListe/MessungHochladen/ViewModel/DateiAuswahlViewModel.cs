@@ -53,7 +53,7 @@ namespace TeileListe.MessungHochladen.ViewModel
                 }
                 catch (Exception e)
                 {
-                    var message = "Das Dokument konnte nicht geöffnet werden"
+                    var message = "Die Datei konnte nicht geöffnet werden."
                                     + Environment.NewLine
                                     + Environment.NewLine
                                     + e.Message;

@@ -125,14 +125,14 @@ namespace TeileListe.DateiManager.ViewModel
                 }
                 catch (Exception e)
                 {
-                    var message = "Das Dokument konnte nicht geöffnet werden"
+                    var message = "Die Datei konnte nicht geöffnet werden."
                                     + Environment.NewLine
                                     + Environment.NewLine
                                     + e.Message;
                     HilfsFunktionen.ShowMessageBox(window,
-                                                            "Dateimanager",
-                                                            message,
-                                                            true);
+                                                    "Dateimanager",
+                                                    message,
+                                                    true);
                 }
             }
         }
