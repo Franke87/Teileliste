@@ -52,8 +52,8 @@
                 </StackPanel>
             </Border>
             <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,10">
-                <RadioButton Content="Bestehenden Artikel suchen" IsChecked="{Binding BestehendSuchen, Mode=TwoWay}" />
-                <RadioButton Content="Neuen Artikel anlegen" IsChecked="{Binding BestehendSuchen, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}" />
+                <RadioButton Content="bestehenden Artikel suchen" IsChecked="{Binding BestehendSuchen, Mode=TwoWay}" />
+                <RadioButton Content="neuen Artikel anlegen" IsChecked="{Binding BestehendSuchen, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}" />
             </StackPanel>
             <userControl:WebAuswahlControl DataContext="{Binding DatenbankViewModel}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding DataContext.BestehendSuchen, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}" />
             <zuordnenUserControl:ArtikelAnlegenControl DataContext="{Binding AnlegenViewModel}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding DataContext.BestehendSuchen, Converter={StaticResource InverseBoolToVisibilityConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}" />
