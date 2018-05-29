@@ -121,7 +121,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="neues Foto auswählen" IsChecked="{Binding NeuesAusgewaehlt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" IsEnabled="{Binding AuswahlEnabled}" Content="aus hinterlegten Dokumenten" IsChecked="{Binding NeuesAusgewaehlt, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
+                <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,5" IsEnabled="{Binding AuswahlEnabled}" Content="aus hinterlegten Dokumenten" IsChecked="{Binding NeuesAusgewaehlt, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
                 <ListView Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,1,0,0" MaxHeight="200" Grid.IsSharedSizeScope="True" ItemsSource="{Binding DateiListe}" SelectedItem="{Binding SelectedDatei}" Visibility="{Binding NeuesAusgewaehlt, Converter={StaticResource InverseBoolToVisibilityConverter}}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">

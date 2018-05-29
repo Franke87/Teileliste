@@ -140,8 +140,8 @@
         <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="KommentarText" Text="{Binding Kommentar, Mode=TwoWay}" />
         <Label Grid.Row="9" Grid.Column="0" Margin="-5,0,0,0" Content="_Link des Produkts:" Opacity="0.4" Target="{Binding ElementName=LinkText}" />
         <TextBox Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="LinkText" Text="{Binding Link, Mode=TwoWay}" />
-        <RadioButton Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3" Content="neues Foto auswählen" IsChecked="{Binding NeuesAusgewaehlt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <RadioButton Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" IsEnabled="{Binding AuswahlEnabled}" Content="aus hinterlegten Dokumenten" IsChecked="{Binding NeuesAusgewaehlt, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
+        <RadioButton Margin="0,5,0,0" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3" Content="neues Foto auswählen" IsChecked="{Binding NeuesAusgewaehlt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <RadioButton Margin="0,5,0,5" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" IsEnabled="{Binding AuswahlEnabled}" Content="aus hinterlegten Dokumenten" IsChecked="{Binding NeuesAusgewaehlt, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
         <Label Grid.Row="12" Grid.Column="0" HorizontalAlignment="Left" Margin="-5,0,0,0" Content="_Foto (JPG oder PNG)*:" Opacity="0.4" Target="{Binding ElementName=NameDatei}"  />
         <TextBox Grid.Row="12" Grid.Column="1" Margin="0,4,0,0" Name="NameDatei" Text="{Binding DateiViewModel.Datei, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding NeuesAusgewaehlt, Converter={StaticResource BooleanToVisibilityConverter}}" />
         <Button Grid.Row="12" Grid.Column="2"  Content="..." MinWidth="23" Margin="10,4,0,0" Command="{Binding DateiViewModel.OnFileSelect}" Visibility="{Binding NeuesAusgewaehlt, Converter={StaticResource BooleanToVisibilityConverter}}" />
