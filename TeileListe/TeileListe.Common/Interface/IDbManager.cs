@@ -4,7 +4,7 @@ using TeileListe.Common.Dto;
 
 namespace TeileListe.Common.Interface
 {
-    public interface IDbManager : IDisposable
+    public interface IDbManager : ITeileListeInterface
     {
         void GetFahrraeder(ref List<string> liste);
         void SaveFahrraeder(List<string> liste);

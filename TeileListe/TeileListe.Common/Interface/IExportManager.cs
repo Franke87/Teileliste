@@ -4,7 +4,7 @@ using TeileListe.Common.Dto;
 
 namespace TeileListe.Common.Interface
 {
-    public interface IExportManager : IDisposable
+    public interface IExportManager : ITeileListeInterface
     {
         string GetKuerzel();
 

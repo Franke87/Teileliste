@@ -8,6 +8,8 @@ namespace TeileListe.Table
     {
         private readonly IniReader _iniReader;
 
+        public string InterfaceVersion { get { return "v1.04"; } }
+
         public DbManager()
         {
             _iniReader = new IniReader();

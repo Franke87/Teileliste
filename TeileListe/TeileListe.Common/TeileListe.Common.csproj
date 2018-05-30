@@ -65,6 +65,7 @@
     <Compile Include="Dto\WunschteilDto.cs" />
     <Compile Include="Interface\IDbManager.cs" />
     <Compile Include="Interface\IExportManager.cs" />
+    <Compile Include="Interface\ITeileListeInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\MyMessageBox.xaml.cs">
       <DependentUpon>MyMessageBox.xaml</DependentUpon>

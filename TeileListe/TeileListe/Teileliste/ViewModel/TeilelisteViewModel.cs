@@ -40,6 +40,8 @@ namespace TeileListe.Teileliste.ViewModel
 
         #region Readonly Properties
 
+        public string TitelText {  get { return "Teileliste " + PluginManager.Version; } }
+
         public int InhaltRestekiste
         {
             get { return ResteListe.Count; }

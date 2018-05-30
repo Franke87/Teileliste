@@ -11,6 +11,8 @@ namespace TeileListe.Classes
         public static IExportManager ExportManager;
         public static IDbManager DbManager;
 
+        public static string Version { get { return "v1.04"; } }
+
         internal static bool InitPlugins()
         {
             var files = new List<String>(Directory.GetFiles(Directory.GetCurrentDirectory(), "TeileListe.*.dll"));
@@ -30,19 +32,30 @@ namespace TeileListe.Classes
                                 var interfaces = cls.GetInterfaces();
                                 foreach (var iface in interfaces)
                                 {
-                                    if (cls.GetInterface(iface.FullName) == typeof (IExportManager))
+                                    if (cls.GetInterface(iface.FullName) == typeof(IExportManager))
                                     {
                                         if (ExportManager == null)
                                         {
                                             ExportManager = assembly.CreateInstance(cls.FullName) as IExportManager;
+
+                                            if(ExportManager.InterfaceVersion != Version)
+                                            {
+                                                ExportManager.Dispose();
+                                                ExportManager = null;
+                                            }
                                         }
                                     }
 
-                                    if (cls.GetInterface(iface.FullName) == typeof (IDbManager))
+                                    if (cls.GetInterface(iface.FullName) == typeof(IDbManager))
                                     {
                                         if (DbManager == null)
                                         {
                                             DbManager = assembly.CreateInstance(cls.FullName) as IDbManager;
+                                            if (DbManager.InterfaceVersion != Version)
+                                            {
+                                                DbManager.Dispose();
+                                                DbManager = null;
+                                            }
                                         }
                                     }
                                 }
