@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>  
         <TextBlock Grid.Row="0" Opacity="0.4" Text="Meine Fahrräder" Margin="0,0,0,5" />
         <Rectangle Grid.Row="1" Fill="LightGray" />
-        <ListView Margin="0,10" BorderBrush="White" Grid.Row="2" ItemsSource="{Binding FahrradListe}" SelectedItem="{Binding SelectedFahrrad, Mode=TwoWay}" />
+        <ListView Margin="0,5" BorderBrush="White" Grid.Row="2" ItemsSource="{Binding FahrradListe}" SelectedItem="{Binding SelectedFahrrad, Mode=TwoWay}" />
         <Rectangle Grid.Row="3" Fill="LightGray" />
         <Grid Grid.Row="4" Margin="0,14,0,0">
             <Grid.ColumnDefinitions>

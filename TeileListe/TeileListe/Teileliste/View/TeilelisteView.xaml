@@ -4,10 +4,11 @@
         xmlns:converter="clr-namespace:TeileListe.Converter"
         xmlns:commonUserControl="clr-namespace:TeileListe.Common.UserControl"
         xmlns:teilelisteUserControl="clr-namespace:TeileListe.Teileliste.UserControl"
+        xmlns:szenarioControl="clr-namespace:TeileListe.Szenariorechner.UserControl"
         xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
         WindowStartupLocation="CenterOwner"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
-        Title="{Binding TitelText}" MinWidth="950" Width="1080" MinHeight="500" Height="768">
+        Title="{Binding TitelText}" MinWidth="950" Width="1080" MinHeight="725" Height="768">
     <Window.Resources>
         <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
         <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
@@ -25,25 +26,29 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,1,15,0" Grid.Column="0" >
             <teilelisteUserControl:FahrradAuswahlControl  />
         </Border>
         <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,15,0" Grid.Column="0" >
+            <szenarioControl:SzenarioPreviewControl />
+        </Border>
+        <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,15,0" Grid.Column="0" >
             <commonUserControl:CommonPreviewControl HeaderText="Wunschliste" 
                                               Gewicht="{Binding GewichtWunschliste, Converter={StaticResource IntToWeightConverter}}" 
                                               Wert="{Binding WertWunschliste, Converter={StaticResource IntToPriceConverter}}" 
                                               Inhalt="{Binding InhaltWunschliste}" 
                                               OeffnenCommand="{Binding WunschlisteCommand}"/>
         </Border>
-        <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,15,0" Grid.Column="0" >
+        <Border Grid.Row="3" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,15,0" Grid.Column="0" >
             <commonUserControl:CommonPreviewControl HeaderText="Restekiste" 
                                               Gewicht="{Binding GewichtRestekiste, Converter={StaticResource IntToWeightConverter}}" 
                                               Wert="{Binding WertRestekiste, Converter={StaticResource IntToPriceConverter}}" 
                                               Inhalt="{Binding InhaltRestekiste}"
                                               OeffnenCommand="{Binding RestekisteCommand}" />
         </Border>
-        <Border Grid.Row="0" Grid.RowSpan="3" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,1,0,0" Grid.Column="1" >
+        <Border Grid.Row="0" Grid.RowSpan="4" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,1,0,0" Grid.Column="1" >
             <Grid Margin="10" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />

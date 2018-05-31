@@ -19,6 +19,7 @@ using TeileListe.NeuesFahrrad.View;
 using TeileListe.NeuesFahrrad.ViewModel;
 using TeileListe.Restekiste.View;
 using TeileListe.Restekiste.ViewModel;
+using TeileListe.Szenariorechner;
 using TeileListe.Wunschliste.View;
 using TeileListe.Wunschliste.ViewModel;
 
@@ -35,6 +36,7 @@ namespace TeileListe.Teileliste.ViewModel
         public MyParameterCommand<Window> RestekisteCommand { get; set; }
         public MyParameterCommand<Window> WunschlisteCommand { get; set; }
         public MyParameterCommand<Window> NeuesFahrradCommand { get; set; }
+        public MyParameterCommand<Window> VergleichenCommand { get; set; }
 
         #endregion
 
@@ -182,11 +184,27 @@ namespace TeileListe.Teileliste.ViewModel
             }
         }
 
+        public bool VergleichAktiv { get { return !IsDirty && SelectedFahrrad != null && KomponentenListe.Count > 0; } }
+
         private ObservableCollection<KomponenteViewModel> _komponentenListe;
         public ObservableCollection<KomponenteViewModel> KomponentenListe
         {
             get { return _komponentenListe; }
             set { IsDirty = SetProperty("KomponentenListe", ref _komponentenListe, value); }
+        }
+
+        private string _selectedFahrradFest;
+        public string SelectedFahrradFest
+        {
+            get { return _selectedFahrradFest; }
+            set { SetProperty("SelectedFahrradFest", ref _selectedFahrradFest, value); }
+        }
+
+        private string _selectedFahrradVariabel;
+        public string SelectedFahrradVariabel
+        {
+            get { return _selectedFahrradVariabel; }
+            set { SetProperty("SelectedFahrradVariabel", ref _selectedFahrradVariabel, value); }
         }
 
         #endregion
@@ -213,7 +231,8 @@ namespace TeileListe.Teileliste.ViewModel
             RestekisteCommand = new MyParameterCommand<Window>(Restekiste);
             WunschlisteCommand = new MyParameterCommand<Window>(Wunschliste);
             NeuesFahrradCommand = new MyParameterCommand<Window>(OnNeuesFahrrad);
-            
+            VergleichenCommand = new MyParameterCommand<Window>(OnVergleichen);
+
             var liste = new List<string>();
             PluginManager.DbManager.GetFahrraeder(ref liste);
             foreach (var item in liste)
@@ -232,6 +251,11 @@ namespace TeileListe.Teileliste.ViewModel
         #endregion
 
         #region Commandfunktionen
+
+        private void OnVergleichen(Window window)
+        {
+
+        }
 
         private void OnNeuesFahrrad(Window window)
         {
@@ -662,6 +686,9 @@ namespace TeileListe.Teileliste.ViewModel
                 }
             }
 
+            SelectedFahrradFest = FahrradListe.FirstOrDefault(x => x == SelectedFahrrad);
+            SelectedFahrradVariabel = FahrradListe.FirstOrDefault(x => x == SelectedFahrrad);
+
             UpdateResteKisteProperties();
             UpdateWunschlisteProperties();
             UpdateTeilelisteProperties();
@@ -977,6 +1004,7 @@ namespace TeileListe.Teileliste.ViewModel
             UpdateProperty("SchonGewogen");
             UpdateProperty("BereitsGezahlt");
             UpdateProperty("SummeEinsparpotenzial");
+            UpdateProperty("VergleichAktiv");
         }
 
         private void UpdateResteKisteProperties()

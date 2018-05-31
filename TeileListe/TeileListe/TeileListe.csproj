@@ -142,6 +142,9 @@
     <Compile Include="Common\UserControl\WebAuswahlControl.xaml.cs">
       <DependentUpon>WebAuswahlControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Szenariorechner\UserControl\SzenarioPreviewControl.xaml.cs">
+      <DependentUpon>SzenarioPreviewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Teileliste\ViewModel\AlternativeViewModel.cs" />
     <Compile Include="Classes\CsvFormatter.cs" />
     <Compile Include="Converter\EnumToBoolConverter.cs" />
@@ -242,6 +245,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MessungHochladen\View\MessungHochladenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Szenariorechner\UserControl\SzenarioPreviewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -393,7 +400,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Szenariorechner\View\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(Lernzeit)</PostBuildEvent>
