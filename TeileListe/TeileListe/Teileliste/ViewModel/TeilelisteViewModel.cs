@@ -19,7 +19,8 @@ using TeileListe.NeuesFahrrad.View;
 using TeileListe.NeuesFahrrad.ViewModel;
 using TeileListe.Restekiste.View;
 using TeileListe.Restekiste.ViewModel;
-using TeileListe.Szenariorechner;
+using TeileListe.Szenariorechner.View;
+using TeileListe.Szenariorechner.ViewModel;
 using TeileListe.Wunschliste.View;
 using TeileListe.Wunschliste.ViewModel;
 
@@ -193,13 +194,6 @@ namespace TeileListe.Teileliste.ViewModel
             set { IsDirty = SetProperty("KomponentenListe", ref _komponentenListe, value); }
         }
 
-        private string _selectedFahrradFest;
-        public string SelectedFahrradFest
-        {
-            get { return _selectedFahrradFest; }
-            set { SetProperty("SelectedFahrradFest", ref _selectedFahrradFest, value); }
-        }
-
         private string _selectedFahrradVariabel;
         public string SelectedFahrradVariabel
         {
@@ -254,7 +248,14 @@ namespace TeileListe.Teileliste.ViewModel
 
         private void OnVergleichen(Window window)
         {
-
+            var viewModel = new SzenariorechnerViewModel(KomponentenListe.ToList(), 
+                                                            SelectedFahrradVariabel);
+            var dialog = new SzenariorechnerDialog(window);
+            dialog.DataContext = viewModel;
+            //dialog.Closing += viewModel.OnClosing;
+            dialog.ShowDialog();
+            //dialog.Closing -= viewModel.OnClosing;
+            Zuruecksetzen();
         }
 
         private void OnNeuesFahrrad(Window window)
@@ -686,7 +687,6 @@ namespace TeileListe.Teileliste.ViewModel
                 }
             }
 
-            SelectedFahrradFest = FahrradListe.FirstOrDefault(x => x == SelectedFahrrad);
             SelectedFahrradVariabel = FahrradListe.FirstOrDefault(x => x == SelectedFahrrad);
 
             UpdateResteKisteProperties();

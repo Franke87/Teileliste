@@ -26,7 +26,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ComboBox Grid.Row="0" Margin="0,2,0,0" IsEnabled="False" ItemsSource="{Binding FahrradListe}" SelectedItem="{Binding SelectedFahrradFest}" />
+            <ComboBox Grid.Row="0" Margin="0,2,0,0" IsEnabled="False" ItemsSource="{Binding FahrradListe}" SelectedItem="{Binding SelectedFahrrad}" />
             <TextBlock Text="vergleichen mit" Grid.Row="1" Opacity="0.4" Margin="0,3,0,7"/>
             <ComboBox Grid.Row="2" Margin="0,0,0,2" IsEnabled="{Binding VergleichAktiv}" ItemsSource="{Binding FahrradListe}" SelectedItem="{Binding SelectedFahrradVariabel}" />
         </Grid>

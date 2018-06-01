@@ -90,6 +90,7 @@
     <Compile Include="API\View\UploadWaitwindow.xaml.cs">
       <DependentUpon>UploadWaitwindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\BindingProxy.cs" />
     <Compile Include="Classes\PluginManager.cs" />
     <Compile Include="Converter\DecimalToWeightConverter.cs" />
     <Compile Include="Converter\InverseEnumToVisibilityConverter.cs" />
@@ -144,6 +145,11 @@
     </Compile>
     <Compile Include="Szenariorechner\UserControl\SzenarioPreviewControl.xaml.cs">
       <DependentUpon>SzenarioPreviewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Szenariorechner\ViewModel\SzenarioKomponenteViewModel.cs" />
+    <Compile Include="Szenariorechner\ViewModel\SzenariorechnerViewModel.cs" />
+    <Compile Include="Szenariorechner\View\SzenariorechnerDialog.xaml.cs">
+      <DependentUpon>SzenariorechnerDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Teileliste\ViewModel\AlternativeViewModel.cs" />
     <Compile Include="Classes\CsvFormatter.cs" />
@@ -249,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Szenariorechner\UserControl\SzenarioPreviewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Szenariorechner\View\SzenariorechnerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -400,9 +410,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Szenariorechner\View\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetPath) $(Lernzeit)</PostBuildEvent>
