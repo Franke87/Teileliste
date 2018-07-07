@@ -52,6 +52,7 @@
     <Compile Include="Classes\MyCommand.cs" />
     <Compile Include="Classes\MyCommonViewModel.cs" />
     <Compile Include="Classes\MyParameterCommand.cs" />
+    <Compile Include="Classes\PerformanceHelper.cs" />
     <Compile Include="Converter\CountToVisibilityConverter.cs" />
     <Compile Include="Converter\InverseBoolToVisibilityConverter.cs" />
     <Compile Include="Converter\InverseCountToVisibilityConverter.cs" />
