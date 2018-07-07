@@ -220,8 +220,8 @@ namespace TeileListe.Teileliste.ViewModel
 
             ExportCommand = new MyParameterCommand<Window>(OnExport);
             ZuruecksetzenCommand = new MyCommand(Zuruecksetzen);
-            SichernCommand = new MyCommand(Sichern);
-            HinzufuegenCommand = new MyCommand(Hinzufuegen);
+            SichernCommand = new MyCommand(SichernButtonMessung);
+            HinzufuegenCommand = new MyCommand(HinzufuegenButtonMessung);
             RestekisteCommand = new MyParameterCommand<Window>(Restekiste);
             WunschlisteCommand = new MyParameterCommand<Window>(Wunschliste);
             NeuesFahrradCommand = new MyParameterCommand<Window>(OnNeuesFahrrad);
@@ -245,6 +245,16 @@ namespace TeileListe.Teileliste.ViewModel
         #endregion
 
         #region Commandfunktionen
+
+        private void SichernButtonMessung()
+        {
+            PerformanceHelper.Messung(Sichern, "Sichernbutton", 10);
+        }
+
+        private void HinzufuegenButtonMessung()
+        {
+            PerformanceHelper.Messung(Zuruecksetzen, "Zurücksetzenbutton", 10);
+        }
 
         private void OnVergleichen(Window window)
         {
