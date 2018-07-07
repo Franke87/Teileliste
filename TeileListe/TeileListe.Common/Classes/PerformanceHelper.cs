@@ -8,9 +8,16 @@ namespace TeileListe.Common.Classes
     {
         public static void Messung(Action action, string beschreibung, int wiederholungen)
         {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            action();
+            for (int i = 0; i < wiederholungen; i++)
+            {
+                action();
+            }
 
             stopwatch.Stop();
 
