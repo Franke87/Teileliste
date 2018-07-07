@@ -151,6 +151,9 @@
     <Compile Include="NeuesEinzelteil\UserControl\WunschlisteAuswahlControl.xaml.cs">
       <DependentUpon>WunschlisteAuswahlControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdateWindow\View\UpdateWindow.xaml.cs">
+      <DependentUpon>UpdateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Wunschliste\UserControl\WunschlisteListeControl.xaml.cs">
       <DependentUpon>WunschlisteListeControl.xaml</DependentUpon>
     </Compile>
@@ -278,6 +281,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NeuesEinzelteil\UserControl\WunschlisteAuswahlControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpdateWindow\View\UpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -216,7 +216,7 @@ namespace TeileListe.Wunschliste.ViewModel
 
         public void Sichern()
         {
-            PluginManager.DbManager.DeleteWunschteile(_deletedItems);
+            PluginManager.DbManager.DeleteTeile(_deletedItems);
             _deletedItems.Clear();
             PluginManager.DbManager.SaveWunschteile(Wunschliste.Select(item => new WunschteilDto
                                     {

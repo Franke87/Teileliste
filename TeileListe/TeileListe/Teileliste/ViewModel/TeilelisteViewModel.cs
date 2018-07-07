@@ -142,8 +142,8 @@ namespace TeileListe.Teileliste.ViewModel
             set { SetProperty("ExportformatCsv", ref _exportformatCsv, value); }
         }
 
-        private string _selectedFahrrad;
-        public string SelectedFahrrad
+        private FahrradDto _selectedFahrrad;
+        public FahrradDto SelectedFahrrad
         {
             get { return _selectedFahrrad; }
             set
@@ -164,8 +164,8 @@ namespace TeileListe.Teileliste.ViewModel
             }
         }
 
-        private ObservableCollection<string> _fahrradListe;
-        public ObservableCollection<string> FahrradListe
+        private ObservableCollection<FahrradDto> _fahrradListe;
+        public ObservableCollection<FahrradDto> FahrradListe
         {
             get { return _fahrradListe; }
             set { SetProperty("FahrradListe", ref _fahrradListe, value); }
@@ -201,7 +201,7 @@ namespace TeileListe.Teileliste.ViewModel
             _deletedTeile = new List<LoeschenDto>();
             WunschListe = new List<WunschteilDto>();
             _deletedWunschteile = new List<LoeschenDto>();
-            FahrradListe = new ObservableCollection<string>();
+            FahrradListe = new ObservableCollection<FahrradDto>();
             _dateiCache = new List<Tuple<string, List<DateiDto>>>();
             ExportformatCsv = true;
             IsDirty = false;
@@ -214,7 +214,7 @@ namespace TeileListe.Teileliste.ViewModel
             WunschlisteCommand = new MyParameterCommand<Window>(Wunschliste);
             NeuesFahrradCommand = new MyParameterCommand<Window>(OnNeuesFahrrad);
             
-            var liste = new List<string>();
+            var liste = new List<FahrradDto>();
             PluginManager.DbManager.GetFahrraeder(ref liste);
             foreach (var item in liste)
             {
@@ -223,7 +223,7 @@ namespace TeileListe.Teileliste.ViewModel
 
             SelectedFahrrad = FahrradListe.FirstOrDefault();
 
-            if (string.IsNullOrWhiteSpace(SelectedFahrrad))
+            if (SelectedFahrrad != null)
             {
                 Zuruecksetzen();
             }
@@ -236,9 +236,7 @@ namespace TeileListe.Teileliste.ViewModel
         private void OnNeuesFahrrad(Window window)
         {
             var dialog = new NeuesFahrradDialog();
-            var viewModel =
-                new NeuesFahrradViewModel(FahrradListe.Aggregate(string.Empty,
-                    (current, item) => current + (";" + item + ";")));
+            var viewModel = new NeuesFahrradViewModel();
             dialog.DataContext = viewModel;
             dialog.Owner = Application.Current.MainWindow;
             viewModel.CloseAction = dialog.Close;
@@ -246,7 +244,12 @@ namespace TeileListe.Teileliste.ViewModel
 
             if (viewModel.IsOk)
             {
-                FahrradListe.Add(viewModel.Name);
+                var fahrrad = new FahrradDto
+                {
+                    Name = viewModel.Name,
+                    Guid = Guid.NewGuid().ToString()
+                };
+                FahrradListe.Add(fahrrad);
 
                 PluginManager.DbManager.SaveFahrraeder(FahrradListe.ToList());
                 if (!viewModel.NeuesFahrradAusgewaehlt)
@@ -254,7 +257,7 @@ namespace TeileListe.Teileliste.ViewModel
                     try
                     {
                         var importer = new TeileImporter();
-                        PluginManager.DbManager.SaveKomponente(viewModel.Name,
+                        PluginManager.DbManager.SaveKomponente(fahrrad.Guid,
                                                                 importer.ImportFahrrad(viewModel.Datei));
                         foreach (var datei in importer.DateiCache)
                         {
@@ -272,7 +275,7 @@ namespace TeileListe.Teileliste.ViewModel
                     
                 }
 
-                SelectedFahrrad = viewModel.Name;
+                SelectedFahrrad = fahrrad;
             }
         }
 
@@ -508,9 +511,10 @@ namespace TeileListe.Teileliste.ViewModel
 
         private void Sichern()
         {
-            PluginManager.DbManager.DeleteKomponenten(SelectedFahrrad, _deletedKomponenten);
+            PluginManager.DbManager.DeleteTeile(_deletedKomponenten);
             _deletedKomponenten.Clear();
-            PluginManager.DbManager.SaveKomponente(SelectedFahrrad, KomponentenListe.Select(item => new KomponenteDto
+            PluginManager.DbManager.SaveKomponente(SelectedFahrrad.Guid, 
+                                                    KomponentenListe.Select(item => new KomponenteDto
                                                             {
                                                                 Guid = item.Guid,
                                                                 Komponente = item.Komponente, 
@@ -527,7 +531,7 @@ namespace TeileListe.Teileliste.ViewModel
                                                                 Gekauft = item.Gekauft, 
                                                                 Gewogen = item.Gewogen
                                                             }).ToList());
-            PluginManager.DbManager.DeleteEinzelteile(_deletedTeile);
+            PluginManager.DbManager.DeleteTeile(_deletedTeile);
             _deletedTeile.Clear();
             PluginManager.DbManager.SaveEinzelteile(ResteListe.Select(item => new RestteilDto
                                                             {
@@ -542,7 +546,7 @@ namespace TeileListe.Teileliste.ViewModel
                                                                 Preis = item.Preis,
                                                                 Gewicht = item.Gewicht,
                                                             }).ToList());
-            PluginManager.DbManager.DeleteWunschteile(_deletedWunschteile);
+            PluginManager.DbManager.DeleteTeile(_deletedWunschteile);
             _deletedWunschteile.Clear();
             PluginManager.DbManager.SaveWunschteile(WunschListe);
 
@@ -608,10 +612,10 @@ namespace TeileListe.Teileliste.ViewModel
                 ResteListe.Add(item);
             }
 
-            if (!string.IsNullOrWhiteSpace(SelectedFahrrad))
+            if (SelectedFahrrad != null)
             {
                 var komponentenListe = new List<KomponenteDto>();
-                PluginManager.DbManager.GetKomponente(SelectedFahrrad, ref komponentenListe);
+                PluginManager.DbManager.GetKomponente(SelectedFahrrad.Guid, ref komponentenListe);
                 foreach (var item in komponentenListe)
                 {
                     var viewmodel = new KomponenteViewModel(item);
@@ -764,7 +768,7 @@ namespace TeileListe.Teileliste.ViewModel
                 }
 
                 PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
-                                                                SelectedFahrrad,
+                                                                SelectedFahrrad.Name,
                                                                 csvExport,
                                                                 liste);
             }

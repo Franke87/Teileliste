@@ -52,7 +52,7 @@ namespace TeileListe.API.View
                 ProduktId = idProdukt
             };
 
-             _worker = new BackgroundWorker();
+            _worker = new BackgroundWorker();
             _worker.DoWork += _worker_DoWork;
             _worker.RunWorkerCompleted += _worker_RunWorkerCompleted;
         }
