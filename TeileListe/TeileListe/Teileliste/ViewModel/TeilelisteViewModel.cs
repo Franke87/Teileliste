@@ -148,16 +148,16 @@ namespace TeileListe.Teileliste.ViewModel
             get { return _selectedFahrrad; }
             set
             {
+                if (IsDirty)
+                {
+                    if (HilfsFunktionen.ShowQuestionBox(Application.Current.MainWindow, "Teileliste"))
+                    {
+                        Sichern();
+                    }
+                }
+
                 if (SetProperty("SelectedFahrrad", ref _selectedFahrrad, value))
                 {
-                    if (IsDirty)
-                    {
-                        if (HilfsFunktionen.ShowQuestionBox(Application.Current.MainWindow, "Teileliste"))
-                        {
-                            Sichern();
-                        }
-                    }
-                    
                     Dispatcher.CurrentDispatcher.BeginInvoke(new Action(Zuruecksetzen),
                                                         DispatcherPriority.ApplicationIdle);
                 } 
