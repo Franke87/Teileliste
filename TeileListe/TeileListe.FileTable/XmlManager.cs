@@ -237,29 +237,29 @@ namespace TeileListe.Table
             }
             else
             {
-                foreach(var datei in dateiliste)
+                foreach (var datei in dateiliste)
                 {
                     if (!File.Exists(Path.Combine("Daten", komponenteGuid, datei.Guid + "." + datei.Dateiendung)))
                     {
                         File.Copy(Path.Combine("Daten", "Temp", datei.Guid + "." + datei.Dateiendung),
                                     Path.Combine("Daten", komponenteGuid, datei.Guid + "." + datei.Dateiendung));
                     }
+                }
 
-                    SaveTeile(string.Format(DateilisteXmlFile, komponenteGuid), dateiliste);
+                SaveTeile(string.Format(DateilisteXmlFile, komponenteGuid), dateiliste);
 
-                    try
+                try
+                {
+                    foreach (var item in dateiliste)
                     {
-                        foreach (var item in dateiliste)
+                        if (File.Exists(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung)))
                         {
-                            if (File.Exists(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung)))
-                            {
-                                File.Delete(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung));
-                            }
+                            File.Delete(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung));
                         }
                     }
-                    catch (Exception)
-                    {
-                    }
+                }
+                catch (Exception)
+                {
                 }
             }
         }
