@@ -700,7 +700,7 @@ namespace TeileListe.Teileliste.ViewModel
                 }
             }
 
-            SelectedFahrradVariabel = FahrradListe.FirstOrDefault(x => x == SelectedFahrrad);
+            SelectedFahrradVariabel = FahrradListe.FirstOrDefault(x => x == SelectedFahrrad).Name;
 
             UpdateResteKisteProperties();
             UpdateWunschlisteProperties();
