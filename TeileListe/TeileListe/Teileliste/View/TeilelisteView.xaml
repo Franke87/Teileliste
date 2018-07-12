@@ -6,7 +6,7 @@
         xmlns:teilelisteUserControl="clr-namespace:TeileListe.Teileliste.UserControl"
         xmlns:szenarioControl="clr-namespace:TeileListe.Szenariorechner.UserControl"
         xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="{Binding TitelText}" MinWidth="950" Width="1080" MinHeight="725" Height="768">
     <Window.Resources>

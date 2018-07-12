@@ -134,7 +134,7 @@ namespace TeileListe.Exporter.ViewModel
                     {
                         Komponente = komponente.Komponente,
                         Guid = komponente.Guid,
-                        AnzeigeText = komponente.Hersteller + komponente.Beschreibung
+                        AnzeigeText = komponente.Hersteller + " " + komponente.Beschreibung
                     };
 
                     folderViewModel.PropertyChanged += ContentPropertyChanged;

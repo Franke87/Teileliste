@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TeileListe.Common.Dto;
 
 namespace TeileListe.Common.Interface
 {
     public interface IDbManager : ITeileListeInterface
     {
-        void GetFahrraeder(ref List<string> liste);
-        void SaveFahrraeder(List<string> liste);
-        void DeleteFahrrad(string nameFahrrad);
+        void GetFahrraeder(ref List<FahrradDto> liste);
+        void SaveFahrraeder(List<FahrradDto> liste);
+        void DeleteFahrrad(FahrradDto nameFahrrad);
 
-        void GetKomponente(string nameFahrrad, ref List<KomponenteDto> collection);
-        void SaveKomponente(string nameFahrrad, List<KomponenteDto> collection);
-        void DeleteKomponenten(string nameFahrrad, List<LoeschenDto> deletedItems);
+        void DeleteTeile(List<LoeschenDto> deletedItems);
+
+        void GetKomponente(string fahrradGuid, ref List<KomponenteDto> collection);
+        void SaveKomponente(string fahrradGuid, List<KomponenteDto> collection);
 
         void GetEinzelteile(ref List<RestteilDto> liste);
         void SaveEinzelteile(List<RestteilDto> liste);
-        void DeleteEinzelteile(List<LoeschenDto> deletedItems);
 
         void GetWunschteile(ref List<WunschteilDto> liste);
         void SaveWunschteile(List<WunschteilDto> liste);
-        void DeleteWunschteile(List<LoeschenDto> deletedItems);
 
         void GetDatenbankDaten(ref List<DatenbankDto> datenbanken);
         void SaveDatenbankDaten(List<DatenbankDto> datenbanken);
-        void SaveDefaultDatenbank(string datenbank);
 
         void GetDateiInfos(string komponenteGuid, ref List<DateiDto> dateiListe);
         void SaveDateiInfos(string komponenteGuid, List<DateiDto> dateiListe);
@@ -33,5 +30,8 @@ namespace TeileListe.Common.Interface
         void GetDateiKategorien(ref List<string> liste);
         void SaveDateiKategorien(List<string> liste);
         void DeleteDateiKategorien(List<string> deletedItems);
+
+        bool KonvertierungErforderlich();
+        bool Konvertiere();
     }
 }

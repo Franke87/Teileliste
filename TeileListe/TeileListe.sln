@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeileListe", "TeileListe\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeileListe.Common", "TeileListe.Common\TeileListe.Common.csproj", "{E500FA1C-9FA3-4978-A384-3297E58011F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeileListe.IniFile", "TeileListe.FileTable\TeileListe.IniFile.csproj", "{B0A38F81-16CE-42F5-815F-CEE1C769E0CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeileListe.XmlFile", "TeileListe.FileTable\TeileListe.XmlFile.csproj", "{B0A38F81-16CE-42F5-815F-CEE1C769E0CB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeileListe.Exporter", "TeileListe.Exporter\TeileListe.Exporter.csproj", "{A2D68520-C8B4-41DF-A39C-ACB329E07B49}"
 	ProjectSection(ProjectDependencies) = postProject

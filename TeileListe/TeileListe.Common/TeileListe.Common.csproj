@@ -60,6 +60,7 @@
     <Compile Include="Dto\DateiVerzeichnisEintragDto.cs" />
     <Compile Include="Dto\DatenbankDto.cs" />
     <Compile Include="Dto\EinzelteilExportDto.cs" />
+    <Compile Include="Dto\FahrradDto.cs" />
     <Compile Include="Dto\LoeschenDto.cs" />
     <Compile Include="Dto\RestteilDto.cs" />
     <Compile Include="Dto\KomponenteDto.cs" />

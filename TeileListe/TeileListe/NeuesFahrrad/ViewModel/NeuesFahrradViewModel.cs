@@ -11,7 +11,6 @@ namespace TeileListe.NeuesFahrrad.ViewModel
         #region Properties
 
         public bool IsOk { get; set; }
-        public string Blacklist { get; set; }
 
         private bool _hasError;
         public bool HasError
@@ -62,9 +61,8 @@ namespace TeileListe.NeuesFahrrad.ViewModel
 
         #endregion
 
-        internal NeuesFahrradViewModel(string blacklist)
+        internal NeuesFahrradViewModel()
         {
-            Blacklist = blacklist;
             OnOkCommand = new MyCommand(OnOkFunc);
             OnFileSelect = new MyCommand(OpenFile);
             HasError = true;
@@ -73,7 +71,7 @@ namespace TeileListe.NeuesFahrrad.ViewModel
 
         internal bool HasValidationError()
         {
-            bool hasError = string.IsNullOrWhiteSpace(_name) || Blacklist.Contains(";" + _name + ";");
+            bool hasError = string.IsNullOrWhiteSpace(_name);
             if (!hasError && !NeuesFahrradAusgewaehlt)
             {
                 hasError = string.IsNullOrWhiteSpace(Datei) || !(Datei.EndsWith(".csv") || Datei.EndsWith(".zip"));

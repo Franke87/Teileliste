@@ -213,7 +213,7 @@ namespace TeileListe.Restekiste.ViewModel
 
         public void Sichern()
         {
-            PluginManager.DbManager.DeleteEinzelteile(_deletedItems);
+            PluginManager.DbManager.DeleteTeile(_deletedItems);
             _deletedItems.Clear();
             PluginManager.DbManager.SaveEinzelteile(ResteListe.Select(item => new RestteilDto
                                     {

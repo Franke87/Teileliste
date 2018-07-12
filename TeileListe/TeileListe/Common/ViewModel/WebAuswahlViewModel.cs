@@ -309,16 +309,25 @@ namespace TeileListe.Common.ViewModel
 
         private void SaveDatenbanken()
         {
-            _datenbanken.ForEach(item => item.IsDefault = false);
-            _datenbanken.Find(item => item.Datenbank == AusgewaelteDatenbank).IsDefault = true;
+            bool defaultChanged = false;
 
-            if (_apiTokenChanged)
+            foreach (var datenbank in _datenbanken)
             {
+                if(datenbank.Datenbank == AusgewaelteDatenbank && !datenbank.IsDefault)
+                {
+                    defaultChanged = true;
+                    break;
+                }
+            }
+
+            if (_apiTokenChanged || defaultChanged)
+            {
+                _datenbanken.ForEach(item => item.IsDefault = false);
+                _datenbanken.Find(item => item.Datenbank == AusgewaelteDatenbank).IsDefault = true;
+
                 PluginManager.DbManager.SaveDatenbankDaten(_datenbanken);
                 _apiTokenChanged = false;
             }
-
-            PluginManager.DbManager.SaveDefaultDatenbank(AusgewaelteDatenbank);
         }
 
         private string GetSelectedKategorie(KategorienViewModel viewModel)

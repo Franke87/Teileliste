@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using TeileListe.Common.Dto;
@@ -18,19 +16,6 @@ namespace TeileListe.Table
                                                             StringBuilder lpReturnedString,
                                                             int nSize, 
                                                             string lpFileName);
-
-        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)] 
-        private static extern bool WritePrivateProfileString(string section, 
-                                                                string key,
-                                                                string value, 
-                                                                string filePath);
-
-        [DllImport("kernel32")]
-        private static extern long WritePrivateProfileSection(string section,
-                                                                string val, 
-                                                                string filePath);
-
 
         #endregion
 
@@ -66,17 +51,6 @@ namespace TeileListe.Table
             } while (!string.IsNullOrWhiteSpace(buffer.ToString().Trim()));
         }
 
-        public void SaveFahrraeder(List<string> liste)
-        {
-            WritePrivateProfileSection("Fahrraeder", null, MainFile);
-            var count = 1;
-
-            foreach (var item in liste)
-            {
-                WritePrivateProfileString("Fahrraeder", string.Format("{0}", count++), item, MainFile);
-            }
-        }
-
         public void GetKomponenteIds(string nameFahrrad, ref List<KomponenteDto> collection)
         {
             var buffer = new StringBuilder(254);
@@ -98,95 +72,6 @@ namespace TeileListe.Table
             if (collection.Count > 0)
             {
                 CompleteList(nameFahrrad, ref collection);
-            }
-        }
-
-        public void DeleteKomponenten(string nameFahrrad, List<LoeschenDto> deletedItems)
-        {
-            foreach (var item in deletedItems)
-            {
-                WritePrivateProfileSection(nameFahrrad.PadRight(32) + item.Guid, null, MainFile);
-
-                if(item.DokumenteLoeschen)
-                {
-                    try
-                    {
-                        if (Directory.Exists(Path.Combine("Daten", item.Guid)))
-                        {
-                            Directory.Delete(Path.Combine("Daten", item.Guid), true);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-            }
-        }
-
-        public void SaveKomponenten(string nameFahrrad, List<KomponenteDto> collection)
-        {
-            WritePrivateProfileSection(nameFahrrad.PadRight(32) + "Komponenten", null, MainFile);
-            var count = 1;
-
-            foreach (var item in collection)
-            {
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + "Komponenten", 
-                                            string.Format("{0}", count++), 
-                                            item.Guid, 
-                                            MainFile);
-                WritePrivateProfileSection(nameFahrrad.PadRight(32) + item.Guid, null, MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid, 
-                                            "Komponente", 
-                                            item.Komponente, 
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid,
-                                            "Hersteller",
-                                            item.Hersteller,
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid, 
-                                            "Beschreibung", 
-                                            item.Beschreibung, 
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid,
-                                            "Groesse",
-                                            item.Groesse,
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid,
-                                            "Jahr",
-                                            item.Jahr,
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid, 
-                                            "Shop", 
-                                            item.Shop, 
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid, 
-                                            "Link", 
-                                            item.Link, 
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid,
-                                            "DatenbankId",
-                                            item.DatenbankId,
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid,
-                                            "DatenbankLink",
-                                            item.DatenbankLink,
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid, 
-                                            "Gewicht", 
-                                            string.Format("{0}", item.Gewicht), 
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid, 
-                                            "Preis", 
-                                            string.Format("{0}", item.Preis), 
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid, 
-                                            "Gekauft", 
-                                            item.Gekauft ? "1" : "0", 
-                                            MainFile);
-                WritePrivateProfileString(nameFahrrad.PadRight(32) + item.Guid, 
-                                            "Gewogen", 
-                                            item.Gewogen ? "1" : "0", 
-                                            MainFile);
             }
         }
 
@@ -214,79 +99,6 @@ namespace TeileListe.Table
             }
         }
 
-        public void DeleteEinzelteile(List<LoeschenDto> deletedItems)
-        {
-            foreach (var item in deletedItems)
-            {
-                WritePrivateProfileSection(item.Guid, null, RestekisteFile);
-
-                if (item.DokumenteLoeschen)
-                {
-                    try
-                    {
-                        if (Directory.Exists(Path.Combine("Daten", item.Guid)))
-                        {
-                            Directory.Delete(Path.Combine("Daten", item.Guid), true);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-            }
-        }
-
-        public void SaveEinzelteile(List<RestteilDto> collection)
-        {
-            WritePrivateProfileSection("Einzelteile", null, RestekisteFile);
-            var count = 1;
-
-            foreach (var item in collection)
-            {
-                WritePrivateProfileString("Einzelteile", 
-                                            string.Format("{0}", count++), 
-                                            item.Guid, 
-                                            RestekisteFile);
-                WritePrivateProfileSection(item.Guid, null, RestekisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Einzelteil",
-                                            item.Komponente,
-                                            RestekisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Hersteller",
-                                            item.Hersteller,
-                                            RestekisteFile);
-                WritePrivateProfileString(item.Guid, 
-                                            "Beschreibung", 
-                                            item.Beschreibung, 
-                                            RestekisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Groesse",
-                                            item.Groesse,
-                                            RestekisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Jahr",
-                                            item.Jahr,
-                                            RestekisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "DatenbankId",
-                                            item.DatenbankId,
-                                            RestekisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "DatenbankLink",
-                                            item.DatenbankLink,
-                                            RestekisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Preis",
-                                            string.Format("{0}", item.Preis),
-                                            RestekisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Gewicht",
-                                            string.Format("{0}", item.Gewicht),
-                                            RestekisteFile);
-            }
-        }
-
         public void GetWunschteileIds(ref List<WunschteilDto> collection)
         {
             var buffer = new StringBuilder(254);
@@ -308,87 +120,6 @@ namespace TeileListe.Table
             if (collection.Count > 0)
             {
                 CompleteWunschteileListe(ref collection);
-            }
-        }
-
-        public void DeleteWunschteile(List<LoeschenDto> deletedItems)
-        {
-            foreach (var item in deletedItems)
-            {
-                WritePrivateProfileSection(item.Guid, null, WunschlisteFile);
-
-                if (item.DokumenteLoeschen)
-                {
-                    try
-                    {
-                        if (Directory.Exists(Path.Combine("Daten", item.Guid)))
-                        {
-                            Directory.Delete(Path.Combine("Daten", item.Guid), true);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-            }
-        }
-
-        public void SaveWunschteile(List<WunschteilDto> collection)
-        {
-            WritePrivateProfileSection("Wunschteile", null, WunschlisteFile);
-            var count = 1;
-
-            foreach (var item in collection)
-            {
-                WritePrivateProfileString("Wunschteile",
-                                            string.Format("{0}", count++),
-                                            item.Guid,
-                                            WunschlisteFile);
-                WritePrivateProfileSection(item.Guid, null, WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Komponente",
-                                            item.Komponente,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Hersteller",
-                                            item.Hersteller,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Beschreibung",
-                                            item.Beschreibung,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Groesse",
-                                            item.Groesse,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Jahr",
-                                            item.Jahr,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Shop",
-                                            item.Shop,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Link",
-                                            item.Link,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "DatenbankId",
-                                            item.DatenbankId,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "DatenbankLink",
-                                            item.DatenbankLink,
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Preis",
-                                            string.Format("{0}", item.Preis),
-                                            WunschlisteFile);
-                WritePrivateProfileString(item.Guid,
-                                            "Gewicht",
-                                            string.Format("{0}", item.Gewicht),
-                                            WunschlisteFile);
             }
         }
 
@@ -436,27 +167,6 @@ namespace TeileListe.Table
             }
         }
 
-        public void SaveDatenbankDaten(List<DatenbankDto> datenbanken)
-        {
-            WritePrivateProfileSection("DatenbankApi", null, DatenbankFile);
-
-            foreach (var datenbank in datenbanken)
-            {
-                WritePrivateProfileString("DatenbankApi",
-                                            datenbank.Datenbank,
-                                            datenbank.ApiToken,
-                                            DatenbankFile);
-            }
-        }
-
-        public void SaveDefaultDatenbank(string defaultDatenbank)
-        {
-            WritePrivateProfileString("DatenbankApi",
-                                        "Default",
-                                        defaultDatenbank,
-                                        DatenbankFile);
-        }
-
         public void GetDateiInfos(string komponenteGuid, ref List<DateiDto> dateiListe)
         {
             var buffer = new StringBuilder(254);
@@ -481,118 +191,6 @@ namespace TeileListe.Table
             }
         }
 
-        public void SaveDateiInfos(string komponenteGuid, List<DateiDto> dateiListe)
-        {
-            if(!Directory.Exists(Path.Combine("Daten", komponenteGuid)))
-            {
-                Directory.CreateDirectory(Path.Combine("Daten", komponenteGuid));
-            }
-
-            WritePrivateProfileSection("Dateien", null, string.Format(DateilisteFile, komponenteGuid));
-            var count = 1;
-
-            if (dateiListe.Count == 0)
-            {
-                try
-                {
-                    if (File.Exists(string.Format(DateilisteFile, komponenteGuid)))
-                    {
-                        File.Delete(string.Format(DateilisteFile, komponenteGuid));
-                    }
-                    if (Directory.Exists(Path.Combine("Daten", komponenteGuid)))
-                    {
-                        Directory.Delete(Path.Combine("Daten", komponenteGuid));
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
-            else
-            {
-                foreach (var item in dateiListe)
-                {
-                    if (!File.Exists(Path.Combine("Daten", komponenteGuid, item.Guid + "." + item.Dateiendung)))
-                    {
-                        File.Copy(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung),
-                                    Path.Combine("Daten", komponenteGuid, item.Guid + "." + item.Dateiendung));
-                    }
-
-                    WritePrivateProfileString("Dateien", string.Format("{0}", count++), item.Guid, string.Format(DateilisteFile, komponenteGuid));
-                    WritePrivateProfileSection(item.Guid, null, string.Format(DateilisteFile, komponenteGuid));
-                    WritePrivateProfileString(item.Guid,
-                                                "Kategorie",
-                                                item.Kategorie,
-                                                string.Format(DateilisteFile, komponenteGuid));
-                    WritePrivateProfileString(item.Guid,
-                                                "Beschreibung",
-                                                item.Beschreibung,
-                                                string.Format(DateilisteFile, komponenteGuid));
-                    WritePrivateProfileString(item.Guid,
-                                                "Dateiendung",
-                                                item.Dateiendung,
-                                                string.Format(DateilisteFile, komponenteGuid));
-                }
-
-                try
-                {
-                    foreach (var item in dateiListe)
-                    {
-                        if (File.Exists(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung)))
-                        {
-                            File.Delete(Path.Combine("Daten", "Temp", item.Guid + "." + item.Dateiendung));
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
-        }
-
-        public void DeleteDateiInfos(string komponenteGuid, List<string> deletedItems)
-        {
-            foreach (var item in deletedItems)
-            {
-                var dateiName = Path.Combine("Daten", komponenteGuid, item);
-                if(File.Exists(dateiName))
-                {
-                    using (var file = File.Open(dateiName, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
-                    {
-                        file.Close();
-                    }
-                }
-                else
-                {
-                    dateiName = Path.Combine("Daten", "Temp", item);
-                    using (var file = File.Open(dateiName, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
-                    {
-                        file.Close();
-                    }
-                }
-            }
-
-            foreach (var item in deletedItems)
-            {
-                var dateiName = Path.Combine("Daten", komponenteGuid, item);
-                if (File.Exists(dateiName))
-                {
-                    File.Delete(dateiName);
-                }
-                else
-                {
-                    dateiName = Path.Combine("Daten", "Temp", item);
-                    if (File.Exists(dateiName))
-                    {
-                        File.Delete(dateiName);
-                    }
-                }
-
-                var guid = Path.GetFileNameWithoutExtension(item);
-                WritePrivateProfileSection(guid, null, string.Format(DateilisteFile, komponenteGuid));
-            }
-        }
-
         public void GetDateiKategorien(ref List<string> liste)
         {
             var buffer = new StringBuilder(254);
@@ -612,20 +210,6 @@ namespace TeileListe.Table
                     liste.Add(buffer.ToString().Trim());
                 }
             } while (!string.IsNullOrWhiteSpace(buffer.ToString().Trim()));
-        }
-
-        public void SaveDateiKategorien(List<string> liste)
-        {
-            WritePrivateProfileSection("Kategorien", null, KategorieFile);
-            var count = 1;
-
-            foreach (var item in liste)
-            {
-                if (item != "Gewichtsmessung")
-                {
-                    WritePrivateProfileString("Kategorien", string.Format("{0}", count++), item, KategorieFile);
-                }
-            }
         }
 
         #endregion
@@ -740,34 +324,13 @@ namespace TeileListe.Table
 
         #endregion
 
-        internal void Initialize()
+        internal List<string> GetDateiListe()
         {
-            if (!Directory.Exists("Daten"))
-            {
-                Directory.CreateDirectory("Daten");
-            }
-
-            if (Directory.Exists("Daten\\Temp"))
-            {
-                try
-                {
-                    Directory.Delete("Daten\\Temp", true);
-                }
-                catch (Exception)
-                {
-                }
-            }
-
-            if (!Directory.Exists("Daten\\Temp"))
-            {
-                Directory.CreateDirectory("Daten\\Temp");
-            }
-
-            if (!File.Exists(KategorieFile))
-            {
-                WritePrivateProfileString("Kategorien", "1", "Rechnung", KategorieFile);
-                WritePrivateProfileString("Kategorien", "2", "Artikelfoto", KategorieFile);
-            }
+            return new List<string> { MainFile,
+                                        RestekisteFile,
+                                        WunschlisteFile,
+                                        DatenbankFile,
+                                        KategorieFile  };
         }
     }
 }
