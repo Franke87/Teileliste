@@ -11,7 +11,7 @@ namespace TeileListe.Classes
         public static IExportManager ExportManager;
         public static IDbManager DbManager;
 
-        public static string Version { get { return "v1.04"; } }
+        public static string Version { get { return "v1.05"; } }
 
         internal static bool InitPlugins()
         {

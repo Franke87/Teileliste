@@ -8,12 +8,12 @@ namespace TeileListe.Table
     {
         private readonly XmlManager _xmlManager;
 
-        public string InterfaceVersion { get { return "v1.04"; } }
+        public string InterfaceVersion { get { return "v1.05"; } }
 
         public DbManager()
         {
             _xmlManager = new XmlManager();
-            _xmlManager.Initialize(InterfaceVersion);
+            _xmlManager.Initialize(InterfaceVersion, false);
         }
 
         public void GetFahrraeder(ref List<FahrradDto> fahrraeder)
@@ -110,7 +110,7 @@ namespace TeileListe.Table
         {
             using (var converter = new DbConverter())
             {
-                return converter.KonvertiereungErforderlich();
+                return converter.KonvertierungErforderlich(InterfaceVersion);
             }
         }
 

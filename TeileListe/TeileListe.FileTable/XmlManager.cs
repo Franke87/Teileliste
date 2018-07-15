@@ -26,39 +26,42 @@ namespace TeileListe.Table
 
         #region Functions
 
-        internal void Initialize(string version)
+        internal void Initialize(string version, bool updateModus)
         {
             _version = version;
 
-            if (!Directory.Exists("Daten"))
+            if(!updateModus)
             {
-                Directory.CreateDirectory("Daten");
-            }
-
-            if (Directory.Exists("Daten\\Temp"))
-            {
-                try
+                if (!Directory.Exists("Daten"))
                 {
-                    Directory.Delete("Daten\\Temp", true);
+                    Directory.CreateDirectory("Daten");
                 }
-                catch (Exception)
+
+                if (Directory.Exists("Daten\\Temp"))
                 {
+                    try
+                    {
+                        Directory.Delete("Daten\\Temp", true);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
-            }
 
-            if (!Directory.Exists("Daten\\Temp"))
-            {
-                Directory.CreateDirectory("Daten\\Temp");
-            }
+                if (!Directory.Exists("Daten\\Temp"))
+                {
+                    Directory.CreateDirectory("Daten\\Temp");
+                }
 
-            if (!File.Exists(KategorieXmlFile))
-            {
-                SaveDateiKategorien(new List<string> { "Rechnung", "Artikelfoto" });
-            }
+                if (!File.Exists(KategorieXmlFile))
+                {
+                    SaveDateiKategorien(new List<string> { "Rechnung", "Artikelfoto" });
+                }
 
-            if(!File.Exists(FahrraederXmlFile))
-            {
-                SaveFahrraeder(new List<FahrradDto>());
+                if (!File.Exists(FahrraederXmlFile))
+                {
+                    SaveFahrraeder(new List<FahrradDto>());
+                }
             }
         }
 
@@ -98,19 +101,48 @@ namespace TeileListe.Table
             }
         }
 
-        private void GetTeile<T>(string fileName, ref List<T> teile)
+        private string GetTeile<T>(string fileName, ref List<T> teile)
         {
+            var version = string.Empty;
+
             if(File.Exists(fileName))
             {
                 using (var streamReader = new StreamReader(fileName, Encoding.Default))
                 {
                     var serializer = new XmlSerializer(typeof(Dto.XmlBaseClass<T>));
 
-                    teile.AddRange(((Dto.XmlBaseClass<T>)serializer.Deserialize(streamReader)).Daten);
+                    var dbObject = (Dto.XmlBaseClass<T>)serializer.Deserialize(streamReader);
+
+                    teile.AddRange(dbObject.Daten);
+
+                    version = dbObject.Version;
 
                     streamReader.Close();
                 }
             }
+
+            return version;
+        }
+
+        internal List<string> GetDateiListe()
+        {
+            return new List<string> { FahrraederXmlFile,
+                                        KomponentenXmlFile,
+                                        RestekisteXmlFile,
+                                        WunschlisteXmlFile,
+                                        DatenbankXmlFile,
+                                        KategorieXmlFile };
+        }
+
+        internal bool KonvertierungErforderlich()
+        {
+            var fahrradListe = new List<FahrradDto>();
+            var fahrradVersion = GetTeile(FahrraederXmlFile, ref fahrradListe);
+
+            var kategorienListe = new List<string>();
+            var kategorienVersion = GetTeile(KategorieXmlFile, ref kategorienListe);
+
+            return fahrradVersion != _version || kategorienVersion != _version;
         }
 
         #endregion

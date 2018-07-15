@@ -36,7 +36,6 @@
     <Compile Include="DbConverter.cs" />
     <Compile Include="DbManager.cs" />
     <Compile Include="Dto\XmlBaseClass.cs" />
-    <Compile Include="IniReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlManager.cs" />
   </ItemGroup>

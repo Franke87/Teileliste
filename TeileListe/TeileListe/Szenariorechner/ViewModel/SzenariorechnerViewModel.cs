@@ -18,10 +18,10 @@ namespace TeileListe.Szenariorechner.ViewModel
             set { SetProperty("VergleichsListe", ref _vergleichsListe, value); }
         }
 
-        public SzenariorechnerViewModel(List<KomponenteViewModel> list, string alternative)
+        public SzenariorechnerViewModel(List<KomponenteViewModel> list, FahrradDto alternative)
         {
             var liste = new List<KomponenteDto>();
-            PluginManager.DbManager.GetKomponente(alternative, ref liste);
+            PluginManager.DbManager.GetKomponente(alternative.Guid, ref liste);
 
             VergleichsListe = new ObservableCollection<SzenarioKomponenteViewModel>();
 

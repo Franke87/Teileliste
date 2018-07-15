@@ -194,8 +194,8 @@ namespace TeileListe.Teileliste.ViewModel
             set { IsDirty = SetProperty("KomponentenListe", ref _komponentenListe, value); }
         }
 
-        private string _selectedFahrradVariabel;
-        public string SelectedFahrradVariabel
+        private FahrradDto _selectedFahrradVariabel;
+        public FahrradDto SelectedFahrradVariabel
         {
             get { return _selectedFahrradVariabel; }
             set { SetProperty("SelectedFahrradVariabel", ref _selectedFahrradVariabel, value); }
@@ -225,6 +225,7 @@ namespace TeileListe.Teileliste.ViewModel
             RestekisteCommand = new MyParameterCommand<Window>(Restekiste);
             WunschlisteCommand = new MyParameterCommand<Window>(Wunschliste);
             NeuesFahrradCommand = new MyParameterCommand<Window>(OnNeuesFahrrad);
+            VergleichenCommand = new MyParameterCommand<Window>(OnVergleichen);
             
             var liste = new List<FahrradDto>();
             PluginManager.DbManager.GetFahrraeder(ref liste);
@@ -244,16 +245,6 @@ namespace TeileListe.Teileliste.ViewModel
         #endregion
 
         #region Commandfunktionen
-
-        private void SichernButtonMessung()
-        {
-            PerformanceHelper.Messung(Sichern, "Sichernbutton", 10);
-        }
-
-        private void HinzufuegenButtonMessung()
-        {
-            PerformanceHelper.Messung(Zuruecksetzen, "Zurücksetzenbutton", 10);
-        }
 
         private void OnVergleichen(Window window)
         {
@@ -700,7 +691,7 @@ namespace TeileListe.Teileliste.ViewModel
                 }
             }
 
-            SelectedFahrradVariabel = FahrradListe.FirstOrDefault(x => x == SelectedFahrrad).Name;
+            SelectedFahrradVariabel = FahrradListe.FirstOrDefault(x => x == SelectedFahrrad);
 
             UpdateResteKisteProperties();
             UpdateWunschlisteProperties();

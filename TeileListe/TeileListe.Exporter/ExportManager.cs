@@ -17,7 +17,7 @@ namespace TeileListe.Exporter
 {
     public class ExportManager : IExportManager
     {
-        public string InterfaceVersion { get { return "v1.04"; } }
+        public string InterfaceVersion { get { return "v1.05"; } }
 
         public void Dispose()
         {
