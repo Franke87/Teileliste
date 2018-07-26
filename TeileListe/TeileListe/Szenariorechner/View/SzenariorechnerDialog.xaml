@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converter="clr-namespace:TeileListe.Converter"
         xmlns:classes="clr-namespace:TeileListe.Classes"
+        xmlns:usercontrol="clr-namespace:TeileListe.Common.UserControl"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"
@@ -66,8 +67,10 @@
                   SelectionMode="Single">
                     <DataGrid.Resources>
                         <classes:BindingProxy x:Key="ProxyElement" Data="{Binding}" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="White"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CBE8F6" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#F6F6F6" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
                     </DataGrid.Resources>
                     <DataGrid.CellStyle>
                         <Style TargetType="DataGridCell">
@@ -179,7 +182,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="1*" MinWidth="200" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="1*" MinWidth="200" />
+                    <ColumnDefinition Width="2*" MinWidth="400" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" >
                     <Grid.RowDefinitions>
@@ -290,11 +293,11 @@
                                     <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" >
                                         <TextBlock.ToolTip>
                                             <TextBlock>
-                                        <Run Text="{Binding Komponente}" />
-                                        <Run Text="{Binding AnzeigeName}" />
+                                                <Run Text="{Binding Komponente}" />
+                                                <Run Text="{Binding AnzeigeName}" />
                                             </TextBlock>
                                         </TextBlock.ToolTip>
-                            </TextBlock>
+                                    </TextBlock>
                                     <TextBlock Grid.Column="1" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
                                     <TextBlock Grid.Column="2" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
                                 </Grid>
@@ -304,7 +307,12 @@
                 </Grid>
                 <GridSplitter Grid.Column="3" Width="5" Margin="0,0,10,10" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                 <Grid Grid.Column="4" >
-                    <TextBlock Opacity="0.4" Text="Gewichtsdatenbank" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Opacity="0.4" Grid.Row="0" Text="Gewichtsdatenbank" />
+                    <usercontrol:WebAuswahlControl  DataContext="{Binding DatenbankViewModel}" Grid.Row="1" Margin="0,0,10,10" />
                 </Grid>
             </Grid>
         </Grid>

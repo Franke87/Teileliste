@@ -6,6 +6,7 @@ using System.Windows.Data;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
+using TeileListe.Common.ViewModel;
 
 namespace TeileListe.Szenariorechner.ViewModel
 {
@@ -16,6 +17,8 @@ namespace TeileListe.Szenariorechner.ViewModel
         public int GesamtGewicht { get { return VergleichsListe.Sum(x => x.Gewicht); } }
 
         public int GesamtDifferenz { get { return VergleichsListe.Sum(x => x.Differenz); } }
+
+        public WebAuswahlViewModel DatenbankViewModel { get; set; }
 
         private SzenarioKomponenteViewModel _selectedKomponente;
         public SzenarioKomponenteViewModel SelectedKomponente
@@ -174,6 +177,17 @@ namespace TeileListe.Szenariorechner.ViewModel
 
             AlleWunschteile = CollectionViewSource.GetDefaultView(Wunschliste);
             AlleWunschteile.Filter = TeileFilter;
+
+            var datenbanken = new List<DatenbankDto>
+            {
+                new DatenbankDto { Datenbank = "mtb-news.de"},
+                new DatenbankDto { Datenbank = "rennrad-news.de"}
+            };
+
+            PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
+
+            DatenbankViewModel = new WebAuswahlViewModel(datenbanken, true);
+            // DatenbankViewModel.PropertyChanged += ContentPropertyChanged;
         }
     }
 }
