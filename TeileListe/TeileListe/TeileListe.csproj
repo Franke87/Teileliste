@@ -146,6 +146,7 @@
     <Compile Include="Szenariorechner\UserControl\SzenarioPreviewControl.xaml.cs">
       <DependentUpon>SzenarioPreviewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Szenariorechner\ViewModel\SzenarioAlternativeViewModel.cs" />
     <Compile Include="Szenariorechner\ViewModel\SzenarioKomponenteViewModel.cs" />
     <Compile Include="Szenariorechner\ViewModel\SzenariorechnerViewModel.cs" />
     <Compile Include="Szenariorechner\View\SzenariorechnerDialog.xaml.cs">

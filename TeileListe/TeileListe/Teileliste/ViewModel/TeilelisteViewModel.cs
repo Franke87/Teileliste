@@ -248,7 +248,7 @@ namespace TeileListe.Teileliste.ViewModel
 
         private void OnVergleichen(Window window)
         {
-            var viewModel = new SzenariorechnerViewModel(KomponentenListe.ToList(), 
+            var viewModel = new SzenariorechnerViewModel(SelectedFahrrad, 
                                                             SelectedFahrradVariabel);
             var dialog = new SzenariorechnerDialog(window);
             dialog.DataContext = viewModel;

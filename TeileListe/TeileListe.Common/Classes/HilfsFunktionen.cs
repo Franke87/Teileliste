@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Windows;
+using TeileListe.Common.Dto;
 using TeileListe.Common.View;
 
 namespace TeileListe.Common.Classes
@@ -11,6 +12,14 @@ namespace TeileListe.Common.Classes
         public static string GetValidFileName(string fileName)
         {
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c, '_'));
+        }
+
+        public static string GetAnzeigeName(RestteilDto teil)
+        {
+            return GetAnzeigeName(teil.Hersteller,
+                                    teil.Beschreibung,
+                                    teil.Groesse,
+                                    teil.Jahr);
         }
 
         public static string GetAnzeigeName(string hersteller,
