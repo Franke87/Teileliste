@@ -6,6 +6,7 @@
              xmlns:viewModel="clr-namespace:TeileListe.Common.ViewModel"
              xmlns:converter="clr-namespace:TeileListe.Converter"
              xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
+             xmlns:usercontrol="clr-namespace:TeileListe.Common.UserControl"
              mc:Ignorable="d" 
               >
     <UserControl.Resources>
@@ -37,20 +38,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="140" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Margin="0,3,0,0" Text="Datenbank:" Grid.Column="0" />
-            <ComboBox Margin="10,0"  Grid.Column="1" ItemsSource="{Binding DatenbankQuellen}" SelectedItem="{Binding AusgewaelteDatenbank}" />
-            <TextBlock Text="API-Token:" Margin="0,3,0,0" Grid.Column="2" />
-            <TextBox Grid.Column="3" Height="23" Margin="10,0,0,0" Padding="0,2,0,0" Text="{Binding UserApiToken, Mode=TwoWay}" />
-            <Button Grid.Column="4" Margin="10,0,0,0" Content="Listen abrufen" Padding="10,0,10,0" Height="23" Command="{Binding OnAbrufenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-        </Grid>
+        <usercontrol:DatenbankHeader Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" />
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

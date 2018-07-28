@@ -92,6 +92,9 @@
     </Compile>
     <Compile Include="Classes\BindingProxy.cs" />
     <Compile Include="Classes\PluginManager.cs" />
+    <Compile Include="Common\UserControl\DatenbankHeader.xaml.cs">
+      <DependentUpon>DatenbankHeader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converter\DecimalToWeightConverter.cs" />
     <Compile Include="Converter\InverseEnumToVisibilityConverter.cs" />
     <Compile Include="DateiManager\UserControl\DateiBearbeitenControl.xaml.cs">
@@ -215,6 +218,10 @@
       <DependentUpon>WunschlisteDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="API\View\UploadWaitwindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UserControl\DatenbankHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
