@@ -10,8 +10,8 @@
         ShowInTaskbar="False"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Wunschliste" 
-        MinWidth="600" 
-        MinHeight="200" >
+        MinWidth="950" 
+        MinHeight="500" >
     <Window.Resources >
         <converter:CountToBoolConverter x:Key="CountToBoolConverter" />
     </Window.Resources>
