@@ -202,7 +202,8 @@ namespace TeileListe.Szenariorechner.ViewModel
                     AnzeigeName = HilfsFunktionen.GetAnzeigeName(restteil), 
                     Guid = restteil.Guid,
                     Differenz = 0,
-                    EinbauenAction = EinbauenRestekiste
+                    EinbauenAction = EinbauenRestekiste,
+                    TauschenAction = TauschenRestekiste
                 };
                 Restekiste.Add(vm);
             }
@@ -223,7 +224,8 @@ namespace TeileListe.Szenariorechner.ViewModel
                     AnzeigeName = HilfsFunktionen.GetAnzeigeName(wunschteil), 
                     Guid = wunschteil.Guid,
                     Differenz = 0,
-                    EinbauenAction = EinbauenWunschliste
+                    EinbauenAction = EinbauenWunschliste,
+                    TauschenAction = TauschenWunschliste
                 };
                 Wunschliste.Add(vm);
             }
@@ -249,14 +251,47 @@ namespace TeileListe.Szenariorechner.ViewModel
             var wunschteil = Wunschliste.First(teil => teil.Guid == guid);
             if (wunschteil != null)
             {
+                VergleichsListe.Add(new SzenarioKomponenteViewModel()
+                {
+                    Komponente = wunschteil.Komponente,
+                    Beschreibung = null,
+                    Gewicht = 0,
+                    Alternative = wunschteil.AnzeigeName,
+                    Differenz = wunschteil.Gewicht
+                });
+                Wunschliste.Remove(wunschteil);
+            }
+        }
+
+        private void EinbauenRestekiste(string guid)
+        {
+            var restteil = Restekiste.First(teil => teil.Guid == guid);
+            if (restteil != null)
+            {
+                VergleichsListe.Add(new SzenarioKomponenteViewModel()
+                {
+                    Komponente = restteil.Komponente,
+                    Beschreibung = null,
+                    Gewicht = 0,
+                    Alternative = restteil.AnzeigeName,
+                    Differenz = restteil.Gewicht
+                });
+                Restekiste.Remove(restteil);
+            }
+        }
+
+        private void TauschenWunschliste(string guid)
+        {
+            var wunschteil = Wunschliste.First(teil => teil.Guid == guid);
+            if (wunschteil != null)
+            {
                 SelectedKomponente.Alternative = wunschteil.AnzeigeName;
                 SelectedKomponente.Differenz = wunschteil.Differenz;
                 Wunschliste.Remove(wunschteil);
             }
-            UpdateProperty("VergleichsListe");
         }
 
-        private void EinbauenRestekiste(string guid)
+        private void TauschenRestekiste(string guid)
         {
             var restteil = Restekiste.First(teil => teil.Guid == guid);
             if (restteil != null)

@@ -18,17 +18,25 @@ namespace TeileListe.Szenariorechner.ViewModel
         }
 
         public MyCommand EinbauenCommand { get; set; }
+        public MyCommand TauschenCommand { get; set; }
 
         public Action<string> EinbauenAction { get; set; }
+        public Action<string> TauschenAction { get; set; }
 
         internal SzenarioAlternativeViewModel()
         {
             EinbauenCommand = new MyCommand(OnEinbauen);
+            TauschenCommand = new MyCommand(OnTauschen);
         }
 
         private void OnEinbauen()
         {
             EinbauenAction(Guid);
+        }
+
+        private void OnTauschen()
+        {
+            TauschenAction(Guid);
         }
     }
 }

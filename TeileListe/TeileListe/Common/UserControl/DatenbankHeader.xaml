@@ -15,7 +15,7 @@
         <TextBlock Margin="0,3,0,0" Text="Datenbank:" Grid.Column="0" />
         <ComboBox Margin="10,0"  Grid.Column="1" ItemsSource="{Binding DatenbankQuellen}" SelectedItem="{Binding AusgewaelteDatenbank}" />
         <TextBlock Text="API-Token:" Margin="0,3,0,0" Grid.Column="2" />
-        <TextBox Grid.Column="3" Height="23" Margin="10,0,0,0" Padding="0,2,0,0" Text="{Binding UserApiToken, Mode=TwoWay}" />
+        <TextBox Grid.Column="3" Height="23" Margin="10,0,0,0" HorizontalAlignment="Stretch" Padding="0,2,0,0" Text="{Binding UserApiToken, Mode=TwoWay}" />
         <Button Grid.Column="4" Margin="10,0,0,0" Content="Listen abrufen" Padding="10,0,10,0" Height="23" Command="{Binding OnAbrufenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
     </Grid>
 </UserControl>
