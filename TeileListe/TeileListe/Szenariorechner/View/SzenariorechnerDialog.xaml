@@ -17,6 +17,7 @@
     <Window.Resources>
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
         <converter:IntToForegroundConverter x:Key="IntToForegroundConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style x:Key="ColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}" >
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Template">
@@ -139,7 +140,7 @@
                     </DataGrid.Columns>
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
-                            <Grid >
+                            <Grid Background="WhiteSmoke" Visibility="{Binding ZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
@@ -189,8 +190,11 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Restekiste" Margin="10,0,0,0" Opacity="0.4" />
-                    <HeaderedItemsControl Grid.Row="1" Margin="10,0,10,10" ItemsSource="{Binding AlleRestteile}" Grid.IsSharedSizeScope="True" >
+                    <CheckBox Grid.Row="0" Content="Restekiste filtern" Margin="10,0,0,0" IsChecked="{Binding RestekisteFilterAktiv}" />
+                    <HeaderedItemsControl Grid.Row="1" Margin="10,5,10,10" ItemsSource="{Binding AlleRestteile}" Grid.IsSharedSizeScope="True" >
+                        <HeaderedItemsControl.Resources>
+                            <classes:BindingProxy x:Key="RestekisteProxy" Data="{Binding}" />
+                        </HeaderedItemsControl.Resources>
                         <HeaderedItemsControl.Template>
                             <ControlTemplate TargetType="HeaderedItemsControl">
                                 <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
@@ -211,14 +215,15 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition SharedSizeGroup="C" />
                                     <ColumnDefinition SharedSizeGroup="D" />
+                                    <ColumnDefinition SharedSizeGroup="E" />
+                                    <ColumnDefinition SharedSizeGroup="F" />
                                     <ColumnDefinition Width="17"   />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="0" HorizontalAlignment="Stretch" Text="Beschreibung" Margin="0,0,5,5" />
-                                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="1" HorizontalAlignment="Right" Text="Gewicht" Margin="0,0,5,5" />
-                                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="2" HorizontalAlignment="Right" Text="Differenz" Margin="0,0,5,5" />
-                                <Rectangle Fill="LightGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
+                                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="2" HorizontalAlignment="Right" Text="Gewicht" Margin="0,0,5,5" />
+                                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="3" HorizontalAlignment="Right" Text="Differenz" Margin="0,0,5,5" />
+                                <Rectangle Fill="LightGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
                             </Grid>
                         </HeaderedItemsControl.Header>
                         <HeaderedItemsControl.ItemTemplate>
@@ -226,8 +231,9 @@
                                 <Grid >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
                                         <ColumnDefinition Width="Auto" SharedSizeGroup="D" />
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="E" />
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="F" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" >
                                         <TextBlock.ToolTip>
@@ -237,8 +243,11 @@
                                             </TextBlock>
                                         </TextBlock.ToolTip>
                                     </TextBlock>
-                                    <TextBlock Grid.Column="1" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
-                                    <TextBlock Grid.Column="2" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
+                                    <TextBlock Grid.Column="1" Margin="3,0,0,0" ToolTip="einbauen" IsEnabled="{Binding Data.TeilSelected, Source={StaticResource RestekisteProxy}}">
+                                        <Hyperlink Command="{Binding EinbauenCommand}" TextDecorations="" >&#x2934;</Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="2" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
+                                    <TextBlock Grid.Column="3" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
                                 </Grid>
                             </DataTemplate>
                         </HeaderedItemsControl.ItemTemplate>
@@ -250,8 +259,11 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Wunschliste" Opacity="0.4" />
-                    <HeaderedItemsControl Grid.Row="1" Margin="0,0,10,10" ItemsSource="{Binding AlleWunschteile}" Grid.IsSharedSizeScope="True">
+                    <CheckBox Grid.Row="0" Content="Wunschliste filtern" IsChecked="{Binding WunschlisteFilterAktiv}" />
+                    <HeaderedItemsControl Grid.Row="1" Margin="0,5,10,10" ItemsSource="{Binding AlleWunschteile}" Grid.IsSharedSizeScope="True">
+                        <HeaderedItemsControl.Resources>
+                            <classes:BindingProxy x:Key="WunschlisteProxy" Data="{Binding}" />
+                        </HeaderedItemsControl.Resources>
                         <HeaderedItemsControl.Template>
                             <ControlTemplate TargetType="HeaderedItemsControl">
                                 <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
@@ -274,12 +286,13 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition SharedSizeGroup="A" />
                                     <ColumnDefinition SharedSizeGroup="B" />
+                                    <ColumnDefinition SharedSizeGroup="C" />
                                     <ColumnDefinition Width="17"   />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="0" HorizontalAlignment="Stretch" Text="Beschreibung" Margin="0,0,5,5" />
-                                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="1" HorizontalAlignment="Right" Text="Gewicht" Margin="0,0,5,5" />
-                                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="2" HorizontalAlignment="Right" Text="Differenz" Margin="0,0,5,5" />
-                                <Rectangle Fill="LightGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" />
+                                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="2" HorizontalAlignment="Right" Text="Gewicht" Margin="0,0,5,5" />
+                                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="3" HorizontalAlignment="Right" Text="Differenz" Margin="0,0,5,5" />
+                                <Rectangle Fill="LightGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
                             </Grid>
                         </HeaderedItemsControl.Header>
                         <HeaderedItemsControl.ItemTemplate>
@@ -289,6 +302,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
                                         <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" >
                                         <TextBlock.ToolTip>
@@ -298,8 +312,11 @@
                                             </TextBlock>
                                         </TextBlock.ToolTip>
                                     </TextBlock>
-                                    <TextBlock Grid.Column="1" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
-                                    <TextBlock Grid.Column="2" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
+                                    <TextBlock Grid.Column="1" Margin="3,0,0,0" ToolTip="einbauen" IsEnabled="{Binding Data.TeilSelected, Source={StaticResource WunschlisteProxy}}">
+                                        <Hyperlink Command="{Binding EinbauenCommand}" TextDecorations="" >&#x2934;</Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="2" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
+                                    <TextBlock Grid.Column="3" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
                                 </Grid>
                             </DataTemplate>
                         </HeaderedItemsControl.ItemTemplate>

@@ -18,7 +18,35 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public int GesamtDifferenz { get { return VergleichsListe.Sum(x => x.Differenz); } }
 
+        public bool TeilSelected { get { return SelectedKomponente != null; } }
+
         public WebAuswahlViewModel DatenbankViewModel { get; set; }
+
+        private bool _restekisteFilterAktiv;
+        public bool RestekisteFilterAktiv
+        {
+            get { return _restekisteFilterAktiv; }
+            set
+            {
+                if(SetProperty("RestekisteFilterAktiv", ref _restekisteFilterAktiv, value))
+                {
+                    AlleRestteile.Refresh();
+                }
+            }
+        }
+
+        private bool _wunschlisteFilterAktiv;
+        public bool WunschlisteFilterAktiv
+        {
+            get { return _wunschlisteFilterAktiv; }
+            set
+            {
+                if (SetProperty("WunschlisteFilterAktiv", ref _wunschlisteFilterAktiv, value))
+                {
+                    AlleWunschteile.Refresh();
+                }
+            }
+        }
 
         private SzenarioKomponenteViewModel _selectedKomponente;
         public SzenarioKomponenteViewModel SelectedKomponente
@@ -28,23 +56,43 @@ namespace TeileListe.Szenariorechner.ViewModel
             {
                 if(SetProperty("SelectedKomponente", ref _selectedKomponente, value))
                 {
-                    foreach(var item in Restekiste)
+                    UpdateProperty("TeilSelected");
+
+                    foreach (var item in Restekiste)
                     {
                         item.Differenz = _selectedKomponente != null ? item.Gewicht - SelectedKomponente.Gewicht : 0;
                     }
+
                     foreach (var item in Wunschliste)
                     {
                         item.Differenz = _selectedKomponente != null ? item.Gewicht - SelectedKomponente.Gewicht : 0;
                     }
+
                     AlleRestteile.Refresh();
                     AlleWunschteile.Refresh();
                 }
             }
         }
 
-        private bool TeileFilter(object item)
+        private bool FilterRestekiste(object item)
+        {
+            return TeileFilter(true, item);
+        }
+
+        private bool FilterWunschliste(object item)
+        {
+            return TeileFilter(false, item);
+        }
+
+        private bool TeileFilter(bool isRestekiste, object item)
         {
             if(SelectedKomponente == null)
+            {
+                return true;
+            }
+
+            if((isRestekiste && !RestekisteFilterAktiv)
+                || (!isRestekiste && !WunschlisteFilterAktiv))
             {
                 return true;
             }
@@ -152,13 +200,16 @@ namespace TeileListe.Szenariorechner.ViewModel
                     Komponente = restteil.Komponente,
                     Gewicht = restteil.Gewicht,
                     AnzeigeName = HilfsFunktionen.GetAnzeigeName(restteil), 
-                    Differenz = 0
+                    Guid = restteil.Guid,
+                    Differenz = 0,
+                    EinbauenAction = EinbauenRestekiste
                 };
                 Restekiste.Add(vm);
             }
 
             AlleRestteile = CollectionViewSource.GetDefaultView(Restekiste);
-            AlleRestteile.Filter = TeileFilter;
+            RestekisteFilterAktiv = true;
+            AlleRestteile.Filter = FilterRestekiste;
 
             var wunschliste = new List<WunschteilDto>();
             PluginManager.DbManager.GetWunschteile(ref wunschliste);
@@ -170,13 +221,16 @@ namespace TeileListe.Szenariorechner.ViewModel
                     Komponente = wunschteil.Komponente,
                     Gewicht = wunschteil.Gewicht,
                     AnzeigeName = HilfsFunktionen.GetAnzeigeName(wunschteil), 
-                    Differenz = 0
+                    Guid = wunschteil.Guid,
+                    Differenz = 0,
+                    EinbauenAction = EinbauenWunschliste
                 };
                 Wunschliste.Add(vm);
             }
 
             AlleWunschteile = CollectionViewSource.GetDefaultView(Wunschliste);
-            AlleWunschteile.Filter = TeileFilter;
+            WunschlisteFilterAktiv = true;
+            AlleWunschteile.Filter = FilterWunschliste;
 
             var datenbanken = new List<DatenbankDto>
             {
@@ -188,6 +242,29 @@ namespace TeileListe.Szenariorechner.ViewModel
 
             DatenbankViewModel = new WebAuswahlViewModel(datenbanken, true);
             // DatenbankViewModel.PropertyChanged += ContentPropertyChanged;
+        }
+
+        private void EinbauenWunschliste(string guid)
+        {
+            var wunschteil = Wunschliste.First(teil => teil.Guid == guid);
+            if (wunschteil != null)
+            {
+                SelectedKomponente.Alternative = wunschteil.AnzeigeName;
+                SelectedKomponente.Differenz = wunschteil.Differenz;
+                Wunschliste.Remove(wunschteil);
+            }
+            UpdateProperty("VergleichsListe");
+        }
+
+        private void EinbauenRestekiste(string guid)
+        {
+            var restteil = Restekiste.First(teil => teil.Guid == guid);
+            if (restteil != null)
+            {
+                SelectedKomponente.Alternative = restteil.AnzeigeName;
+                SelectedKomponente.Differenz = restteil.Differenz;
+                Restekiste.Remove(restteil);
+            }
         }
     }
 }
