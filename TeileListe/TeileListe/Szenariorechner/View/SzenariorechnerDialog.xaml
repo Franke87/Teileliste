@@ -35,6 +35,23 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ColumnHeaderRightAlignedStyle" TargetType="{x:Type DataGridColumnHeader}" >
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridColumnHeader">
+                        <Grid Background="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="0,0,5,5" Opacity="0.4" HorizontalAlignment="Right" Text="{TemplateBinding Content}"/>
+                            <Rectangle Fill="LightGray" Grid.Row="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
         <Grid Grid.IsSharedSizeScope="True">
@@ -105,32 +122,55 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Gewicht" Width="Auto" MinWidth="50" x:Name="DataGridColumnGewicht" HeaderStyle="{StaticResource ColumnHeaderStyle}" IsReadOnly="True">
+                        <DataGridTemplateColumn Header="Gewicht" Width="Auto" MinWidth="50" x:Name="DataGridColumnGewicht" HeaderStyle="{StaticResource ColumnHeaderRightAlignedStyle}" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Margin="0,0,10,0" HorizontalAlignment="Right" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
+                                    <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Alternative" Width="2*" x:Name="DataGridColumnAlternative" HeaderStyle="{StaticResource ColumnHeaderStyle}" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Margin="0,0,5,0" Text="{Binding Alternative, TargetNullValue=nicht vorhanden}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Alternative}" >
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Foreground" Value="Black" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Alternative}" Value="{x:Null}">
-                                                        <Setter Property="Foreground" Value="LightGray" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Margin="0,0,5,0" Text="{Binding Alternative, TargetNullValue=nicht vorhanden}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Alternative}" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="Black" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Alternative}" Value="{x:Null}">
+                                                            <Setter Property="Foreground" Value="LightGray" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Margin="3,0,3,0" Grid.Column="1" ToolTip="entfernen" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True" />
+                                                                <Condition Binding="{Binding KannEntfernen}" Value="True" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <Hyperlink Command="{Binding EntfernenCommand}" TextDecorations="" >&#x2327;</Hyperlink>
+                                        </TextBlock>
+                                    </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Differenz" Width="Auto" x:Name="DataGridColumnDifferenz" HeaderStyle="{StaticResource ColumnHeaderStyle}" IsReadOnly="True">
+                        <DataGridTemplateColumn Header="Differenz" Width="Auto" MinWidth="50" x:Name="DataGridColumnDifferenz" HeaderStyle="{StaticResource ColumnHeaderRightAlignedStyle}" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
@@ -140,20 +180,16 @@
                     </DataGrid.Columns>
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
-                            <Grid Background="WhiteSmoke" Visibility="{Binding ZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                            <Grid Background="WhiteSmoke" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,10,0"  >
-                                <Hyperlink Command="{Binding AusbauenCommand}" >
-                                    <TextBlock Text="ausbauen" />
-                                </Hyperlink>
-                            </TextBlock>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Right" Margin="10,0,0,0"  >
-                                <Hyperlink Command="{Binding EinbauenCommand}" >
-                                    <TextBlock Text="einbauen" />
-                                </Hyperlink>
+                                
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Right" Visibility="{Binding ZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10,0,0,0"  >
+                                    <Hyperlink Command="{Binding EinbauenCommand}" >
+                                        <TextBlock Text="einbauen" />
+                                    </Hyperlink>
                             </TextBlock>
                                 <!--Button Content="{Binding Data.Teststring, Source={StaticResource ProxyElement}}" Command="{Binding TauschenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" /-->
                             </Grid>
@@ -171,9 +207,15 @@
                         <ColumnDefinition Width="17" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Summe gesamt:" Grid.Column="0" Opacity="0.4" />
-                    <TextBlock Text="{Binding GesamtGewicht, Converter={StaticResource IntToWeightConverter}}" Margin="0,0,10,0" Grid.Column="2" HorizontalAlignment="Right" />
-                    <TextBlock Text="Summe Gewichtsunterschiede:" Grid.Column="3" Opacity="0.4" />
-                    <TextBlock Text="{Binding GesamtDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding GesamtDifferenz, Converter={StaticResource IntToForegroundConverter}}" Margin="0,0,5,0" Grid.Column="4" HorizontalAlignment="Right" />
+                    <TextBlock Text="{Binding GesamtGewicht, Converter={StaticResource IntToWeightConverter}}" Margin="0,0,5,0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" />
+                    <Grid Grid.Column="3" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Summe Gewichtsunterschiede:" Grid.Column="0" Opacity="0.4" />
+                        <TextBlock Text="{Binding GesamtDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding GesamtDifferenz, Converter={StaticResource IntToForegroundConverter}}" Margin="0,0,5,0" Grid.Column="1" HorizontalAlignment="Right" />
+                    </Grid>
                 </Grid>
             </Grid>
             <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Margin="10,0,10,10" />

@@ -1,4 +1,4 @@
-﻿using System.Windows;
+﻿using System;
 using TeileListe.Common.Classes;
 
 namespace TeileListe.Szenariorechner.ViewModel
@@ -8,6 +8,7 @@ namespace TeileListe.Szenariorechner.ViewModel
         public string Komponente { get; set; }
         public int Gewicht { get; set; }
         public string Beschreibung { get; set; }
+        public string Guid { get; set; }
 
         private string _alternative;
         public string Alternative
@@ -18,6 +19,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 if(SetProperty("Alternative", ref _alternative, value))
                 {
                     UpdateProperty("ZuordnenVisible");
+                    UpdateProperty("KannEntfernen");
                 }
             }
         }
@@ -31,16 +33,29 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public bool ZuordnenVisible { get { return Beschreibung == null || Alternative == null; } }
 
-        public MyParameterCommand<Window> TauschenCommand { get; set; }
+        public bool KannEntfernen { get { return Beschreibung == null || Alternative != null; } }
+
+        public MyCommand EntfernenCommand { get; set; }
+
+        public Action<string> LoeschenAction { get; set; }
 
         public SzenarioKomponenteViewModel()
         {
-            TauschenCommand = new MyParameterCommand<Window>(OnTauschen);
+            EntfernenCommand = new MyCommand(OnEntfernen);
         }
 
-        private void OnTauschen(Window window)
+        private void OnEntfernen()
         {
-            HilfsFunktionen.ShowMessageBox(window, "Test", Komponente, false);
+            if(Alternative != null)
+            {
+                Alternative = null;
+                Differenz = 0;
+            }
+
+            if (Beschreibung == null)
+            {
+                LoeschenAction(Guid);
+            }
         }
 
     }
