@@ -95,6 +95,12 @@
     <Compile Include="Common\UserControl\DatenbankHeader.xaml.cs">
       <DependentUpon>DatenbankHeader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\UserControl\HerstellerListe.xaml.cs">
+      <DependentUpon>HerstellerListe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\UserControl\KategorienListe.xaml.cs">
+      <DependentUpon>KategorienListe.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converter\DecimalToWeightConverter.cs" />
     <Compile Include="Converter\InverseEnumToVisibilityConverter.cs" />
     <Compile Include="DateiManager\UserControl\DateiBearbeitenControl.xaml.cs">
@@ -222,6 +228,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\UserControl\DatenbankHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UserControl\HerstellerListe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\UserControl\KategorienListe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converter="clr-namespace:TeileListe.Converter"
-             xmlns:viewModel="clr-namespace:TeileListe.Common.ViewModel"
              xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
              xmlns:usercontrol="clr-namespace:TeileListe.Common.UserControl"
              mc:Ignorable="d" 
@@ -19,7 +18,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition MaxHeight="150" Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -31,71 +29,9 @@
         <CheckBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Content="Kategorien durchsuchen" IsChecked="{Binding KategorieSuchen}" Margin="0,14,0,0" Visibility="{Binding KategorienList.Count, Converter={StaticResource CountToVisibilityConverter}}"/>
         <CheckBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Content="Hersteller durchsuchen" IsChecked="{Binding HerstellerSuchen}" Margin="10,14,0,0" Visibility="{Binding HerstellerList.Count, Converter={StaticResource CountToVisibilityConverter}}"/>
         <Button Grid.Row="1" Grid.Column="2" Content="Suchen" Padding="10,0,10,0" Height="23" Margin="0,10,0,0" IsEnabled="{Binding KannSuchen}" Command="{Binding OnSuchenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Visibility="{Binding HerstellerList.Count, Converter={StaticResource CountToVisibilityConverter}}" />
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Keine Kategorien abgerufen" Margin="0,10,0,0" Opacity="0.4" Visibility="{Binding KategorienList.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
-        <TreeView Grid.Row="2" Grid.Column="0" ItemsSource="{Binding KategorienList}" MaxHeight="140" BorderThickness="0" Margin="0,10,0,2" Grid.IsSharedSizeScope="True" Visibility="{Binding KategorienList.Count, Converter={StaticResource CountToVisibilityConverter}}" >
-            <TreeView.Style>
-                <Style TargetType="{x:Type TreeView}">
-                    <Style.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CBE8F6" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#F6F6F6" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
-                    </Style.Resources>
-                </Style>
-            </TreeView.Style>
-            <TreeView.ItemContainerStyle >
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                    <Setter Property="BorderThickness" Value="1" />
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="BorderBrush" Value="#26A0DA" />
-                        </Trigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding EnthaeltProdukte}" Value="True" />
-                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Background" Value="#E5F3FB" />
-                            <Setter Property="BorderBrush" Value="#70C0E7" />
-                        </MultiDataTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="True" />
-                                <Condition Property="IsSelectionActive" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="BorderBrush" Value="#DADADA" />
-                        </MultiTrigger>
-                        <DataTrigger Binding="{Binding EnthaeltProdukte}" Value="False">
-                            <Setter Property="Foreground" Value="DarkGray" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TreeView.ItemContainerStyle>
-            <TreeView.ItemTemplate >
-                <HierarchicalDataTemplate DataType="viewModel:KategorienViewModel" ItemsSource="{Binding UnterKategorien}" >
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="R" />
-                            <ColumnDefinition Width="*" SharedSizeGroup="S" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Height="16" Text="{Binding Name}" Margin="2,1,0,1" />
-                        <TextBlock Grid.Column="1" Height="16" Text="{Binding AnzahlProdukte}" Margin="10,1,2,1" Visibility="{Binding AnzahlProdukte, Converter={StaticResource CountToVisibilityConverter}}" />
-                    </Grid>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
-        <Rectangle Grid.Row="3" Grid.Column="0" Margin="0,-2,0,0" Height="1" Fill="LightGray" Visibility="{Binding KategorienList.Count, Converter={StaticResource CountToVisibilityConverter}}" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="Keine Hersteller abgerufen" Grid.ColumnSpan="2" Margin="10,10,0,0" Opacity="0.4" Visibility="{Binding HerstellerList.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
-        <ListBox Grid.Row="2"  MaxHeight="140" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding HerstellerList, Mode=TwoWay}" Visibility="{Binding HerstellerList.Count, Converter={StaticResource CountToVisibilityConverter}}" SelectedItem="{Binding SelectedHersteller, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" BorderThickness="0" Margin="10,10,-1,1">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Height="16" Text="{Binding Value}" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Rectangle Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Fill="LightGray" Height="1" Margin="10,-2,0,0" Visibility="{Binding HerstellerList.Count, Converter={StaticResource CountToVisibilityConverter}}" />
-        <ListBox HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,10,0,0" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0" ItemsSource="{Binding Datenbankteile}" Grid.IsSharedSizeScope="True" SelectedItem="{Binding SelectedItem}" >
+        <usercontrol:KategorienListe Grid.Row="2" Grid.Column="0" Margin="0,10,0,0" />
+        <usercontrol:HerstellerListe Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,10,0,0" />
+        <ListBox HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,10,0,0" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0" ItemsSource="{Binding Datenbankteile}" Grid.IsSharedSizeScope="True" SelectedItem="{Binding SelectedItem}" >
                 <ListBox.Style>
                     <Style TargetType="ListBox">
                         <Setter Property="Visibility" Value="Visible" />
@@ -124,7 +60,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ScrollViewer Margin="0,10,0,0" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Width="680" >
+        <ScrollViewer Margin="0,10,0,0" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Width="680" >
             <ScrollViewer.Style>
                 <Style TargetType="ScrollViewer">
                     <Setter Property="Visibility" Value="Visible" />
@@ -159,6 +95,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Text="Keine Teile vorhanden" Margin="0,10,0,10" Opacity="0.4" Visibility="{Binding Datenbankteile.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Keine Teile vorhanden" Margin="0,10,0,10" Opacity="0.4" Visibility="{Binding Datenbankteile.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
     </Grid>
 </UserControl>
