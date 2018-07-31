@@ -66,23 +66,25 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <DataGrid Grid.Row="0" Margin="10" ItemsSource="{Binding VergleichsListe}" SelectedItem="{Binding SelectedKomponente}"
-                  Background="White"
-                  BorderThickness="0,0,0,1"
-                  BorderBrush="LightGray"
-                  AutoGenerateColumns="False"
-                  ClipToBounds="True"
-                  UseLayoutRounding="True"
-                  VerticalScrollBarVisibility="Visible"
-                  HeadersVisibility="Column"
-                  CanUserAddRows="False"
-                  SelectionUnit="FullRow"
-                  CanUserDeleteRows="False"
-                  CanUserReorderColumns="False"
-                  CanUserSortColumns="False"
-                  CanUserResizeColumns="False"
-                  CanUserResizeRows="False"
-                  GridLinesVisibility="None"
-                  SelectionMode="Single">
+                          Background="White"
+                          BorderThickness="0,0,0,1"
+                          BorderBrush="LightGray"
+                          AutoGenerateColumns="False"
+                          HorizontalContentAlignment="Stretch" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ClipToBounds="True"
+                          UseLayoutRounding="True"
+                          VerticalScrollBarVisibility="Visible"
+                          HeadersVisibility="Column"
+                          CanUserAddRows="False"
+                          SelectionUnit="FullRow"
+                          CanUserDeleteRows="False"
+                          CanUserReorderColumns="False"
+                          CanUserSortColumns="False"
+                          CanUserResizeColumns="False"
+                          CanUserResizeRows="False"
+                          GridLinesVisibility="None"
+                          SelectionMode="Single">
                     <DataGrid.Resources>
                         <classes:BindingProxy x:Key="ProxyElement" Data="{Binding}" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#CBE8F6" />
@@ -180,18 +182,62 @@
                     </DataGrid.Columns>
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
-                            <Grid Background="WhiteSmoke" >
+                            <Grid Background="WhiteSmoke" Visibility="{Binding ZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Right" Visibility="{Binding ZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10,0,0,0"  >
-                                    <Hyperlink Command="{Binding EinbauenCommand}" >
-                                        <TextBlock Text="einbauen" />
-                                    </Hyperlink>
-                            </TextBlock>
-                                <!--Button Content="{Binding Data.Teststring, Source={StaticResource ProxyElement}}" Command="{Binding TauschenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" /-->
+                                <HeaderedItemsControl HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="0" ItemsSource="{Binding Data.OhneZuordnung, Source={StaticResource ProxyElement}}" Grid.IsSharedSizeScope="True">
+                                    <HeaderedItemsControl.Template>
+                                        <ControlTemplate TargetType="HeaderedItemsControl">
+                                            <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
+                                                <DockPanel>
+                                                    <ContentPresenter ContentSource="Header" DockPanel.Dock="Top" />
+                                                    <ScrollViewer >
+                                                        <ItemsPresenter />
+                                                    </ScrollViewer>
+                                                </DockPanel>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </HeaderedItemsControl.Template>
+                                    <HeaderedItemsControl.Header>
+                                        <Grid >
+                                            <Grid.RowDefinitions >
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="1" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition SharedSizeGroup="U" />
+                                                <ColumnDefinition SharedSizeGroup="V" />
+                                                <ColumnDefinition Width="17"   />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="0" HorizontalAlignment="Stretch" Text="Komponente" Margin="0,0,5,5" />
+                                            <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="1" HorizontalAlignment="Stretch" Text="Beschreibung" ToolTip="Beschreibung" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" Margin="0,0,5,5" />
+                                            <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="3" HorizontalAlignment="Right" Text="Gewicht" Margin="0,0,5,5" />
+                                            <Rectangle Fill="LightGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" />
+                                        </Grid>
+                                    </HeaderedItemsControl.Header>
+                                    <HeaderedItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Grid.Column="1" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="2*" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="U" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="V" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Komponente}" ToolTipOpening="CheckForToolTipNeeded" HorizontalAlignment="Stretch" Text="{Binding Komponente}" />
+                                                <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" ToolTip="{Binding Beschreibung}" ToolTipOpening="CheckForToolTipNeeded" HorizontalAlignment="Stretch" Text="{Binding Beschreibung}" />
+                                                <TextBlock Grid.Column="2" Margin="5,0,0,0" ToolTip="dieser Komponente zuordnen" >
+                                                    <Hyperlink Command="{Binding ZuordnenCommand}" TextDecorations="" >zuordnen</Hyperlink>
+                                                </TextBlock>
+                                                <TextBlock Grid.Column="3" Margin="5,0" HorizontalAlignment="Right" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </HeaderedItemsControl.ItemTemplate>
+                                </HeaderedItemsControl>
                             </Grid>
                         </DataTemplate>
                     </DataGrid.RowDetailsTemplate>

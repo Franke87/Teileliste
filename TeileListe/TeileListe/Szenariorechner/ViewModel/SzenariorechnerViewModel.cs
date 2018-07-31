@@ -114,6 +114,13 @@ namespace TeileListe.Szenariorechner.ViewModel
             set { SetProperty("VergleichsListe", ref _vergleichsListe, value); }
         }
 
+        private ObservableCollection<SzenarioKomponenteViewModel> _ohneZuordnung;
+        public ObservableCollection<SzenarioKomponenteViewModel> OhneZuordnung
+        {
+            get { return _ohneZuordnung; }
+            set { SetProperty("OhneZuordnung", ref _ohneZuordnung, value); }
+        }
+
         private ObservableCollection<SzenarioAlternativeViewModel> _restekiste;
         public ObservableCollection<SzenarioAlternativeViewModel> Restekiste
         {
@@ -134,6 +141,7 @@ namespace TeileListe.Szenariorechner.ViewModel
             get { return _wunschliste; }
             set { SetProperty("Wunschliste", ref _wunschliste, value); }
         }
+
         private ICollectionView _alleWunschteile;
         public ICollectionView AlleWunschteile
         {
@@ -150,6 +158,7 @@ namespace TeileListe.Szenariorechner.ViewModel
             PluginManager.DbManager.GetKomponente(selectedFahrrad.Guid, ref komponentenListe);
 
             VergleichsListe = new ObservableCollection<SzenarioKomponenteViewModel>();
+            OhneZuordnung = new ObservableCollection<SzenarioKomponenteViewModel>();
             Restekiste = new ObservableCollection<SzenarioAlternativeViewModel>();
             Wunschliste = new ObservableCollection<SzenarioAlternativeViewModel>();
 
@@ -175,6 +184,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 {
                     vm.Alternative = null;
                     vm.Differenz = -vm.Gewicht;
+                    OhneZuordnung.Add(vm);
                 }
                 VergleichsListe.Add(vm);
             }
