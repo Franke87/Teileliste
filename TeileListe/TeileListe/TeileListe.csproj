@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="Classes\BindingProxy.cs" />
     <Compile Include="Classes\PluginManager.cs" />
+    <Compile Include="Common\Enums\DatenbankModus.cs" />
     <Compile Include="Common\UserControl\DatenbankHeader.xaml.cs">
       <DependentUpon>DatenbankHeader.xaml</DependentUpon>
     </Compile>

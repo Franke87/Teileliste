@@ -7,6 +7,7 @@ using TeileListe.API.View;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
+using TeileListe.Common.Enums;
 using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
 using TeileListe.MessungHochladen.Dto;
@@ -91,7 +92,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
             PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
-            DatenbankViewModel = new WebAuswahlViewModel(datenbanken, true);
+            DatenbankViewModel = new WebAuswahlViewModel(datenbanken, DatenbankModus.SingleSelection);
             DatenbankViewModel.PropertyChanged += ContentPropertyChanged;
 
             AnlegenViewModel = new ArtikelAnlegenViewModel(datenbanken, listeDateien, einzelteil);

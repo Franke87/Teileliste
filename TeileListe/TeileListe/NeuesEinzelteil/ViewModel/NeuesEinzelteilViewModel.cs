@@ -4,6 +4,7 @@ using System.ComponentModel;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
+using TeileListe.Common.Enums;
 using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
 
@@ -121,7 +122,7 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
             
             PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
-            DatenbankViewModel = new WebAuswahlViewModel(datenbanken, false);
+            DatenbankViewModel = new WebAuswahlViewModel(datenbanken, DatenbankModus.MultiSelection);
             DatenbankViewModel.PropertyChanged += ContentPropertyChanged;
 
             Auswahl = SourceEnum.NeuesEinzelteil;

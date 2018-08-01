@@ -6,6 +6,7 @@ using System.Windows.Data;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
+using TeileListe.Common.Enums;
 using TeileListe.Common.ViewModel;
 
 namespace TeileListe.Szenariorechner.ViewModel
@@ -258,8 +259,7 @@ namespace TeileListe.Szenariorechner.ViewModel
 
             PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
-            DatenbankViewModel = new WebAuswahlViewModel(datenbanken, true);
-            // DatenbankViewModel.PropertyChanged += ContentPropertyChanged;
+            DatenbankViewModel = new WebAuswahlViewModel(datenbanken, DatenbankModus.NoneSelection);
         }
 
         private void EinbauenWunschliste(string guid)

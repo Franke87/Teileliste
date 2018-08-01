@@ -7,6 +7,7 @@ using TeileListe.API.View;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
+using TeileListe.Common.Enums;
 using TeileListe.NeuesEinzelteil.ViewModel;
 
 namespace TeileListe.Common.ViewModel
@@ -15,7 +16,7 @@ namespace TeileListe.Common.ViewModel
     {
         #region Properties
 
-        public bool IsSingleSelection { get; set; }
+        public DatenbankModus AktuellerDatenbankModus { get; set; }
 
         private DatenbankteilAuswahlViewModel _selectedItem;
 
@@ -25,7 +26,7 @@ namespace TeileListe.Common.ViewModel
             set
             {
                 SetProperty("SelectedItem", ref _selectedItem, value);
-                HasError = IsSingleSelection ? SelectedItem == null : !Datenbankteile.Any(teil => teil.IsChecked);
+                HasError = Validate();
             }
         }
 
@@ -37,7 +38,7 @@ namespace TeileListe.Common.ViewModel
             set
             {
                 SetProperty("Datenbankteile", ref _datenbankteile, value);
-                HasError = IsSingleSelection ? SelectedItem != null : !Datenbankteile.Any(teil => teil.IsChecked);
+                HasError = Validate();
             }
         }
 
@@ -67,7 +68,13 @@ namespace TeileListe.Common.ViewModel
         public ObservableCollection<KeyValuePair<string, string>> HerstellerList
         {
             get { return _herstellerList; }
-            set { SetProperty("HerstellerList", ref _herstellerList, value); }
+            set
+            {
+                if(SetProperty("HerstellerList", ref _herstellerList, value))
+                {
+                    UpdateProperty("HerstellerCheckBoxVisible");
+                }
+            }
 
         }
 
@@ -89,6 +96,7 @@ namespace TeileListe.Common.ViewModel
                 if (SetProperty("KategorienList", ref _kategorienList, value))
                 {
                     UpdateProperty("KannSuchen");
+                    UpdateProperty("KategorienCheckBoxVisible");
                 }
             }
         }
@@ -186,6 +194,24 @@ namespace TeileListe.Common.ViewModel
             set { SetProperty("HasError", ref _hasError, value); }
         }
 
+        public bool KategorienCheckBoxVisible
+        {
+            get
+            {
+                return AktuellerDatenbankModus != DatenbankModus.HerstellerKategorieSelection 
+                    && KategorienList.Count > 0;
+            }
+        }
+
+        public bool HerstellerCheckBoxVisible
+        {
+            get
+            {
+                return AktuellerDatenbankModus != DatenbankModus.HerstellerKategorieSelection
+                    && HerstellerList.Count > 0;
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -198,9 +224,9 @@ namespace TeileListe.Common.ViewModel
 
         #region Konstruktor
 
-        public WebAuswahlViewModel(List<DatenbankDto> datenbanken, bool isSingleSelection)
+        public WebAuswahlViewModel(List<DatenbankDto> datenbanken, DatenbankModus aktuellerDatenbankModus)
         {
-            IsSingleSelection = isSingleSelection;
+            AktuellerDatenbankModus = aktuellerDatenbankModus;
 
             KategorieSuchen = true;
             HerstellerSuchen = true;
@@ -390,7 +416,28 @@ namespace TeileListe.Common.ViewModel
 
         private void ContentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            HasError = IsSingleSelection ? SelectedItem != null : !Datenbankteile.Any(item => item.IsChecked);
+            HasError = Validate();
+        }
+
+        private bool Validate()
+        {
+            bool bReturn = true;
+
+            switch(AktuellerDatenbankModus)
+            {
+                case DatenbankModus.SingleSelection:
+                    {
+                        bReturn = SelectedItem != null;
+                        break;
+                    }
+                case DatenbankModus.MultiSelection:
+                    {
+                        bReturn = !Datenbankteile.Any(item => item.IsChecked);
+                        break;
+                    }
+            }
+
+            return bReturn;
         }
 
         #endregion
