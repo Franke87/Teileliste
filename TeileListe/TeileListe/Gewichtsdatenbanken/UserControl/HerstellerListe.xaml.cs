@@ -1,4 +1,4 @@
-﻿namespace TeileListe.Common.UserControl
+﻿namespace TeileListe.Gewichtsdatenbanken.UserControl
 {
     public partial class HerstellerListe
     {

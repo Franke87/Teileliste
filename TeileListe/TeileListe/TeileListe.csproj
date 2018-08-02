@@ -92,14 +92,14 @@
     </Compile>
     <Compile Include="Classes\BindingProxy.cs" />
     <Compile Include="Classes\PluginManager.cs" />
-    <Compile Include="Common\Enums\DatenbankModus.cs" />
-    <Compile Include="Common\UserControl\DatenbankHeader.xaml.cs">
+    <Compile Include="Enums\DatenbankModus.cs" />
+    <Compile Include="Gewichtsdatenbanken\UserControl\DatenbankHeader.xaml.cs">
       <DependentUpon>DatenbankHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\UserControl\HerstellerListe.xaml.cs">
+    <Compile Include="Gewichtsdatenbanken\UserControl\HerstellerListe.xaml.cs">
       <DependentUpon>HerstellerListe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\UserControl\KategorienListe.xaml.cs">
+    <Compile Include="Gewichtsdatenbanken\UserControl\KategorienListe.xaml.cs">
       <DependentUpon>KategorienListe.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converter\DecimalToWeightConverter.cs" />
@@ -150,7 +150,7 @@
     </Compile>
     <Compile Include="NeuesEinzelteil\ViewModel\RestekisteAuswahlViewModel.cs" />
     <Compile Include="NeuesEinzelteil\ViewModel\WunschlisteAuswahlViewModel.cs" />
-    <Compile Include="Common\UserControl\WebAuswahlControl.xaml.cs">
+    <Compile Include="Gewichtsdatenbanken\UserControl\WebAuswahlControl.xaml.cs">
       <DependentUpon>WebAuswahlControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Szenariorechner\UserControl\SzenarioPreviewControl.xaml.cs">
@@ -208,9 +208,9 @@
     <Compile Include="Common\UserControl\CommonPreviewControl.xaml.cs">
       <DependentUpon>CommonPreviewControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ViewModel\KategorienViewModel.cs" />
+    <Compile Include="Gewichtsdatenbanken\ViewModel\KategorienViewModel.cs" />
     <Compile Include="Common\ViewModel\CommonDateiViewModel.cs" />
-    <Compile Include="Common\ViewModel\WebAuswahlViewModel.cs" />
+    <Compile Include="Gewichtsdatenbanken\ViewModel\WebAuswahlViewModel.cs" />
     <Compile Include="NeuesEinzelteil\ViewModel\NeuesEinzelteilNeuViewModel.cs" />
     <Compile Include="NeuesEinzelteil\ViewModel\NeuesEinzelteilViewModel.cs" />
     <Compile Include="NeuesFahrrad\ViewModel\NeuesFahrradViewModel.cs" />
@@ -228,15 +228,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\UserControl\DatenbankHeader.xaml">
+    <Page Include="Gewichtsdatenbanken\UserControl\DatenbankHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\UserControl\HerstellerListe.xaml">
+    <Page Include="Gewichtsdatenbanken\UserControl\HerstellerListe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\UserControl\KategorienListe.xaml">
+    <Page Include="Gewichtsdatenbanken\UserControl\KategorienListe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -316,7 +316,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\UserControl\WebAuswahlControl.xaml">
+    <Page Include="Gewichtsdatenbanken\UserControl\WebAuswahlControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,9 +7,8 @@ using TeileListe.API.View;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Enums;
-using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
+using TeileListe.Common.ViewModel;
 using TeileListe.MessungHochladen.Dto;
 
 namespace TeileListe.EinzelteilZuordnen.ViewModel
@@ -111,7 +110,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             {
                 var datenbanken = new List<DatenbankDto>
                 {
-                    new DatenbankDto {Datenbank = AnlegenViewModel.AusgewaelteDatenbank}
+                    new DatenbankDto {Datenbank = AnlegenViewModel.DatenbankViewModel.AusgewaelteDatenbank}
                 };
                 
                 PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
@@ -153,7 +152,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                     return;
                 }
 
-                var progressWindow = new UploadWaitwindow(AnlegenViewModel.AusgewaelteDatenbank,
+                var progressWindow = new UploadWaitwindow(AnlegenViewModel.DatenbankViewModel.AusgewaelteDatenbank,
                                                             datenbanken[0].ApiToken,
                                                             null,
                                                             new ProduktHochladenDto
@@ -162,10 +161,10 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                                                                 Gewicht = AnlegenViewModel.Gewicht,
                                                                 GewichtHersteller = AnlegenViewModel.GewichtHersteller,
                                                                 Groesse = AnlegenViewModel.Groesse,
-                                                                Hersteller = AnlegenViewModel.SelectedHersteller.Key,
+                                                                Hersteller = AnlegenViewModel.DatenbankViewModel.SelectedHersteller.Key,
                                                                 ImageBase64 = base64ImageRepresentation,
                                                                 Jahr = AnlegenViewModel.Jahr,
-                                                                Kategorie = AnlegenViewModel.GetSelectedKategorieId(),
+                                                                Kategorie = AnlegenViewModel.DatenbankViewModel.GetSelectedKategorieId(),
                                                                 Kommentar = AnlegenViewModel.Kommentar,
                                                                 Link = AnlegenViewModel.Link
                                                             })
@@ -177,7 +176,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
                 if (progressWindow.Success)
                 {
                     ResultDatenbankLink = progressWindow.ResultProduktUrl;
-                    ResultDatenbankId = AnlegenViewModel.AusgewaelteDatenbank + ":" + progressWindow.ResultProduktId;
+                    ResultDatenbankId = AnlegenViewModel.DatenbankViewModel.AusgewaelteDatenbank + ":" + progressWindow.ResultProduktId;
 
                     var message = "Die Messung wurde erfolgreich hochgeladen.";
 

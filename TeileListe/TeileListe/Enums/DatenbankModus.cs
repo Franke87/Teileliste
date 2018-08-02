@@ -1,4 +1,4 @@
-﻿namespace TeileListe.Common.Enums
+﻿namespace TeileListe.Enums
 {
     public enum DatenbankModus
     {

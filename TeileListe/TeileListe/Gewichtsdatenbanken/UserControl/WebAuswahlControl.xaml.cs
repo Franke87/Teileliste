@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace TeileListe.Common.UserControl
+namespace TeileListe.Gewichtsdatenbanken.UserControl
 {
     /// <summary>
     /// Interaction logic for WebAuswahlControl.xaml

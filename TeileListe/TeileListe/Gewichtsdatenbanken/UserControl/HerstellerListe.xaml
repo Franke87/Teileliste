@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TeileListe.Common.UserControl.HerstellerListe"
+﻿<UserControl x:Class="TeileListe.Gewichtsdatenbanken.UserControl.HerstellerListe"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,8 +9,8 @@
         <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-        <TextBlock Text="Keine Hersteller abgerufen" Margin="10,0,0,10" Opacity="0.4" Visibility="{Binding HerstellerList.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
-        <ListBox MaxHeight="140" ItemsSource="{Binding HerstellerList, Mode=TwoWay}" BorderBrush="LightGray" BorderThickness="0,0,0,1" Visibility="{Binding HerstellerList.Count, Converter={StaticResource CountToVisibilityConverter}}" SelectedItem="{Binding SelectedHersteller, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" Margin="10,0,-1,0">
+        <TextBlock Text="Keine Hersteller abgerufen" Margin="10,0,0,0" Opacity="0.4" Visibility="{Binding HerstellerList.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
+        <ListBox MaxHeight="140" ItemsSource="{Binding HerstellerList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderBrush="LightGray" BorderThickness="0,0,0,1" Visibility="{Binding HerstellerList.Count, Converter={StaticResource CountToVisibilityConverter}}" SelectedItem="{Binding SelectedHersteller, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" Margin="10,0,-1,0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Height="16" Text="{Binding Value}" />

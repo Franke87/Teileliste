@@ -4,9 +4,8 @@ using System.ComponentModel;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Enums;
-using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
+using TeileListe.Common.ViewModel;
 
 namespace TeileListe.NeuesEinzelteil.ViewModel
 {

@@ -7,7 +7,7 @@ using TeileListe.API.View;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Enums;
+using TeileListe.Enums;
 using TeileListe.NeuesEinzelteil.ViewModel;
 
 namespace TeileListe.Common.ViewModel
@@ -37,8 +37,11 @@ namespace TeileListe.Common.ViewModel
             get { return _datenbankteile; }
             set
             {
-                SetProperty("Datenbankteile", ref _datenbankteile, value);
-                HasError = Validate();
+                if(SetProperty("Datenbankteile", ref _datenbankteile, value))
+                {
+                    
+                    HasError = Validate();
+                }
             }
         }
 
@@ -83,7 +86,13 @@ namespace TeileListe.Common.ViewModel
         public KeyValuePair<string, string> SelectedHersteller
         {
             get { return _selectedHersteller; }
-            set { SetProperty("SelectedHersteller", ref _selectedHersteller, value); }
+            set
+            {
+                if(SetProperty("SelectedHersteller", ref _selectedHersteller, value))
+                {
+                    HasError = Validate();
+                }
+            }
         }
 
         private ObservableCollection<KategorienViewModel> _kategorienList;
@@ -118,6 +127,8 @@ namespace TeileListe.Common.ViewModel
                     Datenbankteile.Clear();
                     SelectedItem = null;
                     UpdateProperty("KannSuchen");
+                    UpdateProperty("KeineTeileVisible");
+                    HasError = Validate();
                 }
             }
         }
@@ -212,6 +223,15 @@ namespace TeileListe.Common.ViewModel
             }
         }
 
+        public bool KeineTeileVisible
+        {
+            get
+            {
+                return AktuellerDatenbankModus != DatenbankModus.HerstellerKategorieSelection
+                    && Datenbankteile.Count == 0;
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -226,8 +246,6 @@ namespace TeileListe.Common.ViewModel
 
         public WebAuswahlViewModel(List<DatenbankDto> datenbanken, DatenbankModus aktuellerDatenbankModus)
         {
-            AktuellerDatenbankModus = aktuellerDatenbankModus;
-
             KategorieSuchen = true;
             HerstellerSuchen = true;
 
@@ -241,6 +259,8 @@ namespace TeileListe.Common.ViewModel
             KategorienList = new ObservableCollection<KategorienViewModel>();
             HerstellerList = new ObservableCollection<KeyValuePair<string, string>>();
             DatenbankQuellen = new ObservableCollection<string>();
+
+            AktuellerDatenbankModus = aktuellerDatenbankModus;
 
             AusgewaelteDatenbank = _datenbanken.First().Datenbank;
             UserApiToken = _datenbanken.First().ApiToken;
@@ -288,6 +308,7 @@ namespace TeileListe.Common.ViewModel
         public void OnKategorieChanged()
         {
             UpdateProperty("KannSuchen");
+            HasError = Validate();
         }
 
         public void OnAbrufen(Window window)
@@ -407,11 +428,29 @@ namespace TeileListe.Common.ViewModel
                     Datenbankteile.Add(item);
                 }
                 SelectedItem = null;
+
+                UpdateProperty("KeineTeileVisible");
             }
             else
             {
                 HilfsFunktionen.ShowMessageBox(window, "Teileliste", progressWindow.ErrorText, true);
             }
+        }
+
+        public string GetSelectedKategorieId()
+        {
+            var selectedKategorie = string.Empty;
+
+            foreach (var item in KategorienList)
+            {
+                selectedKategorie = GetSelectedKategorie(item);
+                if (!string.IsNullOrWhiteSpace(selectedKategorie))
+                {
+                    break;
+                }
+            }
+
+            return selectedKategorie;
         }
 
         private void ContentPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -421,18 +460,53 @@ namespace TeileListe.Common.ViewModel
 
         private bool Validate()
         {
-            bool bReturn = true;
+            bool bReturn = false;
 
             switch(AktuellerDatenbankModus)
             {
                 case DatenbankModus.SingleSelection:
                     {
-                        bReturn = SelectedItem != null;
+                        bReturn = SelectedItem == null;
                         break;
                     }
                 case DatenbankModus.MultiSelection:
                     {
                         bReturn = !Datenbankteile.Any(item => item.IsChecked);
+                        break;
+                    }
+                case DatenbankModus.HerstellerKategorieSelection:
+                    {
+                        bool herstellerOk = true;
+                        bool kategorieOk = true;
+
+                        if (HerstellerList.Count == 0 || SelectedHersteller.Key == null)
+                        {
+                            herstellerOk = false;
+                        }
+
+                        if (KategorienList.Count == 0)
+                        {
+                            kategorieOk = false;
+                        }
+                        else
+                        {
+                            foreach (var item in KategorienList)
+                            {
+                                if (item.IsSelected && item.EnthaeltProdukte)
+                                {
+                                    break;
+                                }
+
+                                kategorieOk = IsAnySelected(item);
+
+                                if (kategorieOk)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+
+                        bReturn = !(herstellerOk && kategorieOk);
                         break;
                     }
             }

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converter="clr-namespace:TeileListe.Converter"
         xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
-        xmlns:userControl="clr-namespace:TeileListe.Common.UserControl"
+        xmlns:userControl="clr-namespace:TeileListe.Gewichtsdatenbanken.UserControl"
         xmlns:zuordnenUserControl="clr-namespace:TeileListe.EinzelteilZuordnen.UserControl"
         SizeToContent="Height"
         ShowInTaskbar="False"

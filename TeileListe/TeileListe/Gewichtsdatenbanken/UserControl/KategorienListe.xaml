@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TeileListe.Common.UserControl.KategorienListe"
+﻿<UserControl x:Class="TeileListe.Gewichtsdatenbanken.UserControl.KategorienListe"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,8 +10,8 @@
         <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-        <TextBlock Text="Keine Kategorien abgerufen" Opacity="0.4" Margin="0,0,0,10" Visibility="{Binding KategorienList.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
-        <TreeView ItemsSource="{Binding KategorienList}" MaxHeight="140" BorderThickness="0,0,0,1" BorderBrush="LightGray" Grid.IsSharedSizeScope="True" Visibility="{Binding KategorienList.Count, Converter={StaticResource CountToVisibilityConverter}}" >
+        <TextBlock Text="Keine Kategorien abgerufen" Opacity="0.4" Margin="0,0,0,0" Visibility="{Binding KategorienList.Count, Converter={StaticResource InverseCountToVisibilityConverter}}" />
+        <TreeView ItemsSource="{Binding KategorienList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxHeight="140" BorderThickness="0,0,0,1" BorderBrush="LightGray" Grid.IsSharedSizeScope="True" Visibility="{Binding KategorienList.Count, Converter={StaticResource CountToVisibilityConverter}}" >
             <TreeView.Style>
                 <Style TargetType="{x:Type TreeView}">
                     <Style.Resources>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converter="clr-namespace:TeileListe.Converter"
         xmlns:classes="clr-namespace:TeileListe.Classes"
-        xmlns:usercontrol="clr-namespace:TeileListe.Common.UserControl"
+        xmlns:usercontrol="clr-namespace:TeileListe.Gewichtsdatenbanken.UserControl"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"

@@ -86,120 +86,9 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             set { SetProperty("HasError", ref _hasError, value); }
         }
 
-        public bool HerstellerKategorieOk
-        {
-            get
-            {
-                bool herstellerOk = true;
-                bool kategorieOk = true;
+        
 
-                if (HerstellerList.Count == 0 || SelectedHersteller.Key == null)
-                {
-                    herstellerOk = false;
-                }
-
-                if (KategorienList.Count == 0)
-                {
-                    kategorieOk = false;
-                }
-                else
-                {
-                    foreach (var item in KategorienList)
-                    {
-                        if (item.IsSelected && item.EnthaeltProdukte)
-                        {
-                            break;
-                        }
-
-                        kategorieOk = IsAnySelected(item);
-
-                        if (kategorieOk)
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                return herstellerOk && kategorieOk;
-            }
-        }
-
-        private readonly List<DatenbankDto> _datenbanken;
-
-        public ObservableCollection<string> DatenbankQuellen { get; set; }
-
-        private bool _apiTokenChanged;
-
-        private string _userApiToken;
-
-        public string UserApiToken
-        {
-            get { return _userApiToken; }
-            set
-            {
-                if (SetProperty("UserApiToken", ref _userApiToken, value))
-                {
-                    _datenbanken.First(x => x.Datenbank == AusgewaelteDatenbank).ApiToken = UserApiToken;
-                    _apiTokenChanged = true;
-                }
-            }
-        }
-
-        private ObservableCollection<KeyValuePair<string, string>> _herstellerList;
-
-        public ObservableCollection<KeyValuePair<string, string>> HerstellerList
-        {
-            get { return _herstellerList; }
-            set { SetProperty("HerstellerList", ref _herstellerList, value); }
-
-        }
-
-        private KeyValuePair<string, string> _selectedHersteller;
-
-        public KeyValuePair<string, string> SelectedHersteller
-        {
-            get { return _selectedHersteller; }
-            set
-            {
-                SetProperty("SelectedHersteller", ref _selectedHersteller, value);
-                HasError = HasValidationError();
-            }
-        }
-
-        private ObservableCollection<KategorienViewModel> _kategorienList;
-
-        public ObservableCollection<KategorienViewModel> KategorienList
-        {
-            get { return _kategorienList; }
-            set
-            {
-                if (SetProperty("KategorienList", ref _kategorienList, value))
-                {
-                    UpdateProperty("HerstellerKategorieOk");
-                    HasError = HasValidationError();
-                }
-            }
-        }
-
-        private string _ausgewaelteDatenbank;
-
-        public string AusgewaelteDatenbank
-        {
-            get { return _ausgewaelteDatenbank; }
-            set
-            {
-                if (SetProperty("AusgewaelteDatenbank", ref _ausgewaelteDatenbank, value))
-                {
-                    UserApiToken = _datenbanken.First(x => x.Datenbank == AusgewaelteDatenbank).ApiToken;
-                    _apiTokenChanged = false;
-                    HerstellerList.Clear();
-                    KategorienList.Clear();
-                    SelectedHersteller = HerstellerList.FirstOrDefault();
-                    UpdateProperty("HerstellerKategorieOk");
-                    HasError = HasValidationError();
-                }
-            }
-        }
+        
 
         private ObservableCollection<DateiAuswahlViewModel> _dateiListe;
         public ObservableCollection<DateiAuswahlViewModel> DateiListe
@@ -237,16 +126,10 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
         }
 
         public CommonDateiViewModel DateiViewModel { get; set; }
+        public WebAuswahlViewModel DatenbankViewModel { get; set; }
 
         public string Guid { get; set; }
         public bool AuswahlEnabled { get; set; }
-
-        #endregion
-
-        #region Commands
-
-        public MyParameterCommand<Window> OnAbrufenCommand { get; set; }
-        public MyCommand SelectedKategorieChangedCommand { get; set; }
 
         #endregion
 
@@ -254,30 +137,8 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
         public ArtikelAnlegenViewModel(List<DatenbankDto> datenbanken, List<DateiDto> listeDateien, KomponenteDto einzelteil)
         {
-            OnAbrufenCommand = new MyParameterCommand<Window>(OnAbrufen);
-            SelectedKategorieChangedCommand = new MyCommand(OnKategorieChanged);
-
-            HerstellerList = new ObservableCollection<KeyValuePair<string, string>>();
-            KategorienList = new ObservableCollection<KategorienViewModel>();
-
-            _datenbanken = datenbanken;
-
-            DatenbankQuellen = new ObservableCollection<string>();
-
-            AusgewaelteDatenbank = _datenbanken.First().Datenbank;
-            UserApiToken = _datenbanken.First().ApiToken;
-
-            foreach (var item in _datenbanken)
-            {
-                DatenbankQuellen.Add(item.Datenbank);
-                if (item.IsDefault)
-                {
-                    AusgewaelteDatenbank = item.Datenbank;
-                    UserApiToken = item.ApiToken;
-                }
-            }
-
-            SelectedHersteller = HerstellerList.FirstOrDefault();
+            DatenbankViewModel = new WebAuswahlViewModel(datenbanken, DatenbankModus.HerstellerKategorieSelection);
+            DatenbankViewModel.PropertyChanged += ContentPropertyChanged;
 
             DateiViewModel = new CommonDateiViewModel(DateiOeffnenEnum.Image);
             DateiViewModel.PropertyChanged += ContentPropertyChanged;
@@ -310,53 +171,12 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
             SelectedDatei = DateiListe.FirstOrDefault();
 
-            _apiTokenChanged = false;
             HasError = HasValidationError();
         }
 
         #endregion
 
         #region Funktionen
-
-        private string GetSelectedKategorie(KategorienViewModel viewModel)
-        {
-            var retStr = string.Empty;
-
-            if (viewModel.IsSelected && viewModel.EnthaeltProdukte)
-            {
-                retStr = viewModel.Id;
-            }
-
-            if (string.IsNullOrWhiteSpace(retStr))
-            {
-                foreach (var item in viewModel.UnterKategorien)
-                {
-                    retStr = GetSelectedKategorie(item);
-                    if (!string.IsNullOrWhiteSpace(retStr))
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return retStr;
-        }
-
-        public string GetSelectedKategorieId()
-        {
-            var selectedKategorie = string.Empty;
-
-            foreach (var item in KategorienList)
-            {
-                selectedKategorie = GetSelectedKategorie(item);
-                if (!string.IsNullOrWhiteSpace(selectedKategorie))
-                {
-                    break;
-                }
-            }
-
-            return selectedKategorie;
-        }
 
         void ContentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -365,7 +185,7 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
 
         public bool HasValidationError()
         {
-            bool hasError = !HerstellerKategorieOk
+            bool hasError = DatenbankViewModel.HasError 
                             || string.IsNullOrWhiteSpace(Beschreibung)
                             || Gewicht == 0
                             || string.IsNullOrWhiteSpace(Jahr);
@@ -376,97 +196,6 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             }
 
             return hasError;
-        }
-
-        public bool IsAnySelected(KategorienViewModel viewModel)
-        {
-            bool bReturn = viewModel.IsSelected && viewModel.EnthaeltProdukte;
-
-            if (!bReturn)
-            {
-                foreach (var item in viewModel.UnterKategorien)
-                {
-                    bReturn = IsAnySelected(item);
-                    if (bReturn)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return bReturn;
-        }
-
-        private void SetAction(KategorienViewModel item)
-        {
-            item.SelectionChanged = OnKategorieChanged;
-
-            foreach (var subItem in item.UnterKategorien)
-            {
-                SetAction(subItem);
-            }
-        }
-
-        private void SaveDatenbanken()
-        {
-            bool defaultChanged = false;
-
-            foreach (var datenbank in _datenbanken)
-            {
-                if (datenbank.Datenbank == AusgewaelteDatenbank && !datenbank.IsDefault)
-                {
-                    defaultChanged = true;
-                    break;
-                }
-            }
-
-            if (_apiTokenChanged || defaultChanged)
-            {
-                _datenbanken.ForEach(item => item.IsDefault = false);
-                _datenbanken.Find(item => item.Datenbank == AusgewaelteDatenbank).IsDefault = true;
-
-                PluginManager.DbManager.SaveDatenbankDaten(_datenbanken);
-                _apiTokenChanged = false;
-            }
-        }
-
-        public void OnKategorieChanged()
-        {
-            UpdateProperty("HerstellerKategorieOk");
-            HasError = HasValidationError();
-        }
-
-        public void OnAbrufen(Window window)
-        {
-            var progressWindow = new WaitWindow(AusgewaelteDatenbank,
-                                                UserApiToken,
-                                                "",
-                                                "",
-                                                "") { Owner = window };
-            progressWindow.ShowDialog();
-
-            if (progressWindow.Success)
-            {
-                SaveDatenbanken();
-                HerstellerList.Clear();
-                KategorienList.Clear();
-                HerstellerList = new ObservableCollection<KeyValuePair<string, string>>(progressWindow.ResultHerstellerDto.Data);
-                SelectedHersteller = HerstellerList.ElementAtOrDefault(-1);
-
-                KategorienList = new ObservableCollection<KategorienViewModel>(progressWindow.ResultKategorienList);
-                foreach (var item in KategorienList)
-                {
-                    SetAction(item);
-                }
-
-                UpdateProperty("HerstellerKategorieOk");
-
-                HasError = HasValidationError();
-            }
-            else
-            {
-                HilfsFunktionen.ShowMessageBox(window, "Teileliste", progressWindow.ErrorText, true);
-            }
         }
 
         #endregion
