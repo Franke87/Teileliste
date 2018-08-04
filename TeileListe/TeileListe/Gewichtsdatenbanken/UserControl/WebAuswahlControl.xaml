@@ -35,82 +35,9 @@
         <Button Grid.Row="1" Grid.Column="2" Content="Suchen" Padding="10,0,10,0" Height="23" Margin="0,0,0,10" IsEnabled="{Binding KannSuchen}" Command="{Binding OnSuchenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Visibility="{Binding HerstellerCheckBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
         <usercontrol:KategorienListe Grid.Row="2" Grid.Column="0" Margin="0,0,0,10" />
         <usercontrol:HerstellerListe Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,10" />
-        <ListBox HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0" ItemsSource="{Binding Datenbankteile}" Grid.IsSharedSizeScope="True" SelectedItem="{Binding SelectedItem}" >
-                <ListBox.Style>
-                    <Style TargetType="ListBox">
-                        <Setter Property="Visibility" Value="Visible" />
-                        <Style.Triggers>
-                        <DataTrigger Binding="{Binding Datenbankteile.Count}" Value="0" >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding AktuellerDatenbankModus}" Value="{x:Static enum:DatenbankModus.MultiSelection}" >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding AktuellerDatenbankModus}" Value="{x:Static enum:DatenbankModus.NoneSelection}" >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding AktuellerDatenbankModus}" Value="{x:Static enum:DatenbankModus.HerstellerKategorieSelection}" >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                    </Style>
-                </ListBox.Style>
-                <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"   />
-                            <ColumnDefinition Width="4*"  />
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Margin="5,0,0,0" HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Komponente}" Opacity="0.4" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Komponente}" />
-                        <TextBlock Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AnzeigeName}" />
-                        <TextBlock Margin="5,0,5,0" HorizontalAlignment="Right" Grid.Column="2" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Width="680" >
-            <ScrollViewer.Style>
-                <Style TargetType="ScrollViewer">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Datenbankteile.Count}" Value="0" >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding AktuellerDatenbankModus}" Value="{x:Static enum:DatenbankModus.SingleSelection}" >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding AktuellerDatenbankModus}" Value="{x:Static enum:DatenbankModus.NoneSelection}" >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding AktuellerDatenbankModus}" Value="{x:Static enum:DatenbankModus.HerstellerKategorieSelection}" >
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ScrollViewer.Style>
-            <ItemsControl  ItemsSource="{Binding Datenbankteile}" Grid.IsSharedSizeScope="True" >
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" HorizontalContentAlignment="Stretch" >
-                            <CheckBox.Content >
-                                <Grid >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"   />
-                                        <ColumnDefinition Width="4*"  />
-                                        <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Komponente}" Opacity="0.4" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Komponente}" />
-                                    <TextBlock Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AnzeigeName}" />
-                                    <TextBlock Margin="5,0,5,0" HorizontalAlignment="Right" Grid.Column="2" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
-                                </Grid>
-                            </CheckBox.Content>
-                        </CheckBox>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+        <usercontrol:SingleSelectionListe Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" />
+        <usercontrol:MultiSelectionListe Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" />
+        <usercontrol:NoneSelectionListe Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" />
         <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Keine Teile vorhanden" Margin="0,0,0,10" Opacity="0.4" Visibility="{Binding KeineTeileVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>

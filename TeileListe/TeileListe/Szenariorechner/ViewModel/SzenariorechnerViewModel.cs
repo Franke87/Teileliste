@@ -8,6 +8,7 @@ using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
 using TeileListe.Enums;
 using TeileListe.Common.ViewModel;
+using System;
 
 namespace TeileListe.Szenariorechner.ViewModel
 {
@@ -68,6 +69,8 @@ namespace TeileListe.Szenariorechner.ViewModel
                     {
                         item.Differenz = _selectedKomponente != null ? item.Gewicht - SelectedKomponente.Gewicht : 0;
                     }
+
+                    DatenbankViewModel.SelectedTeilGewicht = _selectedKomponente != null ? SelectedKomponente.Gewicht : -1;
 
                     AlleRestteile.Refresh();
                     AlleWunschteile.Refresh();
@@ -177,7 +180,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 var alternative = alternativenListe.Find(x => x.Komponente == item.Komponente);
                 if (alternative != null)
                 {
-                    vm.Alternative = alternative.Beschreibung;
+                    vm.Alternative = HilfsFunktionen.GetAnzeigeName(alternative);
                     vm.Differenz = alternative.Gewicht - vm.Gewicht;
                     alternativenListe.Remove(alternative);
                 }
@@ -260,6 +263,22 @@ namespace TeileListe.Szenariorechner.ViewModel
             PluginManager.DbManager.GetDatenbankDaten(ref datenbanken);
 
             DatenbankViewModel = new WebAuswahlViewModel(datenbanken, DatenbankModus.NoneSelection);
+            DatenbankViewModel.EinbauenAction = EinbauenGewichtsdatenbank;
+            DatenbankViewModel.TauschenAction = TauschenGewichtsdatenbank;
+        }
+
+        private void EinbauenGewichtsdatenbank(string komponente, string anzeigeName, int gewicht)
+        {
+            VergleichsListe.Add(new SzenarioKomponenteViewModel()
+            {
+                Komponente = komponente,
+                Beschreibung = null,
+                Gewicht = 0,
+                Guid = Guid.NewGuid().ToString(),
+                Alternative = anzeigeName,
+                Differenz = gewicht,
+                LoeschenAction = ZeileLoeschen
+            });
         }
 
         private void EinbauenWunschliste(string guid)
@@ -298,6 +317,12 @@ namespace TeileListe.Szenariorechner.ViewModel
                 });
                 Restekiste.Remove(restteil);
             }
+        }
+
+        private void TauschenGewichtsdatenbank(string anzeigeName, int differenz)
+        {
+            SelectedKomponente.Alternative = anzeigeName;
+            SelectedKomponente.Differenz = differenz;
         }
 
         private void TauschenWunschliste(string guid)

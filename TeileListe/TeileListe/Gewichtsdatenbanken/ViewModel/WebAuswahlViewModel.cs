@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -232,6 +233,22 @@ namespace TeileListe.Common.ViewModel
             }
         }
 
+        private int _selectedTeilGewicht;
+        public int SelectedTeilGewicht
+        {
+            get { return _selectedTeilGewicht; }
+            set
+            {
+                if (SetProperty("SelectedTeilGewicht", ref _selectedTeilGewicht, value))
+                {
+                    foreach(var item in Datenbankteile)
+                    {
+                        item.Differenz = value == -1 ? 0 : item.Gewicht - value;
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -239,6 +256,9 @@ namespace TeileListe.Common.ViewModel
         public MyParameterCommand<Window> OnAbrufenCommand { get; set; }
         public MyParameterCommand<Window> OnSuchenCommand { get; set; }
         public MyCommand SelectedKategorieChangedCommand { get; set; }
+
+        public Action<string, string, int> EinbauenAction { get; set; }
+        public Action<string, int> TauschenAction { get; set; }
 
         #endregion
 
@@ -277,6 +297,8 @@ namespace TeileListe.Common.ViewModel
 
             SelectedHersteller = HerstellerList.FirstOrDefault();
             SelectedItem = null;
+
+            SelectedTeilGewicht = -1;
 
             _apiTokenChanged = false;
             HasError = true;
@@ -424,6 +446,12 @@ namespace TeileListe.Common.ViewModel
                 Datenbankteile.Clear();
                 foreach (var item in progressWindow.ResultList)
                 {
+                    if(AktuellerDatenbankModus == DatenbankModus.NoneSelection)
+                    {
+                        item.EinbauenAction = EinbauenAction;
+                        item.TauschenAction = TauschenAction;
+                        item.Differenz = SelectedTeilGewicht == -1 ? 0 : item.Gewicht - SelectedTeilGewicht;
+                    }
                     item.PropertyChanged += ContentPropertyChanged;
                     Datenbankteile.Add(item);
                 }

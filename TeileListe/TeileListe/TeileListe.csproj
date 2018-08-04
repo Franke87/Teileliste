@@ -129,6 +129,15 @@
     </Compile>
     <Compile Include="Enums\DateiOeffnenEnum.cs" />
     <Compile Include="Enums\NeuesEinzelteilEnum.cs" />
+    <Compile Include="Gewichtsdatenbanken\UserControl\MultiSelectionListe.xaml.cs">
+      <DependentUpon>MultiSelectionListe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gewichtsdatenbanken\UserControl\NoneSelectionListe.xaml.cs">
+      <DependentUpon>NoneSelectionListe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gewichtsdatenbanken\UserControl\SingleSelectionListe.xaml.cs">
+      <DependentUpon>SingleSelectionListe.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KategorienVerwalten\UserControl\KategorienListeControl.xaml.cs">
       <DependentUpon>KategorienListeControl.xaml</DependentUpon>
     </Compile>
@@ -261,6 +270,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EinzelteilZuordnen\View\EinzelteilZuordnenDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gewichtsdatenbanken\UserControl\MultiSelectionListe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gewichtsdatenbanken\UserControl\NoneSelectionListe.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gewichtsdatenbanken\UserControl\SingleSelectionListe.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
