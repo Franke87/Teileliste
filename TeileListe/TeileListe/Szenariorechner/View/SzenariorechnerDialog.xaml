@@ -138,6 +138,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Margin="0,0,5,0" Text="{Binding Alternative, TargetNullValue=nicht vorhanden}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Alternative}" >
                                             <TextBlock.Style>
@@ -151,7 +152,10 @@
                                                 </Style>
                                             </TextBlock.Style>
                                         </TextBlock>
-                                        <TextBlock Margin="3,0,3,0" Grid.Column="1" ToolTip="entfernen" >
+                                        <TextBlock Margin="3,0,3,0" Grid.Column="1" ToolTip="ändern" IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" >
+                                            <Hyperlink Command="{Binding BearbeitenCommand}" TextDecorations="" >&#x270E;</Hyperlink>
+                                        </TextBlock>
+                                        <TextBlock Margin="0,0,3,0" Grid.Column="2" ToolTip="entfernen" >
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="IsEnabled" Value="False" />
@@ -283,7 +287,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <CheckBox Grid.Row="0" Content="Restekiste filtern" Margin="10,0,0,0" IsChecked="{Binding RestekisteFilterAktiv}" />
+                    <CheckBox Grid.Row="0" Content="Restekiste filtern" Margin="10,1,0,0" IsChecked="{Binding RestekisteFilterAktiv}" />
                     <HeaderedItemsControl Grid.Row="1" Margin="10,5,10,0" ItemsSource="{Binding AlleRestteile}" Grid.IsSharedSizeScope="True" >
                         <HeaderedItemsControl.Resources>
                             <classes:BindingProxy x:Key="RestekisteProxy" Data="{Binding}" />
@@ -355,7 +359,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <CheckBox Grid.Row="0" Content="Wunschliste filtern" IsChecked="{Binding WunschlisteFilterAktiv}" />
+                    <CheckBox Grid.Row="0" Content="Wunschliste filtern" Margin="0,1,0,0" IsChecked="{Binding WunschlisteFilterAktiv}" />
                     <HeaderedItemsControl Grid.Row="1" Margin="0,5,10,0" ItemsSource="{Binding AlleWunschteile}" Grid.IsSharedSizeScope="True">
                         <HeaderedItemsControl.Resources>
                             <classes:BindingProxy x:Key="WunschlisteProxy" Data="{Binding}" />
@@ -428,7 +432,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <TextBlock Opacity="0.4" Grid.Row="0" Text="Gewichtsdatenbank" />
-                    <usercontrol:WebAuswahlControl  DataContext="{Binding DatenbankViewModel}" Grid.Row="1" Margin="0,0,10,0" />
+                    <usercontrol:WebAuswahlControl DataContext="{Binding DatenbankViewModel}" Grid.Row="1" Margin="0,2,10,0" />
                 </Grid>
                 <Rectangle Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,0" Fill="LightGray" />
                 <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,5,10,10" >

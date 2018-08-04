@@ -166,8 +166,12 @@
       <DependentUpon>SzenarioPreviewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Szenariorechner\ViewModel\SzenarioAlternativeViewModel.cs" />
+    <Compile Include="Szenariorechner\ViewModel\NeueAlternativeViewModel.cs" />
     <Compile Include="Szenariorechner\ViewModel\SzenarioKomponenteViewModel.cs" />
     <Compile Include="Szenariorechner\ViewModel\SzenariorechnerViewModel.cs" />
+    <Compile Include="Szenariorechner\View\NeueAlternativeDialog.xaml.cs">
+      <DependentUpon>NeueAlternativeDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Szenariorechner\View\SzenariorechnerDialog.xaml.cs">
       <DependentUpon>SzenariorechnerDialog.xaml</DependentUpon>
     </Compile>
@@ -302,6 +306,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Szenariorechner\UserControl\SzenarioPreviewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Szenariorechner\View\NeueAlternativeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

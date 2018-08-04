@@ -9,6 +9,8 @@ using TeileListe.Common.Dto;
 using TeileListe.Enums;
 using TeileListe.Common.ViewModel;
 using System;
+using System.Windows;
+using TeileListe.Szenariorechner.View;
 
 namespace TeileListe.Szenariorechner.ViewModel
 {
@@ -153,6 +155,8 @@ namespace TeileListe.Szenariorechner.ViewModel
             set { SetProperty("AlleWunschteile", ref _alleWunschteile, value); }
         }
 
+        public MyParameterCommand<Window> HinzufuegenCommand { get; set; }
+
         public SzenariorechnerViewModel(FahrradDto selectedFahrrad, FahrradDto vergleichsFahrrad)
         {
             var alternativenListe = new List<KomponenteDto>();
@@ -265,6 +269,24 @@ namespace TeileListe.Szenariorechner.ViewModel
             DatenbankViewModel = new WebAuswahlViewModel(datenbanken, DatenbankModus.NoneSelection);
             DatenbankViewModel.EinbauenAction = EinbauenGewichtsdatenbank;
             DatenbankViewModel.TauschenAction = TauschenGewichtsdatenbank;
+
+            HinzufuegenCommand = new MyParameterCommand<Window>(OnHinzufuegen);
+        }
+
+        private void OnHinzufuegen(Window window)
+        {
+            var dialog = new NeueAlternativeDialog()
+            {
+                Owner = window
+            };
+
+            var viewModel = new NeueAlternativeViewModel();
+            dialog.DataContext = viewModel;
+            dialog.ShowDialog();
+
+            if (viewModel.IsOk)
+            {
+            }
         }
 
         private void EinbauenGewichtsdatenbank(string komponente, string anzeigeName, int gewicht)
