@@ -8,7 +8,7 @@
         ShowInTaskbar="False"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Restekiste" 
-        MinWidth="950" MinHeight="500">
+        MinWidth="950" MinHeight="725">
     <Window.Resources >
         <converter:CountToBoolConverter x:Key="CountToBoolConverter" />
     </Window.Resources>

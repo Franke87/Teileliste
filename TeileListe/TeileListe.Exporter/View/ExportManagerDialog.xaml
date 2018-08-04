@@ -12,7 +12,7 @@
         ShowInTaskbar="False"
         Title="Exportmanager" 
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
-        Width="650" MinWidth="650" >
+        Width="650" MinWidth="650" MinHeight="250" >
     <Window.Resources>
         <converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

@@ -3,15 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:userControl="clr-namespace:TeileListe.Wunschliste.UserControl"
         xmlns:converter="clr-namespace:TeileListe.Converter"
-        Height="300" 
-        Width="300"
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"
         ShowInTaskbar="False"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         Title="Wunschliste" 
-        MinWidth="950" 
-        MinHeight="500" >
+        MinWidth="950" MinHeight="725" >
     <Window.Resources >
         <converter:CountToBoolConverter x:Key="CountToBoolConverter" />
     </Window.Resources>
