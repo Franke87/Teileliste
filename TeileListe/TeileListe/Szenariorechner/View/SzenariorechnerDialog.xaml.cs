@@ -23,5 +23,10 @@ namespace TeileListe.Szenariorechner.View
                 e.Handled = test.ActualWidth >= test.DesiredSize.Width;
             }
         }
+
+        private void MainGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            BottomRow.MaxHeight = MainGrid.ActualHeight - 200;
+        }
     }
 }

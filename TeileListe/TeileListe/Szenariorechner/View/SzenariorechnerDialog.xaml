@@ -54,11 +54,11 @@
         </Style>
     </Window.Resources>
     <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
-        <Grid Grid.IsSharedSizeScope="True">
+        <Grid Name="MainGrid" SizeChanged="MainGrid_SizeChanged" Grid.IsSharedSizeScope="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="195" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="0*" MinHeight="350" />
+                <RowDefinition Height="0*" Name="BottomRow" MinHeight="350" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" >
                 <Grid.RowDefinitions>
@@ -112,10 +112,10 @@
                                     <TextBlock Margin="0,0,5,0" Text="{Binding Beschreibung, TargetNullValue=nicht vorhanden}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Beschreibung}" >
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
-                                                <Setter Property="Foreground" Value="Black" />
+                                                <Setter Property="Opacity" Value="1" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Beschreibung}" Value="{x:Null}">
-                                                        <Setter Property="Foreground" Value="LightGray" />
+                                                        <Setter Property="Opacity" Value="0.4" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -143,10 +143,10 @@
                                         <TextBlock Grid.Column="0" Margin="0,0,5,0" Text="{Binding Alternative, TargetNullValue=nicht vorhanden}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Alternative}" >
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground" Value="Black" />
+                                                    <Setter Property="Opacity" Value="1" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Alternative}" Value="{x:Null}">
-                                                            <Setter Property="Foreground" Value="LightGray" />
+                                                            <Setter Property="Opacity" Value="0.4" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -186,7 +186,7 @@
                     </DataGrid.Columns>
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
-                            <Grid Background="WhiteSmoke" Visibility="{Binding ZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                            <Grid MaxHeight="75" Background="WhiteSmoke" Visibility="{Binding ZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
