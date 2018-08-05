@@ -56,9 +56,9 @@
     <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
         <Grid Grid.IsSharedSizeScope="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*" MinHeight="195" />
+                <RowDefinition Height="*" MinHeight="195" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="2*" MinHeight="350" />
+                <RowDefinition Height="0*" MinHeight="350" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" >
                 <Grid.RowDefinitions>
