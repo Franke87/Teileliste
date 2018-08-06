@@ -257,8 +257,8 @@ namespace TeileListe.Common.ViewModel
         public MyParameterCommand<Window> OnSuchenCommand { get; set; }
         public MyCommand SelectedKategorieChangedCommand { get; set; }
 
-        public Action<string, string, int> EinbauenAction { get; set; }
-        public Action<string, int> TauschenAction { get; set; }
+        public Action<string, string, string, string, string, int> EinbauenAction { get; set; }
+        public Action<string, string, string, string, int> TauschenAction { get; set; }
 
         #endregion
 

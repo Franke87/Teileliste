@@ -37,8 +37,8 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
         public MyCommand EinbauenCommand { get; set; }
         public MyCommand TauschenCommand { get; set; }
 
-        public Action<string, string, int> EinbauenAction { get; set; }
-        public Action<string, int> TauschenAction { get; set; }
+        public Action<string, string, string, string, string, int> EinbauenAction { get; set; }
+        public Action<string, string, string, string, int> TauschenAction { get; set; }
 
         internal DatenbankteilAuswahlViewModel()
         {
@@ -48,12 +48,21 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
 
         private void OnEinbauen()
         {
-            EinbauenAction(Komponente, AnzeigeName, Gewicht);
+            EinbauenAction(Komponente, 
+                            Hersteller, 
+                            Beschreibung, 
+                            Groesse, 
+                            Jahr, 
+                            Gewicht);
         }
 
         private void OnTauschen()
         {
-            TauschenAction(AnzeigeName, Differenz);
+            TauschenAction(Hersteller, 
+                            Beschreibung, 
+                            Groesse, 
+                            Jahr, 
+                            Differenz);
         }
     }
 }

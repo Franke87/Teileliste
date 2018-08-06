@@ -5,10 +5,21 @@ namespace TeileListe.Szenariorechner.ViewModel
 {
     internal class SzenarioAlternativeViewModel : MyCommonViewModel
     {
-        public string Komponente { get; set; }
-        public int Gewicht { get; set; }
-        public string AnzeigeName { get; set; }
         public string Guid { get; set; }
+        public string Komponente { get; set; }
+        public string Hersteller { get; set; }
+        public string Beschreibung { get; set; }
+        public string Groesse { get; set; }
+        public string Jahr { get; set; }
+        public int Gewicht { get; set; }
+
+        public string AnzeigeName
+        {
+            get
+            {
+                return HilfsFunktionen.GetAnzeigeName(Hersteller, Beschreibung, Groesse, Jahr);
+            }
+        }
 
         private int _differenz;
         public int Differenz

@@ -20,7 +20,7 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public int GesamtGewicht { get { return VergleichsListe.Sum(x => x.Gewicht); } }
 
-        public int GesamtDifferenz { get { return VergleichsListe.Sum(x => x.Differenz); } }
+        public int GesamtDifferenz { get { return VergleichsListe.Sum(x => x.AlternativeDifferenz); } }
 
         public bool TeilSelected { get { return SelectedKomponente != null; } }
 
@@ -178,20 +178,30 @@ namespace TeileListe.Szenariorechner.ViewModel
                     Gewicht = item.Gewicht,
                     Guid = item.Guid,
                     Beschreibung = HilfsFunktionen.GetAnzeigeName(item),
+                    AlternativeVorhanden = false,
                     LoeschenAction = ZeileLoeschen
                 };
+                vm.PropertyChanged += ContentPropertyChanged;
 
                 var alternative = alternativenListe.Find(x => x.Komponente == item.Komponente);
                 if (alternative != null)
                 {
-                    vm.Alternative = HilfsFunktionen.GetAnzeigeName(alternative);
-                    vm.Differenz = alternative.Gewicht - vm.Gewicht;
+                    vm.AlternativeHersteller = alternative.Hersteller;
+                    vm.AlternativeBeschreibung = alternative.Beschreibung;
+                    vm.AlternativeGroesse = alternative.Groesse;
+                    vm.AlternativeJahr = alternative.Jahr;
+                    vm.AlternativeDifferenz = alternative.Gewicht - vm.Gewicht;
+                    vm.AlternativeVorhanden = true;
                     alternativenListe.Remove(alternative);
                 }
                 else
                 {
-                    vm.Alternative = null;
-                    vm.Differenz = -vm.Gewicht;
+                    vm.AlternativeVorhanden = false;
+                    vm.AlternativeHersteller = "";
+                    vm.AlternativeBeschreibung = "";
+                    vm.AlternativeGroesse = "";
+                    vm.AlternativeJahr = "";
+                    vm.AlternativeDifferenz = -vm.Gewicht;
                     OhneZuordnung.Add(vm);
                 }
                 VergleichsListe.Add(vm);
@@ -205,10 +215,15 @@ namespace TeileListe.Szenariorechner.ViewModel
                     Gewicht = 0,
                     Beschreibung = null,
                     Guid = item.Guid,
-                    Alternative = HilfsFunktionen.GetAnzeigeName(item),
-                    Differenz = item.Gewicht,
+                    AlternativeHersteller = item.Hersteller,
+                    AlternativeBeschreibung = item.Beschreibung,
+                    AlternativeGroesse = item.Groesse,
+                    AlternativeJahr = item.Jahr,
+                    AlternativeDifferenz = item.Gewicht,
+                    AlternativeVorhanden = true,
                     LoeschenAction = ZeileLoeschen
                 };
+                vm.PropertyChanged += ContentPropertyChanged;
                 VergleichsListe.Add(vm);
             }
 
@@ -223,7 +238,9 @@ namespace TeileListe.Szenariorechner.ViewModel
                 {
                     Komponente = restteil.Komponente,
                     Gewicht = restteil.Gewicht,
-                    AnzeigeName = HilfsFunktionen.GetAnzeigeName(restteil), 
+                    Beschreibung = restteil.Beschreibung, 
+                    Groesse = restteil.Groesse,
+                    Jahr = restteil.Jahr,
                     Guid = restteil.Guid,
                     Differenz = 0,
                     EinbauenAction = EinbauenRestekiste,
@@ -245,7 +262,10 @@ namespace TeileListe.Szenariorechner.ViewModel
                 {
                     Komponente = wunschteil.Komponente,
                     Gewicht = wunschteil.Gewicht,
-                    AnzeigeName = HilfsFunktionen.GetAnzeigeName(wunschteil), 
+                    Hersteller = wunschteil.Hersteller,
+                    Beschreibung = wunschteil.Beschreibung, 
+                    Groesse = wunschteil.Groesse, 
+                    Jahr = wunschteil.Jahr,
                     Guid = wunschteil.Guid,
                     Differenz = 0,
                     EinbauenAction = EinbauenWunschliste,
@@ -286,21 +306,34 @@ namespace TeileListe.Szenariorechner.ViewModel
 
             if (viewModel.IsOk)
             {
+                UpdateProperty("GesamtDifferenz");
             }
         }
 
-        private void EinbauenGewichtsdatenbank(string komponente, string anzeigeName, int gewicht)
+        private void EinbauenGewichtsdatenbank(string komponente, 
+                                                string hersteller, 
+                                                string beschreibung, 
+                                                string groesse, 
+                                                string jahr, 
+                                                int gewicht)
         {
-            VergleichsListe.Add(new SzenarioKomponenteViewModel()
+            var vm = new SzenarioKomponenteViewModel()
             {
                 Komponente = komponente,
                 Beschreibung = null,
                 Gewicht = 0,
                 Guid = Guid.NewGuid().ToString(),
-                Alternative = anzeigeName,
-                Differenz = gewicht,
+                AlternativeHersteller = hersteller,
+                AlternativeBeschreibung = beschreibung, 
+                AlternativeGroesse = groesse, 
+                AlternativeJahr = jahr,
+                AlternativeDifferenz = gewicht,
+                AlternativeVorhanden = true,
                 LoeschenAction = ZeileLoeschen
-            });
+            };
+            vm.PropertyChanged += ContentPropertyChanged;
+            VergleichsListe.Add(vm);
+            UpdateProperty("GesamtDifferenz");
         }
 
         private void EinbauenWunschliste(string guid)
@@ -308,16 +341,23 @@ namespace TeileListe.Szenariorechner.ViewModel
             var wunschteil = Wunschliste.First(teil => teil.Guid == guid);
             if (wunschteil != null)
             {
-                VergleichsListe.Add(new SzenarioKomponenteViewModel()
+                var vm = new SzenarioKomponenteViewModel()
                 {
                     Komponente = wunschteil.Komponente,
                     Beschreibung = null,
                     Gewicht = 0,
                     Guid = wunschteil.Guid,
-                    Alternative = wunschteil.AnzeigeName,
-                    Differenz = wunschteil.Gewicht,
+                    AlternativeHersteller = wunschteil.Hersteller,
+                    AlternativeBeschreibung = wunschteil.Beschreibung,
+                    AlternativeGroesse = wunschteil.Groesse,
+                    AlternativeJahr = wunschteil.Jahr,
+                    AlternativeDifferenz = wunschteil.Gewicht,
+                    AlternativeVorhanden = true,
                     LoeschenAction = ZeileLoeschen
-                });
+                };
+                vm.PropertyChanged += ContentPropertyChanged;
+                VergleichsListe.Add(vm);
+                UpdateProperty("GesamtDifferenz");
                 Wunschliste.Remove(wunschteil);
             }
         }
@@ -327,24 +367,40 @@ namespace TeileListe.Szenariorechner.ViewModel
             var restteil = Restekiste.First(teil => teil.Guid == guid);
             if (restteil != null)
             {
-                VergleichsListe.Add(new SzenarioKomponenteViewModel()
+                var vm = new SzenarioKomponenteViewModel()
                 {
                     Komponente = restteil.Komponente,
                     Beschreibung = null,
                     Gewicht = 0,
                     Guid = restteil.Guid,
-                    Alternative = restteil.AnzeigeName,
-                    Differenz = restteil.Gewicht,
+                    AlternativeHersteller = restteil.Hersteller,
+                    AlternativeBeschreibung = restteil.Beschreibung, 
+                    AlternativeGroesse = restteil.Groesse,
+                    AlternativeJahr = restteil.Jahr,
+                    AlternativeDifferenz = restteil.Gewicht,
+                    AlternativeVorhanden = true,
                     LoeschenAction = ZeileLoeschen
-                });
+                };
+                vm.PropertyChanged += ContentPropertyChanged;
+                VergleichsListe.Add(vm);
+                UpdateProperty("GesamtDifferenz");
                 Restekiste.Remove(restteil);
             }
         }
 
-        private void TauschenGewichtsdatenbank(string anzeigeName, int differenz)
+        private void TauschenGewichtsdatenbank(string hersteller, 
+                                                string beschreibung, 
+                                                string groesse, 
+                                                string jahr, 
+                                                int differenz)
         {
-            SelectedKomponente.Alternative = anzeigeName;
-            SelectedKomponente.Differenz = differenz;
+            SelectedKomponente.AlternativeVorhanden = true;
+            SelectedKomponente.AlternativeHersteller = hersteller;
+            SelectedKomponente.AlternativeBeschreibung = beschreibung;
+            SelectedKomponente.AlternativeGroesse = groesse;
+            SelectedKomponente.AlternativeJahr = jahr;
+            SelectedKomponente.AlternativeDifferenz = differenz;
+            UpdateProperty("GesamtDifferenz");
         }
 
         private void TauschenWunschliste(string guid)
@@ -352,8 +408,13 @@ namespace TeileListe.Szenariorechner.ViewModel
             var wunschteil = Wunschliste.First(teil => teil.Guid == guid);
             if (wunschteil != null)
             {
-                SelectedKomponente.Alternative = wunschteil.AnzeigeName;
-                SelectedKomponente.Differenz = wunschteil.Differenz;
+                SelectedKomponente.AlternativeVorhanden = true;
+                SelectedKomponente.AlternativeHersteller = wunschteil.Hersteller;
+                SelectedKomponente.AlternativeBeschreibung = wunschteil.Beschreibung;
+                SelectedKomponente.AlternativeGroesse = wunschteil.Groesse;
+                SelectedKomponente.AlternativeJahr = wunschteil.Jahr;
+                SelectedKomponente.AlternativeDifferenz = wunschteil.Differenz;
+                UpdateProperty("GesamtDifferenz");
                 Wunschliste.Remove(wunschteil);
             }
         }
@@ -363,9 +424,22 @@ namespace TeileListe.Szenariorechner.ViewModel
             var restteil = Restekiste.First(teil => teil.Guid == guid);
             if (restteil != null)
             {
-                SelectedKomponente.Alternative = restteil.AnzeigeName;
-                SelectedKomponente.Differenz = restteil.Differenz;
+                SelectedKomponente.AlternativeVorhanden = true;
+                SelectedKomponente.AlternativeHersteller = restteil.Hersteller;
+                SelectedKomponente.AlternativeBeschreibung = restteil.Beschreibung;
+                SelectedKomponente.AlternativeGroesse = restteil.Groesse;
+                SelectedKomponente.AlternativeJahr = restteil.Jahr;
+                SelectedKomponente.AlternativeDifferenz = restteil.Differenz;
+                UpdateProperty("GesamtDifferenz");
                 Restekiste.Remove(restteil);
+            }
+        }
+
+        private void ContentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (String.CompareOrdinal(e.PropertyName, "AlternativeDifferenz") == 0)
+            {
+                UpdateProperty("GesamtDifferenz");
             }
         }
 
@@ -375,6 +449,7 @@ namespace TeileListe.Szenariorechner.ViewModel
             if(teil != null)
             {
                 VergleichsListe.Remove(teil);
+                UpdateProperty("GesamtDifferenz");
             }
         }
     }

@@ -140,12 +140,12 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Margin="0,0,5,0" Text="{Binding Alternative, TargetNullValue=nicht vorhanden}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Alternative}" >
+                                        <TextBlock Grid.Column="0" Margin="0,0,5,0" Text="{Binding AlternativeName, TargetNullValue=nicht vorhanden}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AlternativeName}" >
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Opacity" Value="1" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Alternative}" Value="{x:Null}">
+                                                        <DataTrigger Binding="{Binding AlternativeName}" Value="{x:Null}">
                                                             <Setter Property="Opacity" Value="0.4" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -179,7 +179,7 @@
                         <DataGridTemplateColumn Header="Differenz" Width="Auto" MinWidth="50" x:Name="DataGridColumnDifferenz" HeaderStyle="{StaticResource ColumnHeaderRightAlignedStyle}" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
+                                    <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" Foreground="{Binding AlternativeDifferenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding AlternativeDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -336,7 +336,7 @@
                                         <TextBlock.ToolTip>
                                             <TextBlock>
                                         <Run Text="{Binding Komponente}" />
-                                        <Run Text="{Binding AnzeigeName}" />
+                                        <Run Text="{Binding AnzeigeName, Mode=OneWay}" />
                                             </TextBlock>
                                         </TextBlock.ToolTip>
                                     </TextBlock>
@@ -408,7 +408,7 @@
                                         <TextBlock.ToolTip>
                                             <TextBlock>
                                                 <Run Text="{Binding Komponente}" />
-                                                <Run Text="{Binding AnzeigeName}" />
+                                                <Run Text="{Binding AnzeigeName, Mode=OneWay}" />
                                             </TextBlock>
                                         </TextBlock.ToolTip>
                                     </TextBlock>
