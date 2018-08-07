@@ -8,7 +8,7 @@
         xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
         WindowStartupLocation="CenterScreen"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
-        Title="{Binding TitelText}" MinWidth="950" Width="1080" MinHeight="725" Height="768">
+        Title="{Binding TitelText}" MinWidth="1014" MinHeight="725" Width="1014" Height="740">
     <Window.Resources>
         <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
         <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />

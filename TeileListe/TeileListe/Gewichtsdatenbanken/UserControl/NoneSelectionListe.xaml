@@ -11,9 +11,9 @@
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
         <converter:IntToForegroundConverter x:Key="IntToForegroundConverter" />
     </UserControl.Resources>
-    <ScrollViewer >
-        <ScrollViewer.Style>
-            <Style TargetType="ScrollViewer">
+    <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
+        <Border.Style>
+            <Style TargetType="Border">
                 <Setter Property="Visibility" Value="Visible" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Datenbankteile.Count}" Value="0" >
@@ -30,36 +30,38 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-        </ScrollViewer.Style>
-        <ItemsControl  ItemsSource="{Binding Datenbankteile}" Grid.IsSharedSizeScope="True" >
-            <ItemsControl.Resources>
-                <classes:BindingProxy x:Key="DatenbankProxy" Data="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+        </Border.Style>
+        <ScrollViewer >
+            <ItemsControl  ItemsSource="{Binding Datenbankteile}" Grid.IsSharedSizeScope="True" >
+                <ItemsControl.Resources>
+                    <classes:BindingProxy x:Key="DatenbankProxy" Data="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                          AncestorType={x:Type Window}}, Path=DataContext}" />
-            </ItemsControl.Resources>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"   />
-                            <ColumnDefinition Width="4*"  />
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="D" />
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="E" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Komponente}" Opacity="0.4" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Komponente}" />
-                        <TextBlock Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AnzeigeName}" />
-                        <TextBlock Grid.Column="2" Margin="3,0,0,0" ToolTip="neue Komponente einbauen">
+                </ItemsControl.Resources>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"   />
+                                <ColumnDefinition Width="4*"  />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="D" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="E" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock HorizontalAlignment="Stretch" Grid.Column="0" Text="{Binding Komponente}" Opacity="0.4" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Komponente}" />
+                            <TextBlock Margin="5,0,0,0" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AnzeigeName}" />
+                            <TextBlock Grid.Column="2" Margin="3,0,0,0" ToolTip="neue Komponente einbauen">
                                         <Hyperlink Command="{Binding EinbauenCommand}" TextDecorations="" >&#x2934;</Hyperlink>
-                        </TextBlock>
-                        <TextBlock Grid.Column="3" Margin="3,0,0,0" ToolTip="ausgewählte Alternative tauschen" IsEnabled="{Binding Data.TeilSelected, Source={StaticResource DatenbankProxy}}">
+                            </TextBlock>
+                            <TextBlock Grid.Column="3" Margin="3,0,0,0" ToolTip="ausgewählte Alternative tauschen" IsEnabled="{Binding Data.TeilSelected, Source={StaticResource DatenbankProxy}}">
                                         <Hyperlink Command="{Binding TauschenCommand}" TextDecorations="" >&#x238C;</Hyperlink>
-                        </TextBlock>
-                        <TextBlock Grid.Column="4" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
-                        <TextBlock Grid.Column="5" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </ScrollViewer>
+                            </TextBlock>
+                            <TextBlock Grid.Column="4" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
+                            <TextBlock Grid.Column="5" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Border>
 </UserControl>

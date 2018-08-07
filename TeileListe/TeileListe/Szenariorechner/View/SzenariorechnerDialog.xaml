@@ -12,7 +12,7 @@
         SnapsToDevicePixels="True"
         ShowInTaskbar="False"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
-        MinWidth="950" MinHeight="725"
+        MinWidth="1014" MinHeight="725"
         Title="Szenariorechner" >
     <Window.Resources>
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
@@ -247,7 +247,7 @@
                     </DataGrid.RowDetailsTemplate>
                 </DataGrid>
                 <Rectangle Grid.Row="0" Margin="0,31,10,0" Fill="LightGray" HorizontalAlignment="Right" VerticalAlignment="Top" Width="17" Height="1" />
-                <Grid Grid.Row="1" Margin="10,0,10,10">
+                <Grid Grid.Row="1" Margin="10,0,10,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding ElementName=DataGridColumnKomponente, Path=ActualWidth}" />
                         <ColumnDefinition Width="{Binding ElementName=DataGridColumnBeschreibung, Path=ActualWidth}" />
@@ -268,17 +268,17 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Margin="10,0,10,10" />
+            <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Margin="10,0,10,5" />
             <Grid Grid.Row="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="1" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" MinWidth="200" />
+                    <ColumnDefinition Width="*" MinWidth="180"/>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="1*" MinWidth="200" />
+                    <ColumnDefinition Width="*" MinWidth="180" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MinWidth="150" MaxWidth="300" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="2*" MinWidth="400" />
                 </Grid.ColumnDefinitions>
@@ -288,18 +288,20 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <CheckBox Grid.Row="0" Content="Restekiste filtern" Margin="10,1,0,0" IsChecked="{Binding RestekisteFilterAktiv}" />
-                    <HeaderedItemsControl Grid.Row="1" Margin="10,5,10,0" ItemsSource="{Binding AlleRestteile}" Grid.IsSharedSizeScope="True" >
+                    <HeaderedItemsControl Grid.Row="1" Margin="10,5,5,10" ItemsSource="{Binding AlleRestteile}" Grid.IsSharedSizeScope="True" >
                         <HeaderedItemsControl.Resources>
                             <classes:BindingProxy x:Key="RestekisteProxy" Data="{Binding}" />
                         </HeaderedItemsControl.Resources>
                         <HeaderedItemsControl.Template>
                             <ControlTemplate TargetType="HeaderedItemsControl">
-                                <DockPanel>
-                                    <ContentPresenter ContentSource="Header" DockPanel.Dock="Top" />
-                                    <ScrollViewer >
-                                        <ItemsPresenter />
-                                    </ScrollViewer>
-                                </DockPanel>
+                                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
+                                    <DockPanel>
+                                        <ContentPresenter ContentSource="Header" DockPanel.Dock="Top" />
+                                        <ScrollViewer >
+                                            <ItemsPresenter />
+                                        </ScrollViewer>
+                                    </DockPanel>
+                                </Border>
                             </ControlTemplate>
                         </HeaderedItemsControl.Template>
                         <HeaderedItemsControl.Header>
@@ -353,25 +355,27 @@
                         </HeaderedItemsControl.ItemTemplate>
                     </HeaderedItemsControl>
                 </Grid>
-                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" Margin="0,0,10,10" VerticalAlignment="Stretch" />
+                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" Margin="0,0,5,10" VerticalAlignment="Stretch" />
                 <Grid Grid.Column="2" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <CheckBox Grid.Row="0" Content="Wunschliste filtern" Margin="0,1,0,0" IsChecked="{Binding WunschlisteFilterAktiv}" />
-                    <HeaderedItemsControl Grid.Row="1" Margin="0,5,10,0" ItemsSource="{Binding AlleWunschteile}" Grid.IsSharedSizeScope="True">
+                    <HeaderedItemsControl Grid.Row="1" Margin="0,5,5,10" ItemsSource="{Binding AlleWunschteile}" Grid.IsSharedSizeScope="True">
                         <HeaderedItemsControl.Resources>
                             <classes:BindingProxy x:Key="WunschlisteProxy" Data="{Binding}" />
                         </HeaderedItemsControl.Resources>
                         <HeaderedItemsControl.Template>
                             <ControlTemplate TargetType="HeaderedItemsControl">
-                                <DockPanel>
-                                    <ContentPresenter ContentSource="Header" DockPanel.Dock="Top" />
-                                    <ScrollViewer >
-                                        <ItemsPresenter />
-                                    </ScrollViewer>
-                                </DockPanel>
+                                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
+                                    <DockPanel>
+                                        <ContentPresenter ContentSource="Header" DockPanel.Dock="Top" />
+                                        <ScrollViewer >
+                                            <ItemsPresenter />
+                                        </ScrollViewer>
+                                    </DockPanel>
+                                </Border>
                             </ControlTemplate>
                         </HeaderedItemsControl.Template>
                         <HeaderedItemsControl.Header>
@@ -425,24 +429,45 @@
                         </HeaderedItemsControl.ItemTemplate>
                     </HeaderedItemsControl>
                 </Grid>
-                <GridSplitter Grid.Column="3" Width="5" Margin="0,0,10,10" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+                <GridSplitter Grid.Column="3" Width="5" Margin="0,0,5,10" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                 <Grid Grid.Column="4" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Opacity="0.4" Grid.Row="0" Margin="0,0,5,0" MinWidth="35" Grid.Column="0" Text="Komponente:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Komponente:"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,5,0" Text="{Binding NeueKomponente}" IsEnabled="{Binding KomponenteEnabled}" />
+                    <TextBlock Opacity="0.4" Grid.Row="1" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Hersteller:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Hersteller:"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuerHersteller}" />
+                    <TextBlock Opacity="0.4" Grid.Row="2" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Beschreibung:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Beschreibung:"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeueBeschreibung}" />
+                    <TextBlock Opacity="0.4" Grid.Row="3" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Grösse:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Größe:"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeueGroesse}" />
+                    <TextBlock Opacity="0.4" Grid.Row="4" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Jahr:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Jahr:"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuesJahr}" />
+                    <TextBlock Opacity="0.4" Grid.Row="5" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Gewicht:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Gewicht:"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuesGewicht, Converter={StaticResource IntToWeightConverter}}" />
+                    <TextBlock Opacity="0.4" Grid.Row="6" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Differenz:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Differenz:"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Margin="3,4,5,0" Text="{Binding NeueDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding NeueDifferenz, Converter={StaticResource IntToForegroundConverter}}" />
+                </Grid>
+                <GridSplitter Grid.Column="5" Width="5" Margin="0,0,5,10" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+                <Grid Grid.Column="6" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <TextBlock Opacity="0.4" Grid.Row="0" Text="Gewichtsdatenbank" />
-                    <usercontrol:WebAuswahlControl DataContext="{Binding DatenbankViewModel}" Grid.Row="1" Margin="0,2,10,0" />
-                </Grid>
-                <Rectangle Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,0" Fill="LightGray" />
-                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="10,5,10,10" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Button Padding="10,0,10,0" Height="23" Grid.Column="1" VerticalAlignment="Bottom" IsDefault="True" Content="Hinzufügen" Command="{Binding HinzufuegenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="15,9,0,0"/>
-                    <Button Padding="10,0,10,0" Height="23" Grid.Column="2" VerticalAlignment="Bottom" Content="Schließen" IsCancel="True" Margin="15,9,0,0" />
+                    <usercontrol:WebAuswahlControl DataContext="{Binding DatenbankViewModel}" Grid.Row="1" Margin="0,2,10,10" />
                 </Grid>
             </Grid>
         </Grid>

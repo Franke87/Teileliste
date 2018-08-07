@@ -123,7 +123,7 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public MyCommand EntfernenCommand { get; set; }
 
-        public Action<string> LoeschenAction { get; set; }
+        public Action<string, bool> LoeschenAction { get; set; }
 
         #endregion
 
@@ -150,10 +150,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 AlternativeDifferenz = 0 - Gewicht;
             }
 
-            if (Beschreibung == null)
-            {
-                LoeschenAction(Guid);
-            }
+            LoeschenAction(Guid, Beschreibung != null);
         }
 
         #endregion
