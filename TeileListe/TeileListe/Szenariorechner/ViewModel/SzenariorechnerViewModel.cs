@@ -74,14 +74,16 @@ namespace TeileListe.Szenariorechner.ViewModel
 
                     DatenbankViewModel.SelectedTeilGewicht = _selectedKomponente != null ? SelectedKomponente.Gewicht : -1;
 
-                    NeueKomponente = _selectedKomponente != null ? _selectedKomponente.Komponente : "";
-                    NeuerHersteller = _selectedKomponente != null ? _selectedKomponente.AlternativeHersteller : "";
-                    NeueBeschreibung = _selectedKomponente != null ? _selectedKomponente.AlternativeBeschreibung : "";
-                    NeueGroesse = _selectedKomponente != null ? _selectedKomponente.AlternativeGroesse : "";
-                    NeuesJahr = _selectedKomponente != null ? _selectedKomponente.AlternativeJahr : "";
-                    NeuesGewicht = _selectedKomponente != null ? _selectedKomponente.AlternativeDifferenz + _selectedKomponente.Gewicht : 0;
-                    NeueDifferenz = _selectedKomponente != null ? _selectedKomponente.AlternativeDifferenz : 0;
-                    KomponenteEnabled = _selectedKomponente != null ? string.IsNullOrWhiteSpace(_selectedKomponente.Beschreibung) : true;
+                    if (AlternativeBearbeiten)
+                    {
+                        NeueKomponente = _selectedKomponente != null ? _selectedKomponente.Komponente : "";
+                        NeuerHersteller = _selectedKomponente != null ? _selectedKomponente.AlternativeHersteller : "";
+                        NeueBeschreibung = _selectedKomponente != null ? _selectedKomponente.AlternativeBeschreibung : "";
+                        NeueGroesse = _selectedKomponente != null ? _selectedKomponente.AlternativeGroesse : "";
+                        NeuesJahr = _selectedKomponente != null ? _selectedKomponente.AlternativeJahr : "";
+                        NeuesGewicht = _selectedKomponente != null ? _selectedKomponente.AlternativeDifferenz + _selectedKomponente.Gewicht : 0;
+                        KomponenteEnabled = _selectedKomponente != null ? string.IsNullOrWhiteSpace(_selectedKomponente.Beschreibung) : true;
+                    }
 
                     AlleRestteile.Refresh();
                     AlleWunschteile.Refresh();
@@ -100,49 +102,135 @@ namespace TeileListe.Szenariorechner.ViewModel
         public string NeueKomponente
         {
             get { return _neueKomponente; }
-            set { SetProperty("NeueKomponente", ref _neueKomponente, value); }
+            set
+            {
+                if(SetProperty("NeueKomponente", ref _neueKomponente, value))
+                {
+                    UpdateProperty("HinzufuegenEnabled");
+                }
+            }
         }
 
         private string _neuerHersteller;
         public string NeuerHersteller
         {
             get { return _neuerHersteller; }
-            set { SetProperty("NeuerHersteller", ref _neuerHersteller, value); }
+            set
+            {
+                if(SetProperty("NeuerHersteller", ref _neuerHersteller, value))
+                {
+                    UpdateProperty("HinzufuegenEnabled");
+                }
+            }
         }
 
         private string _neueBeschreibung;
         public string NeueBeschreibung
         {
             get { return _neueBeschreibung; }
-            set { SetProperty("NeueBeschreibung", ref _neueBeschreibung, value); }
+            set
+            {
+                if(SetProperty("NeueBeschreibung", ref _neueBeschreibung, value))
+                {
+                    UpdateProperty("HinzufuegenEnabled");
+                }
+            }
         }
 
         private string _neueGroesse;
         public string NeueGroesse
         {
             get { return _neueGroesse; }
-            set { SetProperty("NeueGroesse", ref _neueGroesse, value); }
+            set
+            {
+                if(SetProperty("NeueGroesse", ref _neueGroesse, value))
+                {
+                    UpdateProperty("HinzufuegenEnabled");
+                }
+            }
         }
 
         private int _neuesGewicht;
         public int NeuesGewicht
         {
             get { return _neuesGewicht; }
-            set { SetProperty("NeuesGewicht", ref _neuesGewicht, value); }
+            set
+            {
+                SetProperty("NeuesGewicht", ref _neuesGewicht, value);
+                UpdateProperty("NeueDifferenz");
+            }
         }
 
-        private int _neueDifferenz;
         public int NeueDifferenz
         {
-            get { return _neueDifferenz; }
-            set { SetProperty("NeueDifferenz", ref _neueDifferenz, value); }
+            get
+            {
+                if(AlternativeBearbeiten)
+                {
+                    return SelectedKomponente != null ? NeuesGewicht - SelectedKomponente.Gewicht : NeuesGewicht;
+                }
+                else
+                {
+                    return NeuesGewicht;
+                }
+            }
         }
 
         private string _neuesJahr;
         public string NeuesJahr
         {
             get { return _neuesJahr; }
-            set { SetProperty("NeuesJahr", ref _neuesJahr, value); }
+            set
+            {
+                if(SetProperty("NeuesJahr", ref _neuesJahr, value))
+                {
+                    UpdateProperty("HinzufuegenEnabled");
+                }
+            }
+        }
+
+        private bool _alternativeBearbeiten;
+        public bool AlternativeBearbeiten
+        {
+            get { return _alternativeBearbeiten; }
+            set
+            {
+                if(SetProperty("AlternativeBearbeiten", ref _alternativeBearbeiten, value))
+                {
+                    if(AlternativeBearbeiten)
+                    {
+                        NeueKomponente = _selectedKomponente != null ? _selectedKomponente.Komponente : "";
+                        NeuerHersteller = _selectedKomponente != null ? _selectedKomponente.AlternativeHersteller : "";
+                        NeueBeschreibung = _selectedKomponente != null ? _selectedKomponente.AlternativeBeschreibung : "";
+                        NeueGroesse = _selectedKomponente != null ? _selectedKomponente.AlternativeGroesse : "";
+                        NeuesJahr = _selectedKomponente != null ? _selectedKomponente.AlternativeJahr : "";
+                        NeuesGewicht = _selectedKomponente != null ? _selectedKomponente.AlternativeDifferenz + _selectedKomponente.Gewicht : 0;
+                        KomponenteEnabled = _selectedKomponente != null ? string.IsNullOrWhiteSpace(_selectedKomponente.Beschreibung) : true;
+                    }
+                    else
+                    {
+                        NeueKomponente = "";
+                        NeuerHersteller = "";
+                        NeueBeschreibung = "";
+                        NeueGroesse = "";
+                        NeuesJahr = "";
+                        NeuesGewicht = 0;
+                        KomponenteEnabled = true;
+                    }
+                }
+            }
+        }
+
+        public bool HinzufuegenEnabled
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(NeueKomponente)
+                    && (!string.IsNullOrWhiteSpace(NeuerHersteller)
+                        || !string.IsNullOrWhiteSpace(NeueBeschreibung)
+                        || !string.IsNullOrWhiteSpace(NeueGroesse)
+                        || !string.IsNullOrWhiteSpace(NeuesJahr));
+            }
         }
 
         private bool FilterRestekiste(object item)
@@ -220,7 +308,8 @@ namespace TeileListe.Szenariorechner.ViewModel
             set { SetProperty("AlleWunschteile", ref _alleWunschteile, value); }
         }
 
-        public MyParameterCommand<Window> HinzufuegenCommand { get; set; }
+        public MyCommand HinzufuegenCommand { get; set; }
+        public MyCommand TauschenCommand { get; set; }
 
         public SzenariorechnerViewModel(FahrradDto selectedFahrrad, FahrradDto vergleichsFahrrad)
         {
@@ -362,24 +451,51 @@ namespace TeileListe.Szenariorechner.ViewModel
             NeuesJahr = "";
             KomponenteEnabled = true;
 
-            HinzufuegenCommand = new MyParameterCommand<Window>(OnHinzufuegen);
+            AlternativeBearbeiten = true;
+
+            HinzufuegenCommand = new MyCommand(OnHinzufuegen);
+            TauschenCommand = new MyCommand(OnTauschen);
         }
 
-        private void OnHinzufuegen(Window window)
+        private void OnTauschen()
         {
-            var dialog = new NeueAlternativeDialog()
+            SelectedKomponente.Komponente = NeueKomponente;
+            SelectedKomponente.AlternativeHersteller = NeuerHersteller;
+            SelectedKomponente.AlternativeBeschreibung = NeueBeschreibung;
+            SelectedKomponente.AlternativeGroesse = NeueGroesse;
+            SelectedKomponente.AlternativeJahr = NeuesJahr;
+            SelectedKomponente.AlternativeDifferenz = NeueDifferenz;
+            SelectedKomponente.AlternativeVorhanden = true;
+        }
+
+        private void OnHinzufuegen()
+        {
+            var vm = new SzenarioKomponenteViewModel
             {
-                Owner = window
+                Komponente = NeueKomponente,
+                Gewicht = 0,
+                Beschreibung = null,
+                Guid = Guid.NewGuid().ToString(),
+                AlternativeHersteller = NeuerHersteller,
+                AlternativeBeschreibung = NeueBeschreibung,
+                AlternativeGroesse = NeueGroesse,
+                AlternativeJahr = NeuesJahr,
+                AlternativeDifferenz = NeuesGewicht,
+                AlternativeVorhanden = true,
+                LoeschenAction = ZeileLoeschen
             };
+            vm.PropertyChanged += ContentPropertyChanged;
+            VergleichsListe.Add(vm);
 
-            var viewModel = new NeueAlternativeViewModel();
-            dialog.DataContext = viewModel;
-            dialog.ShowDialog();
+            UpdateProperty("GesamtDifferenz");
 
-            if (viewModel.IsOk)
-            {
-                UpdateProperty("GesamtDifferenz");
-            }
+            NeueKomponente = "";
+            NeuerHersteller = "";
+            NeueBeschreibung = "";
+            NeueGroesse = "";
+            NeuesJahr = "";
+            NeuesGewicht = 0;
+            KomponenteEnabled = true;
         }
 
         private void EinbauenGewichtsdatenbank(string komponente, 
@@ -531,7 +647,6 @@ namespace TeileListe.Szenariorechner.ViewModel
             NeueGroesse = "";
             NeuesJahr = "";
             NeuesGewicht = 0;
-            NeueDifferenz = SelectedKomponente != null ? 0 - SelectedKomponente.Gewicht : 0;
             UpdateProperty("GesamtDifferenz");
         }
     }

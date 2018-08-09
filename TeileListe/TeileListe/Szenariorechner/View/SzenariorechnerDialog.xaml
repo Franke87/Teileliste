@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
         xmlns:converter="clr-namespace:TeileListe.Converter"
         xmlns:classes="clr-namespace:TeileListe.Classes"
         xmlns:usercontrol="clr-namespace:TeileListe.Gewichtsdatenbanken.UserControl"
@@ -10,6 +11,7 @@
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanResize"
         SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
         ShowInTaskbar="False"
         Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
         MinWidth="1014" MinHeight="725"
@@ -17,6 +19,8 @@
     <Window.Resources>
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
         <converter:IntToForegroundConverter x:Key="IntToForegroundConverter" />
+        <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <commonConverter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style x:Key="ColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}" >
             <Setter Property="BorderThickness" Value="0" />
@@ -276,13 +280,13 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" MinWidth="565" Name="LastColumnBottomGrid" />
+                    <ColumnDefinition Width="0*" MinWidth="565" Name="LastColumnBottomGrid" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Name="ListeGrid" SizeChanged="ListeGrid_SizeChanged" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="180" Name="LastColumnListeGrid" />
+                        <ColumnDefinition Width="0*" MinWidth="180" Name="LastColumnListeGrid" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" >
                         <Grid.RowDefinitions>
@@ -437,7 +441,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" MaxWidth="350" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="400" Name="LastColumnDatenbankGrid" />
+                        <ColumnDefinition Width="0*" MinWidth="400" Name="LastColumnDatenbankGrid" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" >
                         <Grid.ColumnDefinitions>
@@ -452,22 +456,40 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Opacity="0.4" Grid.Row="0" Margin="0,0,5,0" MinWidth="35" Grid.Column="0" Text="Komponente:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Komponente:"/>
-                        <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,5,0" Text="{Binding NeueKomponente}" IsEnabled="{Binding KomponenteEnabled}" />
-                        <TextBlock Opacity="0.4" Grid.Row="1" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Hersteller:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Hersteller:"/>
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuerHersteller}" />
-                        <TextBlock Opacity="0.4" Grid.Row="2" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Beschreibung:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Beschreibung:"/>
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeueBeschreibung}" />
-                        <TextBlock Opacity="0.4" Grid.Row="3" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Grösse:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Größe:"/>
-                        <TextBox Grid.Row="3" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeueGroesse}" />
-                        <TextBlock Opacity="0.4" Grid.Row="4" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Jahr:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Jahr:"/>
-                        <TextBox Grid.Row="4" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuesJahr}" />
-                        <TextBlock Opacity="0.4" Grid.Row="5" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Gewicht:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Gewicht:"/>
-                        <TextBox Grid.Row="5" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuesGewicht, Converter={StaticResource IntToWeightConverter}}" />
-                        <TextBlock Opacity="0.4" Grid.Row="6" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Differenz:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Differenz:"/>
-                        <TextBlock Grid.Row="6" Grid.Column="1" Margin="3,4,5,0" Text="{Binding NeueDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding NeueDifferenz, Converter={StaticResource IntToForegroundConverter}}" />
+                        <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,1,5,02" Content="Alternative bearbeiten" IsChecked="{Binding AlternativeBearbeiten, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,5,10" Content="Alternative hinzufügen" IsChecked="{Binding AlternativeBearbeiten, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
+                        <TextBlock Opacity="0.4" Grid.Row="2" Margin="0,0,5,0" MinWidth="35" Grid.Column="0" Text="Komponente:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Komponente:"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,5,0" Text="{Binding NeueKomponente, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding KomponenteEnabled}" />
+                        <TextBlock Opacity="0.4" Grid.Row="3" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Hersteller:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Hersteller:"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuerHersteller, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Opacity="0.4" Grid.Row="4" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Beschreibung:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Beschreibung:"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeueBeschreibung, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Opacity="0.4" Grid.Row="5" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Grösse:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Größe:"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeueGroesse, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Opacity="0.4" Grid.Row="6" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Jahr:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Jahr:"/>
+                        <TextBox Grid.Row="6" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuesJahr, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Opacity="0.4" Grid.Row="7" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Gewicht:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Gewicht:"/>
+                        <TextBox Grid.Row="7" Grid.Column="1" Margin="0,4,5,0" Text="{Binding NeuesGewicht, Converter={StaticResource IntToWeightConverter}}" />
+                        <TextBlock Opacity="0.4" Grid.Row="8" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Differenz:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Differenz:"/>
+                        <TextBlock Grid.Row="8" Grid.Column="1" Margin="3,4,5,0" Text="{Binding NeueDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding NeueDifferenz, Converter={StaticResource IntToForegroundConverter}}" />
+                        <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,5,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Row="0" Grid.Column="1" Padding="10,0,10,0" Content="Hinzufügen" IsEnabled="{Binding HinzufuegenEnabled}" Command="{Binding HinzufuegenCommand}" Height="23" Visibility="{Binding AlternativeBearbeiten, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                            <Button Grid.Row="1" Grid.Column="1" Padding="10,0,10,0" Content="Übernehmen" IsEnabled="{Binding HinzufuegenEnabled}" Command="{Binding TauschenCommand}" Height="23" Visibility="{Binding AlternativeBearbeiten, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
+                        
                     </Grid>
                     <GridSplitter Grid.Column="1" Width="5" Margin="0,0,5,10" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                     <Grid Grid.Column="2" >
