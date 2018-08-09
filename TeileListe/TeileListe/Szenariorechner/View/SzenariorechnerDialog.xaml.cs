@@ -28,5 +28,20 @@ namespace TeileListe.Szenariorechner.View
         {
             BottomRow.MaxHeight = MainGrid.ActualHeight - 200;
         }
+
+        private void BottomGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            LastColumnBottomGrid.MaxWidth = BottomGrid.ActualWidth - 390;
+        }
+
+        private void ListeGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            LastColumnListeGrid.MaxWidth = ListeGrid.ActualWidth - 200;
+        }
+
+        private void DatenbankGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            LastColumnDatenbankGrid.MaxWidth = DatenbankGrid.ActualWidth - 165;
+        }
     }
 }
