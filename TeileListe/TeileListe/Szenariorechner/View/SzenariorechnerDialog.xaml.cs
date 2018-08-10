@@ -41,7 +41,7 @@ namespace TeileListe.Szenariorechner.View
 
         private void DatenbankGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            LastColumnDatenbankGrid.MaxWidth = DatenbankGrid.ActualWidth - 165;
+            LastColumnDatenbankGrid.MaxWidth = DatenbankGrid.ActualWidth - 415;
         }
     }
 }
