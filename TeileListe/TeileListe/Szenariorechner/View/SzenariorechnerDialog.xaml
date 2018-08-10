@@ -293,7 +293,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <CheckBox Grid.Row="0" Content="Restekiste filtern" Margin="10,1,0,0" IsChecked="{Binding RestekisteFilterAktiv}" />
+                        <CheckBox Grid.Row="0" Content="Restekiste filtern" Margin="10,4,0,0" IsChecked="{Binding RestekisteFilterAktiv}" />
                         <HeaderedItemsControl Grid.Row="1" Margin="10,5,5,10" ItemsSource="{Binding AlleRestteile}" Grid.IsSharedSizeScope="True" >
                             <HeaderedItemsControl.Resources>
                                 <classes:BindingProxy x:Key="RestekisteProxy" Data="{Binding}" />
@@ -367,7 +367,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <CheckBox Grid.Row="0" Content="Wunschliste filtern" Margin="0,1,0,0" IsChecked="{Binding WunschlisteFilterAktiv}" />
+                        <CheckBox Grid.Row="0" Content="Wunschliste filtern" Margin="0,4,0,0" IsChecked="{Binding WunschlisteFilterAktiv}" />
                         <HeaderedItemsControl Grid.Row="1" Margin="0,5,5,10" ItemsSource="{Binding AlleWunschteile}" Grid.IsSharedSizeScope="True">
                             <HeaderedItemsControl.Resources>
                                 <classes:BindingProxy x:Key="WunschlisteProxy" Data="{Binding}" />
@@ -443,14 +443,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="0*" MinWidth="150" Name="LastColumnDatenbankGrid" />
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Opacity="0.4" Grid.Row="0" Text="Gewichtsdatenbank" />
-                        <usercontrol:WebAuswahlControl DataContext="{Binding DatenbankViewModel}" Grid.Row="1" Margin="0,2,5,10" />
-                    </Grid>
+                    <usercontrol:WebAuswahlControl Grid.Column="0" DataContext="{Binding DatenbankViewModel}" Grid.Row="1" Margin="0,0,5,10" />
                     <GridSplitter Grid.Column="1" Width="5" Margin="0,0,5,10" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
                     <Grid Grid.Column="2" >
                         <Grid.ColumnDefinitions>
@@ -470,7 +463,7 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,1,10,02" Content="Alternative bearbeiten" IsChecked="{Binding AlternativeBearbeiten, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,4,10,02" Content="Alternative bearbeiten" IsChecked="{Binding AlternativeBearbeiten, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,10,10" Content="Alternative hinzufügen" IsChecked="{Binding AlternativeBearbeiten, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
                         <TextBlock Opacity="0.4" Grid.Row="2" Margin="0,0,5,0" MinWidth="35" Grid.Column="0" Text="Komponente:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Komponente:"/>
                         <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,10,0" Text="{Binding NeueKomponente, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding KomponenteEnabled}" />
