@@ -356,6 +356,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                     vm.AlternativeGroesse = "";
                     vm.AlternativeJahr = "";
                     vm.AlternativeDifferenz = -vm.Gewicht;
+                    vm.ZuordnenAction = OnZuordnen;
                     OhneZuordnung.Add(vm);
                 }
                 VergleichsListe.Add(vm);
@@ -496,6 +497,24 @@ namespace TeileListe.Szenariorechner.ViewModel
             NeuesJahr = "";
             NeuesGewicht = 0;
             KomponenteEnabled = true;
+        }
+
+        void OnZuordnen(string guid)
+        {
+            var item = OhneZuordnung.First(teil => teil.Guid == guid);
+            var komponente = VergleichsListe.First(teil => teil.Guid == guid);
+            if(item != null && komponente != null && SelectedKomponente != null)
+            {
+                komponente.AlternativeHersteller = SelectedKomponente.AlternativeHersteller;
+                komponente.AlternativeBeschreibung = SelectedKomponente.AlternativeBeschreibung;
+                komponente.AlternativeGroesse = SelectedKomponente.AlternativeGroesse;
+                komponente.AlternativeJahr = SelectedKomponente.AlternativeJahr;
+                komponente.AlternativeDifferenz = SelectedKomponente.AlternativeDifferenz - komponente.Gewicht;
+                komponente.AlternativeVorhanden = true;
+                OhneZuordnung.Remove(item);
+                VergleichsListe.Remove(SelectedKomponente);
+                SelectedKomponente = VergleichsListe.First(teil => teil.Guid == guid);
+            }
         }
 
         private void EinbauenGewichtsdatenbank(string komponente, 

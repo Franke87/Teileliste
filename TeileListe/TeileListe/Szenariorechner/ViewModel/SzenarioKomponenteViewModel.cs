@@ -122,8 +122,10 @@ namespace TeileListe.Szenariorechner.ViewModel
         public bool KannEntfernen { get { return Beschreibung == null || AlternativeName != null; } }
 
         public MyCommand EntfernenCommand { get; set; }
+        public MyCommand ZuordnenCommand { get; set; }
 
         public Action<string, bool> LoeschenAction { get; set; }
+        public Action<string> ZuordnenAction { get; set; }
 
         #endregion
 
@@ -132,15 +134,21 @@ namespace TeileListe.Szenariorechner.ViewModel
         public SzenarioKomponenteViewModel()
         {
             EntfernenCommand = new MyCommand(OnEntfernen);
+            ZuordnenCommand = new MyCommand(OnZuordnen);
         }
 
         #endregion
 
         #region Funktionen
 
+        private void OnZuordnen()
+        {
+            ZuordnenAction(Guid);
+        }
+
         private void OnEntfernen()
         {
-            if(AlternativeName != null)
+            if(AlternativeVorhanden)
             {
                 AlternativeVorhanden = false;
                 AlternativeHersteller = "";
