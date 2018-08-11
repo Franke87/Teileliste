@@ -91,7 +91,7 @@ namespace TeileListe.Szenariorechner.ViewModel
             {
                 if (SetProperty("AlternativeVorhanden", ref _alternativeVorhanden, value))
                 {
-                    UpdateProperty("ZuordnenVisible");
+                    UpdateProperty("AlternativeZuordnenVisible");
                     UpdateProperty("KannEntfernen");
                     UpdateProperty("AlternativeName");
                 }
@@ -117,7 +117,7 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         #region Links und Actions
 
-        public bool ZuordnenVisible { get { return Beschreibung == null || AlternativeName == null; } }
+        public bool AlternativeZuordnenVisible { get { return Beschreibung == null; } }
 
         public bool KannEntfernen { get { return Beschreibung == null || AlternativeName != null; } }
 

@@ -9,8 +9,6 @@ using TeileListe.Common.Dto;
 using TeileListe.Enums;
 using TeileListe.Common.ViewModel;
 using System;
-using System.Windows;
-using TeileListe.Szenariorechner.View;
 
 namespace TeileListe.Szenariorechner.ViewModel
 {
@@ -83,6 +81,17 @@ namespace TeileListe.Szenariorechner.ViewModel
                         NeuesJahr = _selectedKomponente != null ? _selectedKomponente.AlternativeJahr : "";
                         NeuesGewicht = _selectedKomponente != null ? _selectedKomponente.AlternativeDifferenz + _selectedKomponente.Gewicht : 0;
                         KomponenteEnabled = _selectedKomponente != null ? string.IsNullOrWhiteSpace(_selectedKomponente.Beschreibung) : true;
+                    }
+
+                    if(_selectedKomponente != null)
+                    {
+                        if(_selectedKomponente.Beschreibung == null)
+                        {
+                            foreach(var item in OhneZuordnung)
+                            {
+                                item.AlternativeDifferenz = _selectedKomponente.AlternativeDifferenz - item.Gewicht;
+                            }
+                        }
                     }
 
                     AlleRestteile.Refresh();
@@ -652,21 +661,25 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         private void ZeileLoeschen(string guid, bool nurAlternative)
         {
-            if (!nurAlternative)
+            var teil = VergleichsListe.First(item => item.Guid == guid);
+            if (teil != null)
             {
-                var teil = VergleichsListe.First(item => item.Guid == guid);
-                if (teil != null)
+                if (nurAlternative)
+                {
+                    OhneZuordnung.Add(teil);
+                }
+                else
                 {
                     VergleichsListe.Remove(teil);
                 }
-            }
 
-            NeuerHersteller = "";
-            NeueBeschreibung = "";
-            NeueGroesse = "";
-            NeuesJahr = "";
-            NeuesGewicht = 0;
-            UpdateProperty("GesamtDifferenz");
+                NeuerHersteller = "";
+                NeueBeschreibung = "";
+                NeueGroesse = "";
+                NeuesJahr = "";
+                NeuesGewicht = 0;
+                UpdateProperty("GesamtDifferenz");
+            }
         }
     }
 }
