@@ -87,9 +87,16 @@ namespace TeileListe.Szenariorechner.ViewModel
                     {
                         if(_selectedKomponente.Beschreibung == null)
                         {
-                            foreach(var item in OhneZuordnung)
+                            foreach(var item in OhneAlternative)
                             {
-                                item.AlternativeDifferenz = _selectedKomponente.AlternativeDifferenz - item.Gewicht;
+                                item.Differenz = _selectedKomponente.AlternativeDifferenz - item.Gewicht;
+                            }
+                        }
+                        else if(!_selectedKomponente.AlternativeVorhanden)
+                        {
+                            foreach(var item in OhneKomponente)
+                            {
+                                item.Differenz = item.Gewicht - _selectedKomponente.Gewicht;
                             }
                         }
                     }
@@ -282,11 +289,18 @@ namespace TeileListe.Szenariorechner.ViewModel
             set { SetProperty("VergleichsListe", ref _vergleichsListe, value); }
         }
 
-        private ObservableCollection<SzenarioKomponenteViewModel> _ohneZuordnung;
-        public ObservableCollection<SzenarioKomponenteViewModel> OhneZuordnung
+        private ObservableCollection<OhneZuordnungViewModel> _ohneAlternative;
+        public ObservableCollection<OhneZuordnungViewModel> OhneAlternative
         {
-            get { return _ohneZuordnung; }
-            set { SetProperty("OhneZuordnung", ref _ohneZuordnung, value); }
+            get { return _ohneAlternative; }
+            set { SetProperty("OhneAlternative", ref _ohneAlternative, value); }
+        }
+
+        private ObservableCollection<OhneZuordnungViewModel> _ohneKomponente;
+        public ObservableCollection<OhneZuordnungViewModel> OhneKomponente
+        {
+            get { return _ohneKomponente; }
+            set { SetProperty("OhneKomponente", ref _ohneKomponente, value); }
         }
 
         private ObservableCollection<SzenarioAlternativeViewModel> _restekiste;
@@ -329,7 +343,8 @@ namespace TeileListe.Szenariorechner.ViewModel
             PluginManager.DbManager.GetKomponente(selectedFahrrad.Guid, ref komponentenListe);
 
             VergleichsListe = new ObservableCollection<SzenarioKomponenteViewModel>();
-            OhneZuordnung = new ObservableCollection<SzenarioKomponenteViewModel>();
+            OhneAlternative = new ObservableCollection<OhneZuordnungViewModel>();
+            OhneKomponente = new ObservableCollection<OhneZuordnungViewModel>();
             Restekiste = new ObservableCollection<SzenarioAlternativeViewModel>();
             Wunschliste = new ObservableCollection<SzenarioAlternativeViewModel>();
 
@@ -365,8 +380,18 @@ namespace TeileListe.Szenariorechner.ViewModel
                     vm.AlternativeGroesse = "";
                     vm.AlternativeJahr = "";
                     vm.AlternativeDifferenz = -vm.Gewicht;
-                    vm.ZuordnenAction = OnZuordnen;
-                    OhneZuordnung.Add(vm);
+
+                    var zuord = new OhneZuordnungViewModel
+                    {
+                        Guid = vm.Guid,
+                        Komponente = vm.Komponente,
+                        Beschreibung = vm.Beschreibung,
+                        Gewicht = vm.Gewicht,
+                        Differenz = vm.AlternativeDifferenz,
+                        Alternative = vm.AlternativeName
+                    };
+                    zuord.ZuordnenAction = OnZuordnenOhneAlternative;
+                    OhneAlternative.Add(zuord);
                 }
                 VergleichsListe.Add(vm);
             }
@@ -389,6 +414,18 @@ namespace TeileListe.Szenariorechner.ViewModel
                 };
                 vm.PropertyChanged += ContentPropertyChanged;
                 VergleichsListe.Add(vm);
+
+                var zuord = new OhneZuordnungViewModel
+                {
+                    Guid = vm.Guid,
+                    Komponente = vm.Komponente, 
+                    Beschreibung = vm.Beschreibung, 
+                    Alternative = vm.AlternativeName,
+                    Gewicht = vm.AlternativeDifferenz,
+                    Differenz = vm.AlternativeDifferenz
+                };
+                zuord.ZuordnenAction = OnZuordnenOhneKomponente;
+                OhneKomponente.Add(zuord);
             }
 
             SelectedKomponente = null;
@@ -476,6 +513,14 @@ namespace TeileListe.Szenariorechner.ViewModel
             SelectedKomponente.AlternativeJahr = NeuesJahr;
             SelectedKomponente.AlternativeDifferenz = NeueDifferenz;
             SelectedKomponente.AlternativeVorhanden = true;
+
+            var ohneZuordnung = OhneKomponente.First(teil => teil.Guid == SelectedKomponente.Guid);
+            if(ohneZuordnung != null)
+            {
+                ohneZuordnung.Komponente = SelectedKomponente.Komponente;
+                ohneZuordnung.Alternative = SelectedKomponente.AlternativeName;
+                ohneZuordnung.Gewicht = NeuesGewicht;
+            }
         }
 
         private void OnHinzufuegen()
@@ -497,6 +542,18 @@ namespace TeileListe.Szenariorechner.ViewModel
             vm.PropertyChanged += ContentPropertyChanged;
             VergleichsListe.Add(vm);
 
+            var ohneZuordnung = new OhneZuordnungViewModel
+            {
+                Guid = vm.Guid,
+                Komponente = vm.Komponente,
+                Beschreibung = vm.Beschreibung,
+                Alternative = vm.AlternativeName,
+                Gewicht = vm.AlternativeDifferenz,
+                Differenz = vm.AlternativeDifferenz
+            };
+            ohneZuordnung.ZuordnenAction = OnZuordnenOhneKomponente;
+            OhneKomponente.Add(ohneZuordnung);
+
             UpdateProperty("GesamtDifferenz");
 
             NeueKomponente = "";
@@ -508,9 +565,32 @@ namespace TeileListe.Szenariorechner.ViewModel
             KomponenteEnabled = true;
         }
 
-        void OnZuordnen(string guid)
+        void OnZuordnenOhneKomponente(string guid)
         {
-            var item = OhneZuordnung.First(teil => teil.Guid == guid);
+            var item = OhneKomponente.First(teil => teil.Guid == guid);
+            var komponente = VergleichsListe.First(teil => teil.Guid == guid);
+            if (item != null && komponente != null && SelectedKomponente != null)
+            {
+                SelectedKomponente.AlternativeHersteller = komponente.AlternativeHersteller;
+                SelectedKomponente.AlternativeBeschreibung = komponente.AlternativeBeschreibung;
+                SelectedKomponente.AlternativeGroesse = komponente.AlternativeGroesse;
+                SelectedKomponente.AlternativeJahr = komponente.AlternativeJahr;
+                SelectedKomponente.AlternativeDifferenz = komponente.AlternativeDifferenz - SelectedKomponente.Gewicht;
+                SelectedKomponente.AlternativeVorhanden = true;
+                OhneKomponente.Remove(item);
+                VergleichsListe.Remove(komponente);
+
+                var ohneZuordnung = OhneAlternative.First(teil => teil.Guid == SelectedKomponente.Guid);
+                if(ohneZuordnung != null)
+                {
+                    OhneAlternative.Remove(ohneZuordnung);
+                }
+            }
+        }
+
+        void OnZuordnenOhneAlternative(string guid)
+        {
+            var item = OhneAlternative.First(teil => teil.Guid == guid);
             var komponente = VergleichsListe.First(teil => teil.Guid == guid);
             if(item != null && komponente != null && SelectedKomponente != null)
             {
@@ -520,9 +600,15 @@ namespace TeileListe.Szenariorechner.ViewModel
                 komponente.AlternativeJahr = SelectedKomponente.AlternativeJahr;
                 komponente.AlternativeDifferenz = SelectedKomponente.AlternativeDifferenz - komponente.Gewicht;
                 komponente.AlternativeVorhanden = true;
-                OhneZuordnung.Remove(item);
+                OhneAlternative.Remove(item);
                 VergleichsListe.Remove(SelectedKomponente);
                 SelectedKomponente = VergleichsListe.First(teil => teil.Guid == guid);
+
+                var ohneZuordnung = OhneKomponente.First(teil => teil.Guid == SelectedKomponente.Guid);
+                if (ohneZuordnung != null)
+                {
+                    OhneKomponente.Remove(ohneZuordnung);
+                }
             }
         }
 
@@ -666,7 +752,17 @@ namespace TeileListe.Szenariorechner.ViewModel
             {
                 if (nurAlternative)
                 {
-                    OhneZuordnung.Add(teil);
+                    var ohneZuordnung = new OhneZuordnungViewModel
+                    {
+                        Guid = teil.Guid,
+                        Komponente = teil.Komponente,
+                        Beschreibung = teil.Beschreibung,
+                        Differenz = teil.AlternativeDifferenz,
+                        Gewicht = teil.Gewicht,
+                        Alternative = teil.AlternativeName
+                    };
+                    ohneZuordnung.ZuordnenAction = OnZuordnenOhneAlternative;
+                    OhneAlternative.Add(ohneZuordnung);
                 }
                 else
                 {
