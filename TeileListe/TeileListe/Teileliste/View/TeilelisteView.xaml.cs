@@ -24,5 +24,10 @@ namespace TeileListe.Teileliste.View
                 e.Handled = test.ActualWidth >= test.DesiredSize.Width;
             }
         }
+
+        private void MainGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            FirstColumn.MaxWidth = MainGrid.ActualWidth - 770;
+        }
     }
 }

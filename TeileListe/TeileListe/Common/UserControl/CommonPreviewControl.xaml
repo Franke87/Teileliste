@@ -6,8 +6,7 @@
              xmlns:userControl="clr-namespace:TeileListe.Common.UserControl"
              xmlns:converter="clr-namespace:TeileListe.Converter"
              mc:Ignorable="d"
-             Height="Auto"
-             MaxWidth="125" >
+             Height="Auto" >
     <UserControl.Resources>
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
     </UserControl.Resources>

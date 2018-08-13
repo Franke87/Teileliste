@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converter="clr-namespace:TeileListe.Converter"
              mc:Ignorable="d" 
-             MaxWidth="125"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />

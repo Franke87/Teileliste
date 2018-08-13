@@ -17,38 +17,41 @@
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
         <converter:IntToPriceConverter x:Key="IntToPriceConverter" />
     </Window.Resources>
-    <Grid Margin="15,5,15,15" >
+    <Grid Margin="15,5,15,15" Name="MainGrid" SizeChanged="MainGrid_SizeChanged" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="0*" Name="FirstColumn" MinWidth="145" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,1,15,0" Grid.Column="0" >
-            <teilelisteUserControl:FahrradAuswahlControl  />
-        </Border>
-        <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,15,0" Grid.Column="0" >
-            <szenarioControl:SzenarioPreviewControl />
-        </Border>
-        <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,15,0" Grid.Column="0" >
-            <commonUserControl:CommonPreviewControl HeaderText="Wunschliste" 
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,1,10,0" Grid.Column="0" >
+                <teilelisteUserControl:FahrradAuswahlControl  />
+            </Border>
+            <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,10,0" Grid.Column="0" >
+                <szenarioControl:SzenarioPreviewControl />
+            </Border>
+            <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,10,0" Grid.Column="0" >
+                <commonUserControl:CommonPreviewControl HeaderText="Wunschliste" 
                                               Gewicht="{Binding GewichtWunschliste, Converter={StaticResource IntToWeightConverter}}" 
                                               Wert="{Binding WertWunschliste, Converter={StaticResource IntToPriceConverter}}" 
                                               Inhalt="{Binding InhaltWunschliste}" 
                                               OeffnenCommand="{Binding WunschlisteCommand}"/>
-        </Border>
-        <Border Grid.Row="3" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,15,0" Grid.Column="0" >
-            <commonUserControl:CommonPreviewControl HeaderText="Restekiste" 
+            </Border>
+            <Border Grid.Row="3" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,10,0" Grid.Column="0" >
+                <commonUserControl:CommonPreviewControl HeaderText="Restekiste" 
                                               Gewicht="{Binding GewichtRestekiste, Converter={StaticResource IntToWeightConverter}}" 
                                               Wert="{Binding WertRestekiste, Converter={StaticResource IntToPriceConverter}}" 
                                               Inhalt="{Binding InhaltRestekiste}"
                                               OeffnenCommand="{Binding RestekisteCommand}" />
-        </Border>
-        <Border Grid.Row="0" Grid.RowSpan="4" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,1,0,0" Grid.Column="1" >
+            </Border>
+        </Grid>
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" Width="5" HorizontalAlignment="Left" />
+        <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,1,0,0" Grid.Column="1" >
             <Grid Margin="10" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
