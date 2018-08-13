@@ -578,13 +578,14 @@ namespace TeileListe.Szenariorechner.ViewModel
                 SelectedKomponente.AlternativeDifferenz = komponente.AlternativeDifferenz - SelectedKomponente.Gewicht;
                 SelectedKomponente.AlternativeVorhanden = true;
                 OhneKomponente.Remove(item);
-                VergleichsListe.Remove(komponente);
 
                 var ohneZuordnung = OhneAlternative.First(teil => teil.Guid == SelectedKomponente.Guid);
                 if(ohneZuordnung != null)
                 {
                     OhneAlternative.Remove(ohneZuordnung);
                 }
+
+                VergleichsListe.Remove(komponente);
             }
         }
 
@@ -601,14 +602,15 @@ namespace TeileListe.Szenariorechner.ViewModel
                 komponente.AlternativeDifferenz = SelectedKomponente.AlternativeDifferenz - komponente.Gewicht;
                 komponente.AlternativeVorhanden = true;
                 OhneAlternative.Remove(item);
-                VergleichsListe.Remove(SelectedKomponente);
-                SelectedKomponente = VergleichsListe.First(teil => teil.Guid == guid);
-
+                
                 var ohneZuordnung = OhneKomponente.First(teil => teil.Guid == SelectedKomponente.Guid);
                 if (ohneZuordnung != null)
                 {
                     OhneKomponente.Remove(ohneZuordnung);
                 }
+
+                VergleichsListe.Remove(SelectedKomponente);
+                SelectedKomponente = VergleichsListe.First(teil => teil.Guid == guid);
             }
         }
 
