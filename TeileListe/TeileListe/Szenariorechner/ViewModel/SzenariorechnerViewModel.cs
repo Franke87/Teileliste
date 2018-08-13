@@ -14,41 +14,15 @@ namespace TeileListe.Szenariorechner.ViewModel
 {
     internal class SzenariorechnerViewModel : MyCommonViewModel
     {
-        public string Teststring { get { return SelectedKomponente.Komponente; } }
+        #region Allgemeine Properties
 
         public int GesamtGewicht { get { return VergleichsListe.Sum(x => x.Gewicht); } }
 
         public int GesamtDifferenz { get { return VergleichsListe.Sum(x => x.AlternativeDifferenz); } }
 
-        public bool TeilSelected { get { return SelectedKomponente != null; } }
-
         public WebAuswahlViewModel DatenbankViewModel { get; set; }
 
-        private bool _restekisteFilterAktiv;
-        public bool RestekisteFilterAktiv
-        {
-            get { return _restekisteFilterAktiv; }
-            set
-            {
-                if(SetProperty("RestekisteFilterAktiv", ref _restekisteFilterAktiv, value))
-                {
-                    AlleRestteile.Refresh();
-                }
-            }
-        }
-
-        private bool _wunschlisteFilterAktiv;
-        public bool WunschlisteFilterAktiv
-        {
-            get { return _wunschlisteFilterAktiv; }
-            set
-            {
-                if (SetProperty("WunschlisteFilterAktiv", ref _wunschlisteFilterAktiv, value))
-                {
-                    AlleWunschteile.Refresh();
-                }
-            }
-        }
+        public bool TeilSelected { get { return SelectedKomponente != null; } }
 
         private SzenarioKomponenteViewModel _selectedKomponente;
         public SzenarioKomponenteViewModel SelectedKomponente
@@ -56,7 +30,7 @@ namespace TeileListe.Szenariorechner.ViewModel
             get { return _selectedKomponente; }
             set
             {
-                if(SetProperty("SelectedKomponente", ref _selectedKomponente, value))
+                if (SetProperty("SelectedKomponente", ref _selectedKomponente, value))
                 {
                     UpdateProperty("TeilSelected");
 
@@ -83,18 +57,18 @@ namespace TeileListe.Szenariorechner.ViewModel
                         KomponenteEnabled = _selectedKomponente != null ? string.IsNullOrWhiteSpace(_selectedKomponente.Beschreibung) : true;
                     }
 
-                    if(_selectedKomponente != null)
+                    if (_selectedKomponente != null)
                     {
-                        if(_selectedKomponente.Beschreibung == null)
+                        if (_selectedKomponente.Beschreibung == null)
                         {
-                            foreach(var item in OhneAlternative)
+                            foreach (var item in OhneAlternative)
                             {
                                 item.Differenz = _selectedKomponente.AlternativeDifferenz - item.Gewicht;
                             }
                         }
-                        else if(!_selectedKomponente.AlternativeVorhanden)
+                        else if (!_selectedKomponente.AlternativeVorhanden)
                         {
-                            foreach(var item in OhneKomponente)
+                            foreach (var item in OhneKomponente)
                             {
                                 item.Differenz = item.Gewicht - _selectedKomponente.Gewicht;
                             }
@@ -106,6 +80,105 @@ namespace TeileListe.Szenariorechner.ViewModel
                 }
             }
         }
+
+        private bool TeileFilter(bool isRestekiste, object item)
+        {
+            if (SelectedKomponente == null)
+            {
+                return true;
+            }
+
+            if ((isRestekiste && !RestekisteFilterAktiv)
+                || (!isRestekiste && !WunschlisteFilterAktiv))
+            {
+                return true;
+            }
+
+            var komponente = item as SzenarioAlternativeViewModel;
+
+            if (komponente == null)
+            {
+                return true;
+            }
+
+            return komponente.Komponente == SelectedKomponente.Komponente;
+        }
+
+        #endregion
+
+        #region Restekiste
+
+        private bool _restekisteFilterAktiv;
+        public bool RestekisteFilterAktiv
+        {
+            get { return _restekisteFilterAktiv; }
+            set
+            {
+                if(SetProperty("RestekisteFilterAktiv", ref _restekisteFilterAktiv, value))
+                {
+                    AlleRestteile.Refresh();
+                }
+            }
+        }
+
+        private bool FilterRestekiste(object item)
+        {
+            return TeileFilter(true, item);
+        }
+
+        private ObservableCollection<SzenarioAlternativeViewModel> _restekiste;
+        public ObservableCollection<SzenarioAlternativeViewModel> Restekiste
+        {
+            get { return _restekiste; }
+            set { SetProperty("Restekiste", ref _restekiste, value); }
+        }
+
+        private ICollectionView _alleRestteile;
+        public ICollectionView AlleRestteile
+        {
+            get { return _alleRestteile; }
+            set { SetProperty("AlleRestteile", ref _alleRestteile, value); }
+        }
+
+        #endregion
+
+        #region Wunschliste
+
+        private bool _wunschlisteFilterAktiv;
+        public bool WunschlisteFilterAktiv
+        {
+            get { return _wunschlisteFilterAktiv; }
+            set
+            {
+                if (SetProperty("WunschlisteFilterAktiv", ref _wunschlisteFilterAktiv, value))
+                {
+                    AlleWunschteile.Refresh();
+                }
+            }
+        }
+
+        private bool FilterWunschliste(object item)
+        {
+            return TeileFilter(false, item);
+        }
+
+        private ObservableCollection<SzenarioAlternativeViewModel> _wunschliste;
+        public ObservableCollection<SzenarioAlternativeViewModel> Wunschliste
+        {
+            get { return _wunschliste; }
+            set { SetProperty("Wunschliste", ref _wunschliste, value); }
+        }
+
+        private ICollectionView _alleWunschteile;
+        public ICollectionView AlleWunschteile
+        {
+            get { return _alleWunschteile; }
+            set { SetProperty("AlleWunschteile", ref _alleWunschteile, value); }
+        }
+
+        #endregion
+
+        #region Manuelle Eingabefelder
 
         private bool _kompnenteEnabled;
         public bool KomponenteEnabled
@@ -249,38 +322,9 @@ namespace TeileListe.Szenariorechner.ViewModel
             }
         }
 
-        private bool FilterRestekiste(object item)
-        {
-            return TeileFilter(true, item);
-        }
+        #endregion
 
-        private bool FilterWunschliste(object item)
-        {
-            return TeileFilter(false, item);
-        }
-
-        private bool TeileFilter(bool isRestekiste, object item)
-        {
-            if(SelectedKomponente == null)
-            {
-                return true;
-            }
-
-            if((isRestekiste && !RestekisteFilterAktiv)
-                || (!isRestekiste && !WunschlisteFilterAktiv))
-            {
-                return true;
-            }
-
-            var komponente = item as SzenarioAlternativeViewModel;
-
-            if (komponente == null)
-            {
-                return true;
-            }
-
-            return komponente.Komponente == SelectedKomponente.Komponente;
-        }
+        #region Hauptliste
 
         private ObservableCollection<SzenarioKomponenteViewModel> _vergleichsListe;
         public ObservableCollection<SzenarioKomponenteViewModel> VergleichsListe
@@ -288,6 +332,10 @@ namespace TeileListe.Szenariorechner.ViewModel
             get { return _vergleichsListe; }
             set { SetProperty("VergleichsListe", ref _vergleichsListe, value); }
         }
+
+        #endregion
+
+        #region Zuordnungslisten
 
         private ObservableCollection<OhneZuordnungViewModel> _ohneAlternative;
         public ObservableCollection<OhneZuordnungViewModel> OhneAlternative
@@ -303,36 +351,16 @@ namespace TeileListe.Szenariorechner.ViewModel
             set { SetProperty("OhneKomponente", ref _ohneKomponente, value); }
         }
 
-        private ObservableCollection<SzenarioAlternativeViewModel> _restekiste;
-        public ObservableCollection<SzenarioAlternativeViewModel> Restekiste
-        {
-            get { return _restekiste; }
-            set { SetProperty("Restekiste", ref _restekiste, value); }
-        }
+        #endregion
 
-        private ICollectionView _alleRestteile;
-        public ICollectionView AlleRestteile
-        {
-            get { return _alleRestteile; }
-            set { SetProperty("AlleRestteile", ref _alleRestteile, value); }
-        }
-
-        private ObservableCollection<SzenarioAlternativeViewModel> _wunschliste;
-        public ObservableCollection<SzenarioAlternativeViewModel> Wunschliste
-        {
-            get { return _wunschliste; }
-            set { SetProperty("Wunschliste", ref _wunschliste, value); }
-        }
-
-        private ICollectionView _alleWunschteile;
-        public ICollectionView AlleWunschteile
-        {
-            get { return _alleWunschteile; }
-            set { SetProperty("AlleWunschteile", ref _alleWunschteile, value); }
-        }
+        #region Commands und Actions
 
         public MyCommand HinzufuegenCommand { get; set; }
         public MyCommand TauschenCommand { get; set; }
+
+        #endregion
+
+        #region Konstruktor
 
         public SzenariorechnerViewModel(FahrradDto selectedFahrrad, FahrradDto vergleichsFahrrad)
         {
@@ -503,6 +531,10 @@ namespace TeileListe.Szenariorechner.ViewModel
             HinzufuegenCommand = new MyCommand(OnHinzufuegen);
             TauschenCommand = new MyCommand(OnTauschen);
         }
+
+        #endregion
+
+        #region Action und Commandfunktionen
 
         private void OnTauschen()
         {
@@ -779,5 +811,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 UpdateProperty("GesamtDifferenz");
             }
         }
+
+        #endregion
     }
 }
