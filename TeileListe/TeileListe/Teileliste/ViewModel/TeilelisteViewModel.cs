@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
+using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
 using TeileListe.NeuesEinzelteil.View;
 using TeileListe.NeuesEinzelteil.ViewModel;
@@ -185,7 +186,35 @@ namespace TeileListe.Teileliste.ViewModel
             }
         }
 
-        public bool VergleichAktiv { get { return !IsDirty && SelectedFahrrad != null && KomponentenListe.Count > 0; } }
+        public CommonDateiViewModel SzenarioDateiViewModel { get; set; }
+
+        private bool _vergleichMitAnderemFahrrad;
+        public bool VergleichMitAnderemFahrrad
+        {
+            get { return _vergleichMitAnderemFahrrad; }
+            set
+            {
+                SetProperty("VergleichMitAnderemFahrrad",
+                            ref _vergleichMitAnderemFahrrad,
+                            value);
+                UpdateProperty("VergleichAktiv");
+            }
+        }
+
+        public bool VergleichAktiv
+        {
+            get
+            {
+                bool bReturn = !IsDirty && SelectedFahrrad != null && KomponentenListe.Count > 0;
+
+                if (bReturn && !VergleichMitAnderemFahrrad)
+                {
+                    bReturn = !SzenarioDateiViewModel.HasError; 
+                }
+
+                return bReturn;
+            }
+        }
 
         private ObservableCollection<KomponenteViewModel> _komponentenListe;
         public ObservableCollection<KomponenteViewModel> KomponentenListe
@@ -226,7 +255,12 @@ namespace TeileListe.Teileliste.ViewModel
             WunschlisteCommand = new MyParameterCommand<Window>(Wunschliste);
             NeuesFahrradCommand = new MyParameterCommand<Window>(OnNeuesFahrrad);
             VergleichenCommand = new MyParameterCommand<Window>(OnVergleichen);
-            
+
+            VergleichMitAnderemFahrrad = true;
+
+            SzenarioDateiViewModel = new CommonDateiViewModel(DateiOeffnenEnum.Csv);
+            SzenarioDateiViewModel.PropertyChanged += ContentPropertyChanged;
+
             var liste = new List<FahrradDto>();
             PluginManager.DbManager.GetFahrraeder(ref liste);
             foreach (var item in liste)
@@ -248,13 +282,36 @@ namespace TeileListe.Teileliste.ViewModel
 
         private void OnVergleichen(Window window)
         {
-            var viewModel = new SzenariorechnerViewModel(SelectedFahrrad, 
-                                                            SelectedFahrradVariabel);
+            List<KomponenteDto> alternativenListe = new List<KomponenteDto>();
+
+            if(VergleichMitAnderemFahrrad)
+            {
+                PluginManager.DbManager.GetKomponente(SelectedFahrradVariabel.Guid, 
+                                                        ref alternativenListe);
+            }
+            else
+            {
+                try
+                {
+                    var importer = new TeileImporter();
+                    alternativenListe.AddRange(importer.ImportFahrrad(SzenarioDateiViewModel.Datei));
+                }
+                catch(Exception ex)
+                {
+                    var message = "Die Datei konnte nicht importiert werden.";
+
+                    message += Environment.NewLine + Environment.NewLine + ex.Message;
+
+                    HilfsFunktionen.ShowMessageBox(window, "Teileliste", message, true);
+
+                    return;
+                }
+            }
+            var viewModel = new SzenariorechnerViewModel(SelectedFahrrad,
+                                                            alternativenListe);
             var dialog = new SzenariorechnerDialog(window);
             dialog.DataContext = viewModel;
-            //dialog.Closing += viewModel.OnClosing;
             dialog.ShowDialog();
-            //dialog.Closing -= viewModel.OnClosing;
             Zuruecksetzen();
         }
 
@@ -1058,10 +1115,17 @@ namespace TeileListe.Teileliste.ViewModel
 
         void ContentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (String.CompareOrdinal(e.PropertyName, "AlternativenAnzeigen") != 0)
+            if (String.CompareOrdinal(e.PropertyName, "AlternativenAnzeigen") != 0
+                && String.CompareOrdinal(e.PropertyName, "HasError") != 0
+                && String.CompareOrdinal(e.PropertyName, "Datei") != 0)
             {
                 IsDirty = true;
                 UpdateTeilelisteProperties();
+            }
+            else if (String.CompareOrdinal(e.PropertyName, "HasError") == 0
+                || String.CompareOrdinal(e.PropertyName, "Datei") == 0)
+            {
+                UpdateProperty("VergleichAktiv");
             }
         }
 

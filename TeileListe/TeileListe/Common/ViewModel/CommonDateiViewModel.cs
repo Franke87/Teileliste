@@ -32,13 +32,49 @@ namespace TeileListe.Common.ViewModel
             set
             {
                 SetProperty("Datei", ref _datei, value);
-                HasError = string.IsNullOrWhiteSpace(Datei);
+                HasError = Validate();
             }
         }
 
         #endregion
 
         #region Private Funktionen
+
+        private bool Validate()
+        {
+            bool hasError = true;
+
+            if(!string.IsNullOrWhiteSpace(Datei))
+            {
+                if (System.IO.File.Exists(Datei))
+                {
+                    var extension = System.IO.Path.GetExtension(Datei).ToLower();
+
+                    switch (_typ)
+                    {
+                        case DateiOeffnenEnum.Csv:
+                        {
+                                
+                            if(extension == ".zip" ||extension == ".csv")
+                            {
+                                hasError = false;
+                            }
+                            break;
+                        }
+                        case DateiOeffnenEnum.Image:
+                        {
+                            if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                            {
+                                hasError = false;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return hasError;
+        }
 
         private void OpenFile()
         {

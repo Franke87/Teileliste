@@ -362,11 +362,8 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         #region Konstruktor
 
-        public SzenariorechnerViewModel(FahrradDto selectedFahrrad, FahrradDto vergleichsFahrrad)
+        public SzenariorechnerViewModel(FahrradDto selectedFahrrad, List<KomponenteDto> alternativenListe)
         {
-            var alternativenListe = new List<KomponenteDto>();
-            PluginManager.DbManager.GetKomponente(vergleichsFahrrad.Guid, ref alternativenListe);
-
             var komponentenListe = new List<KomponenteDto>();
             PluginManager.DbManager.GetKomponente(selectedFahrrad.Guid, ref komponentenListe);
 

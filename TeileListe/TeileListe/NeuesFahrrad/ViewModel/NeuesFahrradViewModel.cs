@@ -74,7 +74,9 @@ namespace TeileListe.NeuesFahrrad.ViewModel
             bool hasError = string.IsNullOrWhiteSpace(_name);
             if (!hasError && !NeuesFahrradAusgewaehlt)
             {
-                hasError = string.IsNullOrWhiteSpace(Datei) || !(Datei.EndsWith(".csv") || Datei.EndsWith(".zip"));
+                hasError = string.IsNullOrWhiteSpace(Datei) 
+                            || !(Datei.ToLower().EndsWith(".csv") 
+                            || Datei.ToLower().EndsWith(".zip"));
             }
             return hasError;
         }

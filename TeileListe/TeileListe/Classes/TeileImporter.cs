@@ -195,6 +195,11 @@ namespace TeileListe.Classes
 
             CleanUp();
 
+            if(list.Count == 0)
+            {
+                throw new Exception("Keine Daten zum importieren vorhanden.");
+            }
+
             return list;
         }
 
