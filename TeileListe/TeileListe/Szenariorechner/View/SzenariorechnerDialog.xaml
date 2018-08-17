@@ -190,16 +190,12 @@
                         <DataTemplate>
                             <StackPanel>
                                 <Grid Background="WhiteSmoke" Visibility="{Binding AlternativeZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <HeaderedItemsControl MaxHeight="75" Visibility="{Binding Data.OhneAlternative.Count, Source={StaticResource ProxyElement}, Converter={StaticResource CountToVisibilityConverter}}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Data.OhneAlternative, Source={StaticResource ProxyElement}}" Grid.IsSharedSizeScope="True">
+                                    <TextBlock Grid.Column="0" Text="Zuordnen:" Margin="0,0,5,0" />
+                                    <HeaderedItemsControl MaxHeight="75" Visibility="{Binding Data.OhneAlternative.Count, Source={StaticResource ProxyElement}, Converter={StaticResource CountToVisibilityConverter}}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="1" ItemsSource="{Binding Data.OhneAlternative, Source={StaticResource ProxyElement}}" Grid.IsSharedSizeScope="True">
                                         <HeaderedItemsControl.Template>
                                             <ControlTemplate TargetType="HeaderedItemsControl">
                                                 <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
@@ -254,19 +250,16 @@
                                             </DataTemplate>
                                         </HeaderedItemsControl.ItemTemplate>
                                     </HeaderedItemsControl>
-                                    <TextBlock Opacity="0.4" Text="Keine nicht zugeordnete Alternative vorhanden." Grid.Row="1" Grid.Column="1" Visibility="{Binding Data.OhneAlternative.Count, Source={StaticResource ProxyElement}, Converter={StaticResource InverseCountToVisibilityConverter}}" />
+                                    <Rectangle Margin="0,21,0,0" Grid.Column="1" Fill="LightGray" HorizontalAlignment="Right" VerticalAlignment="Top" Width="17" Height="1" Visibility="{Binding Data.OhneAlternative.Count, Source={StaticResource ProxyElement}, Converter={StaticResource CountToVisibilityConverter}}" />
+                                    <TextBlock Opacity="0.4" Text="Keine nicht zugeordneten Komponenten vorhanden." Grid.Column="1" Visibility="{Binding Data.OhneAlternative.Count, Source={StaticResource ProxyElement}, Converter={StaticResource InverseCountToVisibilityConverter}}" />
                                 </Grid>
                                 <Grid Background="WhiteSmoke" Visibility="{Binding KomponenteZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <HeaderedItemsControl MaxHeight="75" Visibility="{Binding Data.OhneKomponente.Count, Source={StaticResource ProxyElement}, Converter={StaticResource CountToVisibilityConverter}}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Data.OhneKomponente, Source={StaticResource ProxyElement}}" Grid.IsSharedSizeScope="True">
+                                    <TextBlock Grid.Column="0" Text="Zuordnen:" Margin="0,0,5,0" />
+                                    <HeaderedItemsControl MaxHeight="75" Visibility="{Binding Data.OhneKomponente.Count, Source={StaticResource ProxyElement}, Converter={StaticResource CountToVisibilityConverter}}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="1" ItemsSource="{Binding Data.OhneKomponente, Source={StaticResource ProxyElement}}" Grid.IsSharedSizeScope="True">
                                         <HeaderedItemsControl.Template>
                                             <ControlTemplate TargetType="HeaderedItemsControl">
                                                 <Border BorderBrush="LightGray" BorderThickness="0,0,0,1">
@@ -321,7 +314,8 @@
                                             </DataTemplate>
                                         </HeaderedItemsControl.ItemTemplate>
                                     </HeaderedItemsControl>
-                                    <TextBlock Opacity="0.4" Text="Keine nicht zugeordnete Komponente vorhanden." Grid.Row="1" Grid.Column="1" Visibility="{Binding Data.OhneKomponente.Count, Source={StaticResource ProxyElement}, Converter={StaticResource InverseCountToVisibilityConverter}}" />
+                                    <Rectangle Grid.Column="1" Margin="0,21,0,0" Fill="LightGray" HorizontalAlignment="Right" VerticalAlignment="Top" Width="17" Height="1" Visibility="{Binding Data.OhneKomponente.Count, Source={StaticResource ProxyElement}, Converter={StaticResource CountToVisibilityConverter}}" />
+                                    <TextBlock Opacity="0.4" Text="Keine nicht zugeordneten Alternativen vorhanden." Grid.Column="1" Visibility="{Binding Data.OhneKomponente.Count, Source={StaticResource ProxyElement}, Converter={StaticResource InverseCountToVisibilityConverter}}" />
                                 </Grid>
                             </StackPanel>
                         </DataTemplate>
