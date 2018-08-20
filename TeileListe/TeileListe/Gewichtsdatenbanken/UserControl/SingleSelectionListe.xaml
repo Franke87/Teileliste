@@ -9,7 +9,14 @@
     <UserControl.Resources>
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
     </UserControl.Resources>
-    <ListBox HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0" ItemsSource="{Binding Datenbankteile}" Grid.IsSharedSizeScope="True" SelectedItem="{Binding SelectedItem}" >
+    <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding Datenbankteile}" Grid.IsSharedSizeScope="True" SelectedItem="{Binding SelectedItem}" >
+        <ListBox.Template>
+            <ControlTemplate TargetType="ListBox">
+                <ScrollViewer>
+                    <ItemsPresenter/>
+                </ScrollViewer>
+            </ControlTemplate>
+        </ListBox.Template>
         <ListBox.Style>
             <Style TargetType="ListBox">
                 <Setter Property="Visibility" Value="Visible" />
