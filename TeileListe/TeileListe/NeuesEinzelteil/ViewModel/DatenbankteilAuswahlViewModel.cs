@@ -38,7 +38,7 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
         public MyCommand TauschenCommand { get; set; }
 
         public Action<string, string, string, string, string, int> EinbauenAction { get; set; }
-        public Action<string, string, string, string, int> TauschenAction { get; set; }
+        public Action<string, string, string, string, int, int> TauschenAction { get; set; }
 
         internal DatenbankteilAuswahlViewModel()
         {
@@ -62,7 +62,8 @@ namespace TeileListe.NeuesEinzelteil.ViewModel
                             Beschreibung, 
                             Groesse, 
                             Jahr, 
-                            Differenz);
+                            Differenz, 
+                            Gewicht);
         }
     }
 }

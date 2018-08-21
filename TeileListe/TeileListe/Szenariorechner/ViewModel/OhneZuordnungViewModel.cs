@@ -14,7 +14,12 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public string Beschreibung { get; set; }
 
-        public int Gewicht { get; set; }
+        private int _gewicht;
+        public int Gewicht
+        {
+            get { return _gewicht; }
+            set { SetProperty("Gewicht", ref _gewicht, value); }
+        }
 
         public string Guid { get; set; }
 
