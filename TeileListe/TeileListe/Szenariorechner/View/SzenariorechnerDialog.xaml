@@ -189,7 +189,7 @@
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Grid Background="WhiteSmoke" Visibility="{Binding AlternativeZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                <Grid Background="GhostWhite" Visibility="{Binding AlternativeZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
@@ -253,7 +253,7 @@
                                     <Rectangle Margin="0,21,0,0" Grid.Column="1" Fill="LightGray" HorizontalAlignment="Right" VerticalAlignment="Top" Width="17" Height="1" Visibility="{Binding Data.OhneAlternative.Count, Source={StaticResource ProxyElement}, Converter={StaticResource CountToVisibilityConverter}}" />
                                     <TextBlock Opacity="0.4" Text="Keine nicht zugeordneten Komponenten vorhanden." Grid.Column="1" Visibility="{Binding Data.OhneAlternative.Count, Source={StaticResource ProxyElement}, Converter={StaticResource InverseCountToVisibilityConverter}}" />
                                 </Grid>
-                                <Grid Background="WhiteSmoke" Visibility="{Binding KomponenteZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                <Grid Background="GhostWhite" Visibility="{Binding KomponenteZuordnenVisible, Converter={StaticResource BooleanToVisibilityConverter}}" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />

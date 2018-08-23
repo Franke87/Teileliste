@@ -116,7 +116,7 @@
                     <ItemsControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" ItemsSource="{Binding Alternativen}" Visibility="{Binding AlternativenAnzeigen, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Grid Background="WhiteSmoke">
+                                <Grid Background="GhostWhite">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*" />
                                         <ColumnDefinition Width="4*" />
@@ -132,7 +132,7 @@
                                         </Hyperlink>
                                     </TextBlock>
                                     <TextBlock Grid.Column="2" Margin="0,0,5,0" Opacity="0.4" Visibility="{Binding Link, Converter={StaticResource InverseStringToVisibilityConverter}}" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Shop}" TextTrimming="CharacterEllipsis" Text="{Binding Shop}" />
-                                    <TextBlock Grid.Column="3" Padding="3,0,0,0" Opacity="0.4" Background="WhiteSmoke" >
+                                    <TextBlock Grid.Column="3" Padding="3,0,0,0" Opacity="0.4" Background="GhostWhite" >
                                         <Hyperlink Command="{Binding TauschenCommand}" TextDecorations="" >einbauen</Hyperlink>
                                     </TextBlock>
                                     <TextBlock Grid.Column="4" Margin="0,0,16,0" HorizontalAlignment="Right" Opacity="0.4" Text="{Binding Preis, Converter={StaticResource IntToPriceConverter}}" />

@@ -14,7 +14,7 @@
         <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <converter:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" />
     </UserControl.Resources>
-    <Grid Background="WhiteSmoke">
+    <Grid Background="GhostWhite">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
