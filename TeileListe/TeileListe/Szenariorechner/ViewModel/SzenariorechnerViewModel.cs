@@ -549,7 +549,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 OhneAlternative.Remove(ohneAlternative);
             }
 
-            var ohneZuordnung = OhneKomponente.First(teil => teil.Guid == SelectedKomponente.Guid);
+            var ohneZuordnung = OhneKomponente.FirstOrDefault(teil => teil.Guid == SelectedKomponente.Guid);
             if(ohneZuordnung != null)
             {
                 ohneZuordnung.Komponente = SelectedKomponente.Komponente;
