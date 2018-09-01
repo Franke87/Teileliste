@@ -464,6 +464,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 {
                     Komponente = restteil.Komponente,
                     Gewicht = restteil.Gewicht,
+                    Hersteller = restteil.Hersteller,
                     Beschreibung = restteil.Beschreibung, 
                     Groesse = restteil.Groesse,
                     Jahr = restteil.Jahr,
@@ -612,6 +613,15 @@ namespace TeileListe.Szenariorechner.ViewModel
                 SelectedKomponente.AlternativeJahr = komponente.AlternativeJahr;
                 SelectedKomponente.AlternativeDifferenz = komponente.AlternativeDifferenz - SelectedKomponente.Gewicht;
                 SelectedKomponente.AlternativeVorhanden = true;
+
+                if (AlternativeBearbeiten)
+                {
+                    NeuerHersteller = komponente.AlternativeHersteller;
+                    NeueBeschreibung = komponente.AlternativeBeschreibung;
+                    NeueGroesse = komponente.AlternativeGroesse;
+                    NeuesJahr = komponente.AlternativeJahr;
+                    NeuesGewicht = SelectedKomponente.AlternativeGewicht;
+                }
                 OhneKomponente.Remove(item);
 
                 var ohneZuordnung = OhneAlternative.First(teil => teil.Guid == SelectedKomponente.Guid);
@@ -636,6 +646,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 komponente.AlternativeJahr = SelectedKomponente.AlternativeJahr;
                 komponente.AlternativeDifferenz = SelectedKomponente.AlternativeDifferenz - komponente.Gewicht;
                 komponente.AlternativeVorhanden = true;
+
                 OhneAlternative.Remove(item);
                 
                 var ohneZuordnung = OhneKomponente.First(teil => teil.Guid == SelectedKomponente.Guid);
@@ -778,6 +789,15 @@ namespace TeileListe.Szenariorechner.ViewModel
             SelectedKomponente.AlternativeDifferenz = differenz;
             UpdateProperty("GesamtDifferenz");
 
+            if (AlternativeBearbeiten)
+            {
+                NeuerHersteller = hersteller;
+                NeueBeschreibung = beschreibung;
+                NeueGroesse = groesse;
+                NeuesJahr = jahr;
+                NeuesGewicht = gewicht;
+            }
+
             var ohneAlternative = OhneAlternative.FirstOrDefault(teil => teil.Guid == SelectedKomponente.Guid);
             if (ohneAlternative != null)
             {
@@ -806,6 +826,15 @@ namespace TeileListe.Szenariorechner.ViewModel
                 SelectedKomponente.AlternativeDifferenz = wunschteil.Differenz;
                 UpdateProperty("GesamtDifferenz");
                 Wunschliste.Remove(wunschteil);
+
+                if (AlternativeBearbeiten)
+                {
+                    NeuerHersteller = wunschteil.Hersteller;
+                    NeueBeschreibung = wunschteil.Beschreibung;
+                    NeueGroesse = wunschteil.Groesse;
+                    NeuesJahr = wunschteil.Jahr;
+                    NeuesGewicht = wunschteil.Gewicht;
+                }
 
                 var ohneAlternative = OhneAlternative.FirstOrDefault(teil => teil.Guid == SelectedKomponente.Guid);
                 if (ohneAlternative != null)
@@ -836,6 +865,15 @@ namespace TeileListe.Szenariorechner.ViewModel
                 SelectedKomponente.AlternativeDifferenz = restteil.Differenz;
                 UpdateProperty("GesamtDifferenz");
                 Restekiste.Remove(restteil);
+
+                if (AlternativeBearbeiten)
+                {
+                    NeuerHersteller = restteil.Hersteller;
+                    NeueBeschreibung = restteil.Beschreibung;
+                    NeueGroesse = restteil.Groesse;
+                    NeuesJahr = restteil.Jahr;
+                    NeuesGewicht = restteil.Gewicht;
+                }
 
                 var ohneAlternative = OhneAlternative.FirstOrDefault(teil => teil.Guid == SelectedKomponente.Guid);
                 if(ohneAlternative != null)

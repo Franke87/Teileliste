@@ -178,6 +178,13 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Gewicht" Width="Auto" MinWidth="50" x:Name="DataGridColumnAlternativeGewicht" HeaderStyle="{StaticResource ColumnHeaderRightAlignedStyle}" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" Text="{Binding AlternativeGewicht, Converter={StaticResource IntToWeightConverter}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Differenz" Width="Auto" MinWidth="50" x:Name="DataGridColumnDifferenz" HeaderStyle="{StaticResource ColumnHeaderRightAlignedStyle}" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -328,12 +335,13 @@
                         <ColumnDefinition Width="{Binding ElementName=DataGridColumnBeschreibung, Path=ActualWidth}" />
                         <ColumnDefinition Width="{Binding ElementName=DataGridColumnGewicht, Path=ActualWidth}" />
                         <ColumnDefinition Width="{Binding ElementName=DataGridColumnAlternative, Path=ActualWidth}" />
+                        <ColumnDefinition Width="{Binding ElementName=DataGridColumnAlternativeGewicht, Path=ActualWidth}" />
                         <ColumnDefinition Width="{Binding ElementName=DataGridColumnDifferenz, Path=ActualWidth}" />
                         <ColumnDefinition Width="17" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Summe gesamt:" Grid.Column="0" Opacity="0.4" />
                     <TextBlock Text="{Binding GesamtGewicht, Converter={StaticResource IntToWeightConverter}}" Margin="0,0,5,0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" />
-                    <Grid Grid.Column="3" Grid.ColumnSpan="2">
+                    <Grid Grid.Column="3" Grid.ColumnSpan="3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />

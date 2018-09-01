@@ -76,11 +76,20 @@ namespace TeileListe.Szenariorechner.ViewModel
             }
         }
 
+        public int AlternativeGewicht
+        {
+            get { return Gewicht + AlternativeDifferenz; }
+        }
+
         private int _alternativeDifferenz;
         public int AlternativeDifferenz
         {
             get { return _alternativeDifferenz; }
-            set { SetProperty("AlternativeDifferenz", ref _alternativeDifferenz, value); }
+            set
+            {
+                SetProperty("AlternativeDifferenz", ref _alternativeDifferenz, value);
+                UpdateProperty("AlternativeGewicht");
+            }
         }
 
         private bool _alternativeVorhanden;
