@@ -76,19 +76,19 @@ namespace TeileListe.Szenariorechner.ViewModel
             }
         }
 
-        public int AlternativeGewicht
-        {
-            get { return Gewicht + AlternativeDifferenz; }
-        }
-
-        private int _alternativeDifferenz;
         public int AlternativeDifferenz
         {
-            get { return _alternativeDifferenz; }
+            get { return AlternativeGewicht - Gewicht; }
+        }
+
+        private int _alternativeGewicht;
+        public int AlternativeGewicht
+        {
+            get { return _alternativeGewicht; }
             set
             {
-                SetProperty("AlternativeDifferenz", ref _alternativeDifferenz, value);
-                UpdateProperty("AlternativeGewicht");
+                SetProperty("AlternativeGewicht", ref _alternativeGewicht, value);
+                UpdateProperty("AlternativeDifferenz");
             }
         }
 
@@ -158,7 +158,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 AlternativeBeschreibung = "";
                 AlternativeGroesse = "";
                 AlternativeJahr = "";
-                AlternativeDifferenz = 0 - Gewicht;
+                AlternativeGewicht = 0;
             }
 
             LoeschenAction(Guid, Beschreibung != null);
