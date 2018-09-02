@@ -200,7 +200,7 @@ namespace TeileListe.KategorienVerwalten.ViewModel
             {
                 var window = sender as Window;
                 var owner = window ?? Application.Current.MainWindow;
-                if (HilfsFunktionen.ShowQuestionBox(owner, "Kategorien"))
+                if (HilfsFunktionen.ShowCloseQuestionBox(owner, "Kategorien"))
                 {
                     Sichern();
                 }

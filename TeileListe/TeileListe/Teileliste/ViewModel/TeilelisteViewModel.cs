@@ -146,15 +146,15 @@ namespace TeileListe.Teileliste.ViewModel
             set { SetProperty("ExportformatCsv", ref _exportformatCsv, value); }
         }
 
-        private FahrradDto _selectedFahrrad;
-        public FahrradDto SelectedFahrrad
+        private FahrradViewModel _selectedFahrrad;
+        public FahrradViewModel SelectedFahrrad
         {
             get { return _selectedFahrrad; }
             set
             {
                 if (IsDirty)
                 {
-                    if (HilfsFunktionen.ShowQuestionBox(Application.Current.MainWindow, "Teileliste"))
+                    if (HilfsFunktionen.ShowCloseQuestionBox(Application.Current.MainWindow, "Teileliste"))
                     {
                         Sichern();
                     }
@@ -168,8 +168,8 @@ namespace TeileListe.Teileliste.ViewModel
             }
         }
 
-        private ObservableCollection<FahrradDto> _fahrradListe;
-        public ObservableCollection<FahrradDto> FahrradListe
+        private ObservableCollection<FahrradViewModel> _fahrradListe;
+        public ObservableCollection<FahrradViewModel> FahrradListe
         {
             get { return _fahrradListe; }
             set { SetProperty("FahrradListe", ref _fahrradListe, value); }
@@ -223,8 +223,8 @@ namespace TeileListe.Teileliste.ViewModel
             set { IsDirty = SetProperty("KomponentenListe", ref _komponentenListe, value); }
         }
 
-        private FahrradDto _selectedFahrradVariabel;
-        public FahrradDto SelectedFahrradVariabel
+        private FahrradViewModel _selectedFahrradVariabel;
+        public FahrradViewModel SelectedFahrradVariabel
         {
             get { return _selectedFahrradVariabel; }
             set { SetProperty("SelectedFahrradVariabel", ref _selectedFahrradVariabel, value); }
@@ -242,7 +242,7 @@ namespace TeileListe.Teileliste.ViewModel
             _deletedTeile = new List<LoeschenDto>();
             WunschListe = new List<WunschteilDto>();
             _deletedWunschteile = new List<LoeschenDto>();
-            FahrradListe = new ObservableCollection<FahrradDto>();
+            FahrradListe = new ObservableCollection<FahrradViewModel>();
             _dateiCache = new List<Tuple<string, List<DateiDto>>>();
             ExportformatCsv = true;
             IsDirty = false;
@@ -265,7 +265,7 @@ namespace TeileListe.Teileliste.ViewModel
             PluginManager.DbManager.GetFahrraeder(ref liste);
             foreach (var item in liste)
             {
-                FahrradListe.Add(item);
+                FahrradListe.Add(new FahrradViewModel { Name = item.Name, Guid = item.Guid, FahrradLoeschenAction = FahrradLoeschen });
             }
 
             SelectedFahrrad = FahrradListe.FirstOrDefault();
@@ -320,7 +320,7 @@ namespace TeileListe.Teileliste.ViewModel
             {
                 if(!FahrradListe.Any(item => item.Guid == fahrrad.Guid))
                 {
-                    FahrradListe.Add(fahrrad);
+                    FahrradListe.Add(new FahrradViewModel { Name = fahrrad.Name, Guid = fahrrad.Guid, FahrradLoeschenAction = FahrradLoeschen });
                 }
             }
         }
@@ -336,14 +336,15 @@ namespace TeileListe.Teileliste.ViewModel
 
             if (viewModel.IsOk)
             {
-                var fahrrad = new FahrradDto
+                var fahrrad = new FahrradViewModel
                 {
                     Name = viewModel.Name,
-                    Guid = Guid.NewGuid().ToString()
+                    Guid = Guid.NewGuid().ToString(),
+                    FahrradLoeschenAction = FahrradLoeschen
                 };
                 FahrradListe.Add(fahrrad);
 
-                PluginManager.DbManager.SaveFahrraeder(FahrradListe.ToList());
+                PluginManager.DbManager.SaveFahrraeder(FahrradListe.Select(x => new FahrradDto { Name = x.Name, Guid = x.Guid }).ToList());
                 if (!viewModel.NeuesFahrradAusgewaehlt)
                 {
                     try
@@ -658,9 +659,9 @@ namespace TeileListe.Teileliste.ViewModel
 
             if (KomponentenListe.Count == 0)
             {
-                PluginManager.DbManager.DeleteFahrrad(SelectedFahrrad);
-                PluginManager.DbManager.SaveFahrraeder(FahrradListe.Where(item => item != SelectedFahrrad).ToList());
+                PluginManager.DbManager.DeleteFahrrad(new FahrradDto { Name = SelectedFahrrad.Name, Guid = SelectedFahrrad.Guid });
                 FahrradListe.Remove(SelectedFahrrad);
+                PluginManager.DbManager.SaveFahrraeder(FahrradListe.Select(x => new FahrradDto { Name = x.Name, Guid = x.Guid }).ToList());
                 SelectedFahrrad = FahrradListe.FirstOrDefault();
             }
 
@@ -884,6 +885,29 @@ namespace TeileListe.Teileliste.ViewModel
 
         #region Actionfunktionen
 
+        private void FahrradLoeschen(string guid)
+        {
+            if(SelectedFahrrad != null && SelectedFahrrad.Guid == guid)
+            {
+                var loeschenListe = new List<LoeschenDto>();
+
+                foreach(var komponente in KomponentenListe)
+                {
+                    loeschenListe.Add(new LoeschenDto { Guid = komponente.Guid, DokumenteLoeschen = true });
+                }
+
+                PluginManager.DbManager.DeleteTeile(loeschenListe);
+
+                PluginManager.DbManager.DeleteFahrrad(new FahrradDto { Name = SelectedFahrrad.Name, Guid = SelectedFahrrad.Guid });
+
+                FahrradListe.Remove(SelectedFahrrad);
+
+                PluginManager.DbManager.SaveFahrraeder(FahrradListe.Select(x => new FahrradDto { Name = x.Name, Guid = x.Guid }).ToList());
+
+                SelectedFahrrad = FahrradListe.FirstOrDefault();
+            }
+        }
+
         private void Loeschen(string guid)
         {
             var item = KomponentenListe.First(teil => teil.Guid == guid);
@@ -1098,7 +1122,7 @@ namespace TeileListe.Teileliste.ViewModel
             {
                 var window = sender as Window;
                 var owner = window ?? Application.Current.MainWindow;
-                if (HilfsFunktionen.ShowQuestionBox(owner, "Teileliste"))
+                if (HilfsFunktionen.ShowCloseQuestionBox(owner, "Teileliste"))
                 {
                     Sichern();
                 }

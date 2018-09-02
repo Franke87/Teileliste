@@ -14,7 +14,7 @@
         <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <converter:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" />
     </UserControl.Resources>
-    <Grid Background="GhostWhite">
+    <Grid Background="{Binding ContextBarBackground, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>

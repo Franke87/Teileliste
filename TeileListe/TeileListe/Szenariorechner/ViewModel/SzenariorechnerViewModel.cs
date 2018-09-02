@@ -9,6 +9,7 @@ using TeileListe.Common.Dto;
 using TeileListe.Enums;
 using TeileListe.Common.ViewModel;
 using System;
+using TeileListe.Teileliste.ViewModel;
 
 namespace TeileListe.Szenariorechner.ViewModel
 {
@@ -363,7 +364,7 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         #region Konstruktor
 
-        public SzenariorechnerViewModel(FahrradDto selectedFahrrad, List<KomponenteDto> alternativenListe)
+        public SzenariorechnerViewModel(FahrradViewModel selectedFahrrad, List<KomponenteDto> alternativenListe)
         {
             var komponentenListe = new List<KomponenteDto>();
             PluginManager.DbManager.GetKomponente(selectedFahrrad.Guid, ref komponentenListe);

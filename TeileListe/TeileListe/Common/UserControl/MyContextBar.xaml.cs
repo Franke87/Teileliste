@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 
 namespace TeileListe.Common.UserControl
 {
@@ -54,6 +55,18 @@ namespace TeileListe.Common.UserControl
                                           typeof(string),
                                           typeof(MyContextBar),
                                           new UIPropertyMetadata("Dokumente verwalten"));
+
+        public Brush ContextBarBackground
+        {
+            get { return (Brush)GetValue(ContextBarBackgroundProperty); }
+            set { SetValue(ContextBarBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty ContextBarBackgroundProperty
+            = DependencyProperty.Register("ContextBarBackground",
+                                          typeof(Brush),
+                                          typeof(MyContextBar),
+                                          new UIPropertyMetadata(Brushes.GhostWhite));
 
         public MyContextBar()
         {

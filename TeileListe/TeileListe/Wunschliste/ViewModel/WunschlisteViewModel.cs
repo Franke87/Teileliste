@@ -456,7 +456,7 @@ namespace TeileListe.Wunschliste.ViewModel
             {
                 var window = sender as Window;
                 var owner = window ?? Application.Current.MainWindow;
-                if (HilfsFunktionen.ShowQuestionBox(owner, "Wunschliste"))
+                if (HilfsFunktionen.ShowCloseQuestionBox(owner, "Wunschliste"))
                 {
                     Sichern();
                 }

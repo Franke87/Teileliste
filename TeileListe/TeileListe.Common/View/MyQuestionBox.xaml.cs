@@ -6,15 +6,18 @@ namespace TeileListe.Common.View
     {
         public string TitelText { get; set; }
 
+        public string QuestionText { get; set; }
+
         public bool JaGeklickt { get; set; }
 
         public MyCommand JaCommand { get; set; }
 
-        public MyQuestionBox(string titelText)
+        public MyQuestionBox(string titelText, string questionText)
         {
             InitializeComponent();
 
             TitelText = titelText;
+            QuestionText = questionText;
             JaGeklickt = false;
 
             JaCommand = new MyCommand(OnJa);

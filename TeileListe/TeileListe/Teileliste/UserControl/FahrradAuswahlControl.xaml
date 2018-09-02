@@ -4,10 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converter="clr-namespace:TeileListe.Converter"
+             xmlns:classes="clr-namespace:TeileListe.Classes"
+             xmlns:usercontrol="clr-namespace:TeileListe.Common.UserControl"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
     <UserControl.Resources>
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -19,6 +22,9 @@
         <TextBlock Grid.Row="0" Opacity="0.4" Text="Meine Fahrräder" Margin="0,0,0,5" />
         <Rectangle Grid.Row="1" Fill="LightGray" />
         <ListView HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,5,0,0" BorderBrush="White" Grid.Row="2" ItemsSource="{Binding FahrradListe}" SelectedItem="{Binding SelectedFahrrad, Mode=TwoWay}" >
+            <ListView.Resources>
+                <classes:BindingProxy x:Key="NeuesFahrradProxy" Data="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext}" />
+            </ListView.Resources>
             <ListView.Template>
                 <ControlTemplate TargetType="ListView">
                     <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" >
@@ -30,7 +36,14 @@
             </ListView.Template>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Name}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Name}" />
+                        <usercontrol:MyContextBar ContextBarBackground="Transparent" IsEnabled="{Binding Data.IsDirty, Converter={StaticResource InverseBoolConverter}, Source={StaticResource NeuesFahrradProxy}}" Grid.Column="1" AusbauenVisible="Collapsed" DateiManagerToolTip="" GewichtsdatenbankVisible="Collapsed" LeerenVisible="Collapsed" Visibility="{Binding Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -65,9 +65,14 @@ namespace TeileListe.Common.Classes
             dialog.ShowDialog();
         }
 
-        public static bool ShowQuestionBox(Window window, string titelText)
+        public static bool ShowCloseQuestionBox(Window window, string titelText)
         {
-            var dialog = new MyQuestionBox(titelText)
+            return ShowQuestionBox(window, titelText, "Wollen Sie die Änderungen speichern?");
+        }
+
+        public static bool ShowQuestionBox(Window window, string titelText, string questionBox)
+        {
+            var dialog = new MyQuestionBox(titelText, questionBox)
             {
                 Owner = window
             };

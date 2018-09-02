@@ -181,6 +181,7 @@
     <Compile Include="NeuesEinzelteil\UserControl\WunschlisteAuswahlControl.xaml.cs">
       <DependentUpon>WunschlisteAuswahlControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Teileliste\ViewModel\FahrradViewModel.cs" />
     <Compile Include="UpdateWindow\View\UpdateWindow.xaml.cs">
       <DependentUpon>UpdateWindow.xaml</DependentUpon>
     </Compile>

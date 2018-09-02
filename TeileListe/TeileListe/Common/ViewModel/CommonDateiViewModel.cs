@@ -54,7 +54,6 @@ namespace TeileListe.Common.ViewModel
                     {
                         case DateiOeffnenEnum.Csv:
                         {
-                                
                             if(extension == ".zip" ||extension == ".csv")
                             {
                                 hasError = false;
@@ -67,6 +66,11 @@ namespace TeileListe.Common.ViewModel
                             {
                                 hasError = false;
                             }
+                            break;
+                        }
+                        case DateiOeffnenEnum.All:
+                        {
+                            hasError = false;
                             break;
                         }
                     }

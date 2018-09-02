@@ -447,7 +447,7 @@ namespace TeileListe.Restekiste.ViewModel
             {
                 var window = sender as Window;
                 var owner = window ?? Application.Current.MainWindow;
-                if (HilfsFunktionen.ShowQuestionBox(owner, "Restekiste"))
+                if (HilfsFunktionen.ShowCloseQuestionBox(owner, "Restekiste"))
                 {
                     Sichern();
                 }

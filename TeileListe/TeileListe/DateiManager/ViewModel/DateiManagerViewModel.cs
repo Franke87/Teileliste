@@ -430,7 +430,7 @@ namespace TeileListe.DateiManager.ViewModel
             {
                 var window = sender as Window;
                 var owner = window ?? Application.Current.MainWindow;
-                if (HilfsFunktionen.ShowQuestionBox(owner, "Dateimanager"))
+                if (HilfsFunktionen.ShowCloseQuestionBox(owner, "Dateimanager"))
                 {
                     if(!Sichern(owner))
                     {
