@@ -20,6 +20,7 @@
         <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
         <converter:IntToForegroundConverter x:Key="IntToForegroundConverter" />
         <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <converter:CountToBoolConverter x:Key="CountToBoolConverter" />
         <commonConverter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
         <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
         <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
@@ -500,12 +501,12 @@
                                                 <Run Text="{Binding AnzeigeName, Mode=OneWay}" />
                                                 </TextBlock>
                                             </TextBlock.ToolTip>
-                                    </TextBlock>
+                                        </TextBlock>
                                         <TextBlock Grid.Column="1" Margin="3,0,0,0" ToolTip="neue Komponente einbauen" >
-                                        <Hyperlink Command="{Binding EinbauenCommand}" TextDecorations="" >&#x2934;</Hyperlink>
+                                            <Hyperlink Command="{Binding EinbauenCommand}" TextDecorations="" >&#x2934;</Hyperlink>
                                         </TextBlock>
                                         <TextBlock Grid.Column="2" Margin="3,0,0,0" ToolTip="ausgewählte Alternative tauschen" IsEnabled="{Binding Data.TeilSelected, Source={StaticResource WunschlisteProxy}}">
-                                        <Hyperlink Command="{Binding TauschenCommand}" TextDecorations="" >&#x238C;</Hyperlink>
+                                            <Hyperlink Command="{Binding TauschenCommand}" TextDecorations="" >&#x238C;</Hyperlink>
                                         </TextBlock>
                                         <TextBlock Grid.Column="3" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
                                         <TextBlock Grid.Column="4" Margin="5,0" HorizontalAlignment="Right" ToolTip="{Binding Komponente}" Foreground="{Binding Differenz, Converter={StaticResource IntToForegroundConverter}}" Text="{Binding Differenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
@@ -539,26 +540,33 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,4,10,02" Content="Alternative bearbeiten" IsChecked="{Binding AlternativeBearbeiten, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,10,10" Content="Alternative hinzufügen" IsChecked="{Binding AlternativeBearbeiten, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
-                        <TextBlock Opacity="0.4" Grid.Row="2" Margin="0,0,5,0" MinWidth="35" Grid.Column="0" Text="Komponente:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Komponente:"/>
+                        <TextBlock Opacity="0.4" Grid.Row="2" Margin="0,1,5,0" MinWidth="35" Grid.Column="0" Text="Komponente:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Komponente:"/>
                         <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,10,0" Text="{Binding NeueKomponente, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding KomponenteEnabled}" />
-                        <TextBlock Opacity="0.4" Grid.Row="3" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Hersteller:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Hersteller:"/>
+                        <TextBlock Opacity="0.4" Grid.Row="3" Margin="0,5,5,0" MinWidth="35" Grid.Column="0" Text="Hersteller:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Hersteller:"/>
                         <TextBox Grid.Row="3" Grid.Column="1" Margin="0,4,10,0" Text="{Binding NeuerHersteller, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Opacity="0.4" Grid.Row="4" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Beschreibung:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Beschreibung:"/>
+                        <TextBlock Opacity="0.4" Grid.Row="4" Margin="0,5,5,0" MinWidth="35" Grid.Column="0" Text="Beschreibung:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Beschreibung:"/>
                         <TextBox Grid.Row="4" Grid.Column="1" Margin="0,4,10,0" Text="{Binding NeueBeschreibung, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Opacity="0.4" Grid.Row="5" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Grösse:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Größe:"/>
+                        <TextBlock Opacity="0.4" Grid.Row="5" Margin="0,5,5,0" MinWidth="35" Grid.Column="0" Text="Grösse:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Größe:"/>
                         <TextBox Grid.Row="5" Grid.Column="1" Margin="0,4,10,0" Text="{Binding NeueGroesse, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Opacity="0.4" Grid.Row="6" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Jahr:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Jahr:"/>
+                        <TextBlock Opacity="0.4" Grid.Row="6" Margin="0,5,5,0" MinWidth="35" Grid.Column="0" Text="Jahr:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Jahr:"/>
                         <TextBox Grid.Row="6" Grid.Column="1" Margin="0,4,10,0" Text="{Binding NeuesJahr, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Opacity="0.4" Grid.Row="7" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Gewicht:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Gewicht:"/>
+                        <TextBlock Opacity="0.4" Grid.Row="7" Margin="0,5,5,0" MinWidth="35" Grid.Column="0" Text="Gewicht:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Gewicht:"/>
                         <TextBox Grid.Row="7" Grid.Column="1" Margin="0,4,10,0" Text="{Binding NeuesGewicht, Converter={StaticResource IntToWeightConverter}}" />
-                        <TextBlock Opacity="0.4" Grid.Row="8" Margin="0,4,5,0" MinWidth="35" Grid.Column="0" Text="Differenz:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Differenz:"/>
-                        <TextBlock Grid.Row="8" Grid.Column="1" Margin="3,4,10,0" Text="{Binding NeueDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding NeueDifferenz, Converter={StaticResource IntToForegroundConverter}}" />
-                        <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,10,10">
+                        <TextBlock Opacity="0.4" Grid.Row="8" Margin="0,5,5,0" MinWidth="35" Grid.Column="0" Text="Differenz:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Differenz:"/>
+                        <TextBlock Grid.Row="8" Grid.Column="1" Margin="3,5,10,5" Text="{Binding NeueDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding NeueDifferenz, Converter={StaticResource IntToForegroundConverter}}" />
+                        <Rectangle Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Height="1" Margin="0,0,10,0" Fill="LightGray" />
+                        <Grid Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,14,10,10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto"/>
@@ -570,6 +578,12 @@
                             <Button Grid.Row="0" Grid.Column="1" Padding="10,0,10,0" Content="Hinzufügen" IsEnabled="{Binding HinzufuegenEnabled}" Command="{Binding HinzufuegenCommand}" Height="23" Visibility="{Binding AlternativeBearbeiten, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
                             <Button Grid.Row="1" Grid.Column="1" Padding="10,0,10,0" Content="Übernehmen" IsEnabled="{Binding HinzufuegenEnabled}" Command="{Binding TauschenCommand}" Height="23" Visibility="{Binding AlternativeBearbeiten, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         </Grid>
+                        <Rectangle Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Height="1" Margin="0,0,10,0" Fill="LightGray" />
+                        <TextBlock Opacity="0.4" Grid.Row="13" Grid.ColumnSpan="2" Margin="0,5,5,5" Grid.Column="0" Text="Alternativen als neues Fahrrad übernehmen" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Alternativen als neues Fahrrad übernehmen" />
+                        <TextBlock Opacity="0.4" Grid.Row="14" Margin="0,1,5,5" MinWidth="35" Grid.Column="0" Text="Name:" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="Name:"/>
+                        <TextBox Grid.Row="14" Grid.Column="1" Margin="0,0,10,5" Text="{Binding NeuesFahrrad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Rectangle Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2" Height="1" Margin="0,0,10,0" Fill="LightGray" />
+                        <Button Grid.Row="16" Grid.Column="1" Margin="0,15,10,10" HorizontalAlignment="Right" Padding="10,0,10,0" IsEnabled="{Binding NeuesFahrrad.Length, Converter={StaticResource CountToBoolConverter}}" Content="Übernehmen" Command="{Binding NeuesFahrradCommand}" Height="23" />
                     </Grid>
                     
                 </Grid>

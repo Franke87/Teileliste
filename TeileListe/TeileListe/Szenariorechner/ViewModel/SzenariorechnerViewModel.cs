@@ -24,6 +24,13 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public bool TeilSelected { get { return SelectedKomponente != null; } }
 
+        private string _neuesFahrrad;
+        public string NeuesFahrrad
+        {
+            get { return _neuesFahrrad; }
+            set { SetProperty("NeuesFahrrad", ref _neuesFahrrad, value); }
+        }
+
         private SzenarioKomponenteViewModel _selectedKomponente;
         public SzenarioKomponenteViewModel SelectedKomponente
         {
@@ -357,6 +364,7 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public MyCommand HinzufuegenCommand { get; set; }
         public MyCommand TauschenCommand { get; set; }
+        public MyCommand NeuesFahrradCommand { get; set; }
 
         #endregion
 
@@ -524,15 +532,53 @@ namespace TeileListe.Szenariorechner.ViewModel
             NeuesJahr = "";
             KomponenteEnabled = true;
 
+            NeuesFahrrad = "";
+
             AlternativeBearbeiten = true;
 
             HinzufuegenCommand = new MyCommand(OnHinzufuegen);
             TauschenCommand = new MyCommand(OnTauschen);
+            NeuesFahrradCommand = new MyCommand(OnNeuesFahrrad);
         }
 
         #endregion
 
         #region Action und Commandfunktionen
+
+        private void OnNeuesFahrrad()
+        {
+            var fahrradListe = new List<FahrradDto>();
+            PluginManager.DbManager.GetFahrraeder(ref fahrradListe);
+
+            var fahrrad = new FahrradDto
+            {
+                Name = NeuesFahrrad,
+                Guid = Guid.NewGuid().ToString()
+            };
+            fahrradListe.Add(fahrrad);
+
+            PluginManager.DbManager.SaveFahrraeder(fahrradListe);
+
+            var komponenten = new List<KomponenteDto>();
+
+            foreach(var item in VergleichsListe)
+            {
+                var komponente = new KomponenteDto();
+                komponente.Guid = Guid.NewGuid().ToString();
+                komponente.Komponente = item.Komponente;
+                komponente.Hersteller = item.AlternativeHersteller;
+                komponente.Beschreibung = item.AlternativeBeschreibung;
+                komponente.Groesse = item.AlternativeGroesse;
+                komponente.Jahr = item.AlternativeJahr;
+                komponente.Gewicht = item.Gewicht;
+                komponente.Shop = "Szenariorechner";
+                komponenten.Add(komponente);
+            }
+
+            PluginManager.DbManager.SaveKomponente(fahrrad.Guid, komponenten);
+
+            NeuesFahrrad = "";
+        }
 
         private void OnTauschen()
         {

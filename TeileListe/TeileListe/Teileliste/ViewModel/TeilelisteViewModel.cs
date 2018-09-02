@@ -312,7 +312,17 @@ namespace TeileListe.Teileliste.ViewModel
             var dialog = new SzenariorechnerDialog(window);
             dialog.DataContext = viewModel;
             dialog.ShowDialog();
-            Zuruecksetzen();
+
+            var fahrradListe = new List<FahrradDto>();
+            PluginManager.DbManager.GetFahrraeder(ref fahrradListe);
+
+            foreach(var fahrrad in fahrradListe)
+            {
+                if(!FahrradListe.Any(item => item.Guid == fahrrad.Guid))
+                {
+                    FahrradListe.Add(fahrrad);
+                }
+            }
         }
 
         private void OnNeuesFahrrad(Window window)
