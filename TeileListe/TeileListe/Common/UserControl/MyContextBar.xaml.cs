@@ -3,9 +3,6 @@ using System.Windows.Media;
 
 namespace TeileListe.Common.UserControl
 {
-    /// <summary>
-    /// Interaction logic for MyContextBar.xaml
-    /// </summary>
     public partial class MyContextBar
     {
         public Visibility AusbauenVisible
@@ -67,6 +64,30 @@ namespace TeileListe.Common.UserControl
                                           typeof(Brush),
                                           typeof(MyContextBar),
                                           new UIPropertyMetadata(Brushes.GhostWhite));
+
+        public Thickness EntfernenMargin
+        {
+            get { return (Thickness)GetValue(EntfernenMarginProperty); }
+            set { SetValue(EntfernenMarginProperty, value); }
+        }
+
+        public static readonly DependencyProperty EntfernenMarginProperty
+            = DependencyProperty.Register("EntfernenMargin",
+                                          typeof(Thickness),
+                                          typeof(MyContextBar),
+                                          new UIPropertyMetadata(new Thickness(3,0,3,0)));
+
+        public bool StandardLinksEnabled
+        {
+            get { return (bool)GetValue(StandardLinksEnabledProperty); }
+            set { SetValue(StandardLinksEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty StandardLinksEnabledProperty
+            = DependencyProperty.Register("StandardLinksEnabled",
+                                          typeof(bool),
+                                          typeof(MyContextBar),
+                                          new UIPropertyMetadata(true));
 
         public MyContextBar()
         {

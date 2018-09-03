@@ -21,12 +21,36 @@ namespace TeileListe.Teileliste.ViewModel
         }
 
         public Action<string> FahrradLoeschenAction { get; set; }
+        public Action<Window, string> FahrradAendernAction { get; set; }
+        public Action<string> NachObenAction { get; set; }
+        public Action<string> NachUntenAction { get; set; }
 
         public MyParameterCommand<Window> LoeschenCommand { get; set; }
+        public MyParameterCommand<Window> ChangeCommand { get; set; }
+        public MyCommand NachObenCommand { get; set; }
+        public MyCommand NachUntenCommand { get; set; }
 
         internal FahrradViewModel()
         {
             LoeschenCommand = new MyParameterCommand<Window>(OnFahrradLoeschen);
+            ChangeCommand = new MyParameterCommand<Window>(OnFahrradAendern);
+            NachObenCommand = new MyCommand(OnNachOben);
+            NachUntenCommand = new MyCommand(OnNachUnten);
+        }
+
+        private void OnFahrradAendern(Window owner)
+        {
+            FahrradAendernAction(owner, Guid);
+        }
+
+        private void OnNachOben()
+        {
+            NachObenAction(Guid);
+        }
+
+        private void OnNachUnten()
+        {
+            NachUntenAction(Guid);
         }
 
         private void OnFahrradLoeschen(Window owner)

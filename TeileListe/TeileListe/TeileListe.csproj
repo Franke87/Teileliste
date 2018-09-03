@@ -141,11 +141,11 @@
     <Compile Include="KategorienVerwalten\UserControl\KategorienListeControl.xaml.cs">
       <DependentUpon>KategorienListeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KategorienVerwalten\ViewModel\KategorieBearbeitenViewModel.cs" />
+    <Compile Include="Common\ViewModel\PropertyBearbeitenViewModel.cs" />
     <Compile Include="KategorienVerwalten\ViewModel\KategorienVerwaltenViewModel.cs" />
     <Compile Include="KategorienVerwalten\ViewModel\KategorieViewModel.cs" />
-    <Compile Include="KategorienVerwalten\View\KategorieBearbeitenView.xaml.cs">
-      <DependentUpon>KategorieBearbeitenView.xaml</DependentUpon>
+    <Compile Include="Common\View\PropertyBearbeitenView.xaml.cs">
+      <DependentUpon>PropertyBearbeitenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="KategorienVerwalten\View\KategorienVerwaltenView.xaml.cs">
       <DependentUpon>KategorienVerwaltenView.xaml</DependentUpon>
@@ -291,7 +291,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KategorienVerwalten\View\KategorieBearbeitenView.xaml">
+    <Page Include="Common\View\PropertyBearbeitenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,7 +5,8 @@ using System.Linq;
 using System.Windows;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
-using TeileListe.KategorienVerwalten.View;
+using TeileListe.Common.View;
+using TeileListe.Common.ViewModel;
 
 namespace TeileListe.KategorienVerwalten.ViewModel
 {
@@ -124,11 +125,11 @@ namespace TeileListe.KategorienVerwalten.ViewModel
 
         internal void Hinzufuegen(Window window)
         {
-            var dialog = new KategorieBearbeitenView()
+            var dialog = new PropertyBearbeitenView()
             {
                 Owner = window
             };
-            var viewModel = new KategorieBearbeitenViewModel(GetBlackList(), "")
+            var viewModel = new PropertyBearbeitenViewModel(GetBlackList(), "", "_Kategorie")
             {
                 CloseAction = dialog.Close
             };
@@ -137,7 +138,7 @@ namespace TeileListe.KategorienVerwalten.ViewModel
 
             if (viewModel.IsOk)
             {
-                var newViewModel = new KategorieViewModel(viewModel.Kategorie)
+                var newViewModel = new KategorieViewModel(viewModel.Property)
                 {
                     LoeschenAction = Loeschen,
                     NachObenAction = NachObenSortieren,

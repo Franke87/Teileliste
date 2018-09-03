@@ -1,9 +1,9 @@
 ﻿using System;
 using TeileListe.Common.Classes;
 
-namespace TeileListe.KategorienVerwalten.ViewModel
+namespace TeileListe.Common.ViewModel
 {
-    internal class KategorieBearbeitenViewModel : MyCommonViewModel
+    internal class PropertyBearbeitenViewModel : MyCommonViewModel
     {
         private string _blackList;
 
@@ -14,16 +14,18 @@ namespace TeileListe.KategorienVerwalten.ViewModel
             set { SetProperty("HasError", ref _hasError, value); }
         }
 
-        private string _kategorie;
-        public string Kategorie
+        private string _property;
+        public string Property
         {
-            get { return _kategorie; }
+            get { return _property; }
             set
             {
-                SetProperty("Kategorie", ref _kategorie, value);
+                SetProperty("Property", ref _property, value);
                 HasError = HasValidationError();
             }
         }
+
+        public string LabelText { get; set; }
 
         public MyCommand OnOkCommand { get; set; }
 
@@ -31,17 +33,18 @@ namespace TeileListe.KategorienVerwalten.ViewModel
 
         public bool IsOk { get; set; }
 
-        public KategorieBearbeitenViewModel(string blackList, string kategorie)
+        public PropertyBearbeitenViewModel(string blackList, string property, string labelText)
         {
             _blackList = blackList;
             OnOkCommand = new MyCommand(OnOkFunc);
-            Kategorie = kategorie;
+            Property = property;
+            LabelText = labelText;
             HasError = HasValidationError();
         }
 
         internal bool HasValidationError()
         {
-            return string.IsNullOrWhiteSpace(Kategorie) || _blackList.Contains(";" + Kategorie + ";");
+            return string.IsNullOrWhiteSpace(Property) || _blackList.Contains(";" + Property + ";");
         }
 
         public void OnOkFunc()

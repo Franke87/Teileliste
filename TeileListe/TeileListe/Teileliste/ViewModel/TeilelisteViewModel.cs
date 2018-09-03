@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
+using TeileListe.Common.View;
 using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
 using TeileListe.NeuesEinzelteil.View;
@@ -265,7 +266,15 @@ namespace TeileListe.Teileliste.ViewModel
             PluginManager.DbManager.GetFahrraeder(ref liste);
             foreach (var item in liste)
             {
-                FahrradListe.Add(new FahrradViewModel { Name = item.Name, Guid = item.Guid, FahrradLoeschenAction = FahrradLoeschen });
+                FahrradListe.Add(new FahrradViewModel
+                {
+                    Name = item.Name,
+                    Guid = item.Guid,
+                    FahrradLoeschenAction = FahrradLoeschen,
+                    NachObenAction = FahrradNachOben,
+                    NachUntenAction = FahrradNachUnten,
+                    FahrradAendernAction = FahrradAendern
+                });
             }
 
             SelectedFahrrad = FahrradListe.FirstOrDefault();
@@ -320,7 +329,15 @@ namespace TeileListe.Teileliste.ViewModel
             {
                 if(!FahrradListe.Any(item => item.Guid == fahrrad.Guid))
                 {
-                    FahrradListe.Add(new FahrradViewModel { Name = fahrrad.Name, Guid = fahrrad.Guid, FahrradLoeschenAction = FahrradLoeschen });
+                    FahrradListe.Add(new FahrradViewModel
+                    {
+                        Name = fahrrad.Name,
+                        Guid = fahrrad.Guid,
+                        FahrradLoeschenAction = FahrradLoeschen,
+                        NachObenAction = FahrradNachOben,
+                        NachUntenAction = FahrradNachUnten,
+                        FahrradAendernAction = FahrradAendern
+                    });
                 }
             }
         }
@@ -340,7 +357,10 @@ namespace TeileListe.Teileliste.ViewModel
                 {
                     Name = viewModel.Name,
                     Guid = Guid.NewGuid().ToString(),
-                    FahrradLoeschenAction = FahrradLoeschen
+                    FahrradLoeschenAction = FahrradLoeschen,
+                    NachObenAction = FahrradNachOben,
+                    NachUntenAction = FahrradNachUnten,
+                    FahrradAendernAction = FahrradAendern
                 };
                 FahrradListe.Add(fahrrad);
 
@@ -884,6 +904,72 @@ namespace TeileListe.Teileliste.ViewModel
         #endregion
 
         #region Actionfunktionen
+
+        private void FahrradNachOben(string guid)
+        {
+            var teil1 = FahrradListe.First(teil => teil.Guid == guid);
+            if (teil1 != null && FahrradListe.IndexOf(teil1) + 1 > 1)
+            {
+                var teil2 = FahrradListe[FahrradListe.IndexOf(teil1) - 1];
+                if (teil2 != null)
+                {
+                    FahrradListe.Move(FahrradListe.IndexOf(teil1),
+                                        FahrradListe.IndexOf(teil2));
+                    PluginManager.DbManager.SaveFahrraeder(FahrradListe.Select(x => new FahrradDto
+                                                                                        {
+                                                                                            Name = x.Name,
+                                                                                            Guid = x.Guid
+                                                                                        }).ToList());
+                }
+            }
+        }
+
+        private void FahrradNachUnten(string guid)
+        {
+            var teil1 = FahrradListe.First(teil => teil.Guid == guid);
+            if (teil1 != null && FahrradListe.IndexOf(teil1) + 1 < FahrradListe.Count)
+            {
+                var teil2 = FahrradListe[FahrradListe.IndexOf(teil1) + 1];
+                if (teil2 != null)
+                {
+                    FahrradListe.Move(FahrradListe.IndexOf(teil1),
+                                        FahrradListe.IndexOf(teil2));
+                    PluginManager.DbManager.SaveFahrraeder(FahrradListe.Select(x => new FahrradDto
+                                                                                        {
+                                                                                            Name = x.Name,
+                                                                                            Guid = x.Guid
+                                                                                        }).ToList());
+                }
+            }
+        }
+
+        private void FahrradAendern(Window owner, string guid)
+        {
+            if (SelectedFahrrad != null && SelectedFahrrad.Guid == guid)
+            {
+                var dialog = new PropertyBearbeitenView()
+                {
+                    Owner = owner
+                };
+                var viewModel = new PropertyBearbeitenViewModel("", SelectedFahrrad.Name, "_Name")
+                {
+                    CloseAction = dialog.Close
+                };
+                dialog.DataContext = viewModel;
+                dialog.ShowDialog();
+
+                if (viewModel.IsOk)
+                {
+                    SelectedFahrrad.Name = viewModel.Property;
+
+                    PluginManager.DbManager.SaveFahrraeder(FahrradListe.Select(x => new FahrradDto
+                                                                                        {
+                                                                                            Name = x.Name,
+                                                                                            Guid = x.Guid
+                                                                                        }).ToList());
+                }
+            }
+        }
 
         private void FahrradLoeschen(string guid)
         {

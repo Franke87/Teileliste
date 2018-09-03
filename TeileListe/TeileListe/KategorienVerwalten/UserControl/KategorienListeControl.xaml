@@ -41,7 +41,7 @@
                         <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Kategorie}" Text="{Binding Kategorie}" Opacity="0.4" />
-                    <usercontrol:MyContextBar IsEnabled="{Binding ContextBarEnbaled}" Grid.Column="1" AusbauenVisible="Collapsed" LeerenVisible="Collapsed" GewichtsdatenbankVisible="Collapsed" DateiManagerToolTip="" />
+                    <usercontrol:MyContextBar StandardLinksEnabled="{Binding ContextBarEnbaled}" Grid.Column="1" AusbauenVisible="Collapsed" LeerenVisible="Collapsed" GewichtsdatenbankVisible="Collapsed" DateiManagerToolTip="" />
                 </Grid>
             </DataTemplate>
         </HeaderedItemsControl.ItemTemplate>

@@ -42,7 +42,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Name}" />
-                        <usercontrol:MyContextBar ContextBarBackground="Transparent" IsEnabled="{Binding Data.IsDirty, Converter={StaticResource InverseBoolConverter}, Source={StaticResource NeuesFahrradProxy}}" Grid.Column="1" AusbauenVisible="Collapsed" DateiManagerToolTip="" GewichtsdatenbankVisible="Collapsed" LeerenVisible="Collapsed" Visibility="{Binding Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                        <usercontrol:MyContextBar EntfernenMargin="3,0,0,0" ContextBarBackground="Transparent" StandardLinksEnabled="{Binding Data.IsDirty, Converter={StaticResource InverseBoolConverter}, Source={StaticResource NeuesFahrradProxy}}" Grid.Column="1" AusbauenVisible="Collapsed" DateiManagerToolTip="" GewichtsdatenbankVisible="Collapsed" LeerenVisible="Collapsed" Visibility="{Binding Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
