@@ -21,9 +21,13 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public int GesamtDifferenz { get { return VergleichsListe.Sum(x => x.AlternativeDifferenz); } }
 
+        public int GesamtGewichtAlternativen { get { return VergleichsListe.Sum(x => x.AlternativeGewicht); } }
+
         public WebAuswahlViewModel DatenbankViewModel { get; set; }
 
         public bool TeilSelected { get { return SelectedKomponente != null; } }
+
+        public string NameFahrrad { get; set; }
 
         private string _neuesFahrrad;
         public string NeuesFahrrad
@@ -528,6 +532,8 @@ namespace TeileListe.Szenariorechner.ViewModel
 
             NeuesFahrrad = "";
 
+            NameFahrrad = selectedFahrrad.Name;
+
             AlternativeBearbeiten = true;
 
             HinzufuegenCommand = new MyCommand(OnHinzufuegen);
@@ -631,6 +637,7 @@ namespace TeileListe.Szenariorechner.ViewModel
             OhneKomponente.Add(ohneZuordnung);
 
             UpdateProperty("GesamtDifferenz");
+            UpdateProperty("GesamtGewichtAlternativen");
 
             NeueKomponente = "";
             NeuerHersteller = "";
@@ -724,6 +731,7 @@ namespace TeileListe.Szenariorechner.ViewModel
             vm.PropertyChanged += ContentPropertyChanged;
             VergleichsListe.Add(vm);
             UpdateProperty("GesamtDifferenz");
+            UpdateProperty("GesamtGewichtAlternativen");
 
             var ohneZuordnung = new OhneZuordnungViewModel
             {
@@ -760,6 +768,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 vm.PropertyChanged += ContentPropertyChanged;
                 VergleichsListe.Add(vm);
                 UpdateProperty("GesamtDifferenz");
+                UpdateProperty("GesamtGewichtAlternativen");
                 Wunschliste.Remove(wunschteil);
 
                 var ohneZuordnung = new OhneZuordnungViewModel
@@ -798,6 +807,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 vm.PropertyChanged += ContentPropertyChanged;
                 VergleichsListe.Add(vm);
                 UpdateProperty("GesamtDifferenz");
+                UpdateProperty("GesamtGewichtAlternativen");
                 Restekiste.Remove(restteil);
 
                 var ohneZuordnung = new OhneZuordnungViewModel
@@ -827,6 +837,7 @@ namespace TeileListe.Szenariorechner.ViewModel
             SelectedKomponente.AlternativeJahr = jahr;
             SelectedKomponente.AlternativeGewicht = gewicht;
             UpdateProperty("GesamtDifferenz");
+            UpdateProperty("GesamtGewichtAlternativen");
 
             if (AlternativeBearbeiten)
             {
@@ -864,6 +875,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 SelectedKomponente.AlternativeJahr = wunschteil.Jahr;
                 SelectedKomponente.AlternativeGewicht = wunschteil.Gewicht;
                 UpdateProperty("GesamtDifferenz");
+                UpdateProperty("GesamtGewichtAlternativen");
                 Wunschliste.Remove(wunschteil);
 
                 if (AlternativeBearbeiten)
@@ -903,6 +915,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 SelectedKomponente.AlternativeJahr = restteil.Jahr;
                 SelectedKomponente.AlternativeGewicht = restteil.Gewicht;
                 UpdateProperty("GesamtDifferenz");
+                UpdateProperty("GesamtGewichtAlternativen");
                 Restekiste.Remove(restteil);
 
                 if (AlternativeBearbeiten)
@@ -935,6 +948,10 @@ namespace TeileListe.Szenariorechner.ViewModel
             if (String.CompareOrdinal(e.PropertyName, "AlternativeDifferenz") == 0)
             {
                 UpdateProperty("GesamtDifferenz");
+            }
+            if (String.CompareOrdinal(e.PropertyName, "AlternativeGewicht") == 0)
+            {
+                UpdateProperty("GesamtGewichtAlternativen");
             }
         }
 
@@ -974,6 +991,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 NeuesJahr = "";
                 NeuesGewicht = 0;
                 UpdateProperty("GesamtDifferenz");
+                UpdateProperty("GesamtGewichtAlternativen");
             }
         }
 

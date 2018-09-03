@@ -72,7 +72,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" Margin="10" ItemsSource="{Binding VergleichsListe}" SelectedItem="{Binding SelectedKomponente}"
+                <DataGrid Grid.Row="0" Margin="10,10,10,5" ItemsSource="{Binding VergleichsListe}" SelectedItem="{Binding SelectedKomponente}"
                           Background="White"
                           BorderThickness="0,0,0,1"
                           BorderBrush="LightGray"
@@ -340,16 +340,13 @@
                         <ColumnDefinition Width="{Binding ElementName=DataGridColumnDifferenz, Path=ActualWidth}" />
                         <ColumnDefinition Width="17" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Summe gesamt:" Grid.Column="0" Opacity="0.4" />
+                    <TextBlock Grid.Column="0" Opacity="0.4" >
+                        <Run Text="Summe " /><Run Text="{Binding NameFahrrad}" /><Run Text=":" />
+                    </TextBlock>
                     <TextBlock Text="{Binding GesamtGewicht, Converter={StaticResource IntToWeightConverter}}" Margin="0,0,5,0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" />
-                    <Grid Grid.Column="3" Grid.ColumnSpan="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Summe Gewichtsunterschiede:" Grid.Column="0" Opacity="0.4" />
-                        <TextBlock Text="{Binding GesamtDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding GesamtDifferenz, Converter={StaticResource IntToForegroundConverter}}" Margin="0,0,5,0" Grid.Column="1" HorizontalAlignment="Right" />
-                    </Grid>
+                    <TextBlock Text="Summe Alternativen:" Grid.Column="3" Opacity="0.4" />
+                    <TextBlock Text="{Binding GesamtGewichtAlternativen, Converter={StaticResource IntToWeightConverter}}" Margin="0,0,5,0" Grid.Column="4" HorizontalAlignment="Right" />
+                    <TextBlock Text="{Binding GesamtDifferenz, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" Foreground="{Binding GesamtDifferenz, Converter={StaticResource IntToForegroundConverter}}" Margin="0,0,5,0" Grid.Column="5" HorizontalAlignment="Right" />
                 </Grid>
             </Grid>
             <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Margin="10,0,10,5" />
