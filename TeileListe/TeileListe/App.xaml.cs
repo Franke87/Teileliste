@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using TeileListe.Classes;
@@ -10,6 +11,9 @@ namespace TeileListe
     {
         // ReSharper disable once NotAccessedField.Local
         private static Mutex _mutex;
+
+        [DllImport("dwmapi.dll")]
+        public static extern IntPtr DwmIsCompositionEnabled(out bool pfEnabled);
 
         [STAThread]
         static void main()
@@ -30,6 +34,14 @@ namespace TeileListe
             {
                 //app is already running! Exiting the application  
                 Shutdown();
+            }
+
+            if (DwmIsCompositionEnabled(out bool aeroEnabled) == IntPtr.Zero)
+            {
+                if (aeroEnabled)
+                {
+                    Current.Resources.Clear();
+                }
             }
 
             if (!PluginManager.InitPlugins())
