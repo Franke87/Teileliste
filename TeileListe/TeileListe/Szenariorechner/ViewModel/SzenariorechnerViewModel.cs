@@ -570,7 +570,7 @@ namespace TeileListe.Szenariorechner.ViewModel
                 komponente.Beschreibung = item.AlternativeBeschreibung;
                 komponente.Groesse = item.AlternativeGroesse;
                 komponente.Jahr = item.AlternativeJahr;
-                komponente.Gewicht = item.Gewicht;
+                komponente.Gewicht = item.AlternativeGewicht;
                 komponente.Shop = "Szenariorechner";
                 komponenten.Add(komponente);
             }
