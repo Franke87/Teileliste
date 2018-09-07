@@ -563,16 +563,21 @@ namespace TeileListe.Szenariorechner.ViewModel
 
             foreach(var item in VergleichsListe)
             {
-                var komponente = new KomponenteDto();
-                komponente.Guid = Guid.NewGuid().ToString();
-                komponente.Komponente = item.Komponente;
-                komponente.Hersteller = item.AlternativeHersteller;
-                komponente.Beschreibung = item.AlternativeBeschreibung;
-                komponente.Groesse = item.AlternativeGroesse;
-                komponente.Jahr = item.AlternativeJahr;
-                komponente.Gewicht = item.AlternativeGewicht;
-                komponente.Shop = "Szenariorechner";
-                komponenten.Add(komponente);
+                if (item.AlternativeVorhanden)
+                {
+                    var komponente = new KomponenteDto
+                    {
+                        Guid = Guid.NewGuid().ToString(),
+                        Komponente = item.Komponente,
+                        Hersteller = item.AlternativeHersteller,
+                        Beschreibung = item.AlternativeBeschreibung,
+                        Groesse = item.AlternativeGroesse,
+                        Jahr = item.AlternativeJahr,
+                        Gewicht = item.AlternativeGewicht,
+                        Shop = "Szenariorechner"
+                    };
+                    komponenten.Add(komponente);
+                }
             }
 
             PluginManager.DbManager.SaveKomponente(fahrrad.Guid, komponenten);
