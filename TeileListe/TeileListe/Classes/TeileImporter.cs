@@ -128,12 +128,12 @@ namespace TeileListe.Classes
                             int intValue;
                             if (int.TryParse(values[4], out intValue))
                             {
-                                dto.Preis = intValue;
+                                dto.Preis = intValue >= 0 ? intValue : 0;
                             }
                             dto.Gekauft = values[5] == "True";
                             if (int.TryParse(values[6], out intValue))
                             {
-                                dto.Gewicht = intValue;
+                                dto.Gewicht = intValue >= 0 ? intValue : 0;
                             }
                             dto.Gewogen = values[7] == "True";
                             if (values.Length >= 13)
