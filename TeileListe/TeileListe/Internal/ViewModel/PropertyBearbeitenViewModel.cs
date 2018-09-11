@@ -1,7 +1,7 @@
 ﻿using System;
 using TeileListe.Common.Classes;
 
-namespace TeileListe.Common.ViewModel
+namespace TeileListe.Internal.ViewModel
 {
     internal class PropertyBearbeitenViewModel : MyCommonViewModel
     {

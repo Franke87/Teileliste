@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
-using TeileListe.Common.ViewModel;
+using TeileListe.Internal.ViewModel;
 using TeileListe.KategorienVerwalten.View;
 using TeileListe.KategorienVerwalten.ViewModel;
 

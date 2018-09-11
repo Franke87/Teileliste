@@ -3,12 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewModel="clr-namespace:TeileListe.Common.ViewModel"
              xmlns:converter="clr-namespace:TeileListe.Converter"
              xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
              xmlns:usercontrol="clr-namespace:TeileListe.Gewichtsdatenbanken.UserControl"
-             mc:Ignorable="d" 
-              >
+             mc:Ignorable="d" >
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <commonConverter:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />

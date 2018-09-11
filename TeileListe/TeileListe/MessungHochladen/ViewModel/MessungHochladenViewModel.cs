@@ -10,8 +10,8 @@ using TeileListe.API.View;
 using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.ViewModel;
 using TeileListe.Enums;
+using TeileListe.Internal.ViewModel;
 using TeileListe.MessungHochladen.Dto;
 
 namespace TeileListe.MessungHochladen.ViewModel

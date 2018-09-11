@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using TeileListe.Common.Classes;
 
-namespace TeileListe.Common.ViewModel
+namespace TeileListe.Gewichtsdatenbanken.ViewModel
 {
     public class KategorienViewModel : MyCommonViewModel
     {

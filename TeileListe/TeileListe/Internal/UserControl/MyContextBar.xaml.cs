@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace TeileListe.Common.UserControl
+namespace TeileListe.Internal.UserControl
 {
     public partial class MyContextBar
     {

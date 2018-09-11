@@ -141,10 +141,10 @@
     <Compile Include="KategorienVerwalten\UserControl\KategorienListeControl.xaml.cs">
       <DependentUpon>KategorienListeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ViewModel\PropertyBearbeitenViewModel.cs" />
+    <Compile Include="Internal\ViewModel\PropertyBearbeitenViewModel.cs" />
     <Compile Include="KategorienVerwalten\ViewModel\KategorienVerwaltenViewModel.cs" />
     <Compile Include="KategorienVerwalten\ViewModel\KategorieViewModel.cs" />
-    <Compile Include="Common\View\PropertyBearbeitenView.xaml.cs">
+    <Compile Include="Internal\View\PropertyBearbeitenView.xaml.cs">
       <DependentUpon>PropertyBearbeitenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="KategorienVerwalten\View\KategorienVerwaltenView.xaml.cs">
@@ -204,7 +204,7 @@
     <Compile Include="Teileliste\UserControl\KomponentenListeControl.xaml.cs">
       <DependentUpon>KomponentenListeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\UserControl\MyContextBar.xaml.cs">
+    <Compile Include="Internal\UserControl\MyContextBar.xaml.cs">
       <DependentUpon>MyContextBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="NeuesEinzelteil\UserControl\RestekisteAuswahlControl.xaml.cs">
@@ -213,14 +213,14 @@
     <Compile Include="Restekiste\UserControl\RestekisteListeControl.xaml.cs">
       <DependentUpon>RestekisteListeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\UserControl\EinzelteilBearbeitenControl.xaml.cs">
+    <Compile Include="Internal\UserControl\EinzelteilBearbeitenControl.xaml.cs">
       <DependentUpon>EinzelteilBearbeitenControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\UserControl\CommonPreviewControl.xaml.cs">
+    <Compile Include="Internal\UserControl\CommonPreviewControl.xaml.cs">
       <DependentUpon>CommonPreviewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gewichtsdatenbanken\ViewModel\KategorienViewModel.cs" />
-    <Compile Include="Common\ViewModel\CommonDateiViewModel.cs" />
+    <Compile Include="Internal\ViewModel\CommonDateiViewModel.cs" />
     <Compile Include="Gewichtsdatenbanken\ViewModel\WebAuswahlViewModel.cs" />
     <Compile Include="NeuesEinzelteil\ViewModel\NeuesEinzelteilNeuViewModel.cs" />
     <Compile Include="NeuesEinzelteil\ViewModel\NeuesEinzelteilViewModel.cs" />
@@ -291,7 +291,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\View\PropertyBearbeitenView.xaml">
+    <Page Include="Internal\View\PropertyBearbeitenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,7 +319,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\UserControl\MyContextBar.xaml">
+    <Page Include="Internal\UserControl\MyContextBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -331,11 +331,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\UserControl\EinzelteilBearbeitenControl.xaml">
+    <Page Include="Internal\UserControl\EinzelteilBearbeitenControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\UserControl\CommonPreviewControl.xaml">
+    <Page Include="Internal\UserControl\CommonPreviewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

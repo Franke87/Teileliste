@@ -2,14 +2,11 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
-using TeileListe.API.View;
-using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
-using TeileListe.Common.Interface;
-using TeileListe.Common.ViewModel;
+using TeileListe.Gewichtsdatenbanken.ViewModel;
 using TeileListe.Enums;
+using TeileListe.Internal.ViewModel;
 using TeileListe.MessungHochladen.ViewModel;
 
 namespace TeileListe.EinzelteilZuordnen.ViewModel
@@ -85,10 +82,6 @@ namespace TeileListe.EinzelteilZuordnen.ViewModel
             get { return _hasError; }
             set { SetProperty("HasError", ref _hasError, value); }
         }
-
-        
-
-        
 
         private ObservableCollection<DateiAuswahlViewModel> _dateiListe;
         public ObservableCollection<DateiAuswahlViewModel> DateiListe

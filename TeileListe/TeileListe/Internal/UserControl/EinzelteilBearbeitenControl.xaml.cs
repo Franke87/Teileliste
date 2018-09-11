@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace TeileListe.Common.UserControl
+namespace TeileListe.Internal.UserControl
 {
     /// <summary>
     /// Interaction logic for EinzelteilBearbeitenControl.xaml

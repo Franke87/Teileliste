@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converter="clr-namespace:TeileListe.Converter"
              xmlns:classes="clr-namespace:TeileListe.Classes"
-             xmlns:usercontrol="clr-namespace:TeileListe.Common.UserControl"
+             xmlns:usercontrol="clr-namespace:TeileListe.Internal.UserControl"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
     <UserControl.Resources>

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converter="clr-namespace:TeileListe.Converter"
              xmlns:viewModel="clr-namespace:TeileListe.Wunschliste.ViewModel"
-             xmlns:userControl="clr-namespace:TeileListe.Common.UserControl"
+             xmlns:userControl="clr-namespace:TeileListe.Internal.UserControl"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type viewModel:WunschlisteViewModel}}"
              d:DesignHeight="300" d:DesignWidth="300">

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using Microsoft.Win32;
 using TeileListe.Common.Classes;
 using TeileListe.Enums;
 
-namespace TeileListe.Common.ViewModel
+namespace TeileListe.Internal.ViewModel
 {
     public class CommonDateiViewModel : MyCommonViewModel
     {

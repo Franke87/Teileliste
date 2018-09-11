@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="TeileListe.Common.UserControl.MyContextBar"
+﻿<UserControl x:Class="TeileListe.Internal.UserControl.MyContextBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converter="clr-namespace:TeileListe.Converter"
-             xmlns:userControl="clr-namespace:TeileListe.Common.UserControl"
+             xmlns:userControl="clr-namespace:TeileListe.Internal.UserControl"
              xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
              mc:Ignorable="d" >
     <UserControl.Resources>

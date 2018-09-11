@@ -7,7 +7,7 @@ using System.Windows.Threading;
 using TeileListe.API.Classes;
 using TeileListe.API.Helper;
 using TeileListe.API.ResponseClasses;
-using TeileListe.Common.ViewModel;
+using TeileListe.Gewichtsdatenbanken.ViewModel;
 using TeileListe.NeuesEinzelteil.ViewModel;
 
 namespace TeileListe.API.View

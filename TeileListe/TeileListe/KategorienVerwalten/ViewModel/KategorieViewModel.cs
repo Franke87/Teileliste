@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
 using TeileListe.Common.Classes;
-using TeileListe.Common.View;
-using TeileListe.Common.ViewModel;
+using TeileListe.Internal.View;
+using TeileListe.Internal.ViewModel;
 
 namespace TeileListe.KategorienVerwalten.ViewModel
 {

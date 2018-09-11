@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace TeileListe.Common.View
+namespace TeileListe.Internal.View
 {
     public partial class PropertyBearbeitenView : Window
     {

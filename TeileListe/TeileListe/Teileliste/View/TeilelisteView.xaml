@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converter="clr-namespace:TeileListe.Converter"
-        xmlns:commonUserControl="clr-namespace:TeileListe.Common.UserControl"
+        xmlns:internalUserControl="clr-namespace:TeileListe.Internal.UserControl"
         xmlns:teilelisteUserControl="clr-namespace:TeileListe.Teileliste.UserControl"
         xmlns:szenarioControl="clr-namespace:TeileListe.Szenariorechner.UserControl"
         xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
@@ -36,14 +36,14 @@
                 <szenarioControl:SzenarioPreviewControl />
             </Border>
             <Border Grid.Row="2" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,10,0" Grid.Column="0" >
-                <commonUserControl:CommonPreviewControl HeaderText="Wunschliste" 
+                <internalUserControl:CommonPreviewControl HeaderText="Wunschliste" 
                                               Gewicht="{Binding GewichtWunschliste, Converter={StaticResource IntToWeightConverter}}" 
                                               Wert="{Binding WertWunschliste, Converter={StaticResource IntToPriceConverter}}" 
                                               Inhalt="{Binding InhaltWunschliste}" 
                                               OeffnenCommand="{Binding WunschlisteCommand}"/>
             </Border>
             <Border Grid.Row="3" BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="0,15,10,0" Grid.Column="0" >
-                <commonUserControl:CommonPreviewControl HeaderText="Restekiste" 
+                <internalUserControl:CommonPreviewControl HeaderText="Restekiste" 
                                               Gewicht="{Binding GewichtRestekiste, Converter={StaticResource IntToWeightConverter}}" 
                                               Wert="{Binding WertRestekiste, Converter={StaticResource IntToPriceConverter}}" 
                                               Inhalt="{Binding InhaltRestekiste}"

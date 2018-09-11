@@ -5,7 +5,8 @@ using TeileListe.Classes;
 using TeileListe.Common.Classes;
 using TeileListe.Common.Dto;
 using TeileListe.Enums;
-using TeileListe.Common.ViewModel;
+using TeileListe.Gewichtsdatenbanken.ViewModel;
+using TeileListe.Internal.ViewModel;
 
 namespace TeileListe.NeuesEinzelteil.ViewModel
 {

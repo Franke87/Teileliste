@@ -11,7 +11,7 @@ using TeileListe.Common.Dto;
 using TeileListe.Enums;
 using TeileListe.NeuesEinzelteil.ViewModel;
 
-namespace TeileListe.Common.ViewModel
+namespace TeileListe.Gewichtsdatenbanken.ViewModel
 {
     public class WebAuswahlViewModel : MyCommonViewModel
     {
