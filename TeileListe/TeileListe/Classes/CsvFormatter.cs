@@ -2,19 +2,15 @@
 using System.Collections.ObjectModel;
 using System.Text;
 using TeileListe.Restekiste.ViewModel;
+using TeileListe.Szenariorechner.ViewModel;
 using TeileListe.Teileliste.ViewModel;
 using TeileListe.Wunschliste.ViewModel;
 
 namespace TeileListe.Classes
 {
-    class CsvFormatter : IDisposable
+    internal static class CsvFormatter
     {
-        public void Dispose()
-        {
-            
-        }
-
-        public string GetFormattetKomponenten(ObservableCollection<KomponenteViewModel> listeTeile)
+        internal static string GetFormattetKomponenten(ObservableCollection<KomponenteViewModel> listeTeile)
         {
             var message = new StringBuilder();
             message.AppendLine("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink;Guid");
@@ -41,7 +37,7 @@ namespace TeileListe.Classes
             return message.ToString();
         }
 
-        public string GetFormattetRestekiste(ObservableCollection<RestteilViewModel> listeTeile)
+        internal static string GetFormattetRestekiste(ObservableCollection<RestteilViewModel> listeTeile)
         {
             var message = new StringBuilder();
             message.AppendLine("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink");
@@ -67,7 +63,7 @@ namespace TeileListe.Classes
             return message.ToString();
         }
 
-        public string GetFormattetWunschliste(ObservableCollection<WunschteilViewModel> listeTeile)
+        internal static string GetFormattetWunschliste(ObservableCollection<WunschteilViewModel> listeTeile)
         {
             var message = new StringBuilder();
             message.AppendLine("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink;Guid");
@@ -89,6 +85,32 @@ namespace TeileListe.Classes
                                                     teil.DatenbankId == null ? "" : teil.DatenbankId.Replace(";", ""),
                                                     teil.DatenbankLink == null ? "" : teil.DatenbankLink.Replace(";", ""),
                                                     teil.Guid == null ? "" : teil.Guid));
+            }
+            return message.ToString();
+        }
+
+        internal static string GetFormattetAlternativen(ObservableCollection<SzenarioKomponenteViewModel> vergleichsListe)
+        {
+            var message = new StringBuilder();
+            message.AppendLine("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink;Guid");
+
+            foreach (var teil in vergleichsListe)
+            {
+                message.AppendLine(string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13}",
+                                                    teil.Komponente.Replace(";", ""),
+                                                    teil.AlternativeBeschreibung == null ? "" : teil.AlternativeBeschreibung.Replace(";", ""),
+                                                    "Szenariorechner",
+                                                    "",
+                                                    0,
+                                                    "False",
+                                                    teil.AlternativeGewicht,
+                                                    "False",
+                                                    teil.AlternativeHersteller == null ? "" : teil.AlternativeHersteller.Replace(";", ""),
+                                                    teil.AlternativeGroesse == null ? "" : teil.AlternativeGroesse.Replace(";", ""),
+                                                    teil.AlternativeJahr == null ? "" : teil.AlternativeJahr.Replace(";", ""),
+                                                    "",
+                                                    "",
+                                                    Guid.NewGuid().ToString()));
             }
             return message.ToString();
         }

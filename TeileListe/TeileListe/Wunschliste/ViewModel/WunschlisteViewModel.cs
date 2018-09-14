@@ -96,28 +96,26 @@ namespace TeileListe.Wunschliste.ViewModel
                 {
                     var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     var file = Path.Combine(path, "Wunschliste.csv");
+
                     var i = 1;
                     while (File.Exists(file))
                     {
                         file = Path.Combine(path, string.Format("Wunschliste ({0}).csv", i++));
                     }
-                    using (var formatter = new CsvFormatter())
+
+                    using (var sw = new StreamWriter(file, false, Encoding.Default))
                     {
-                        using (var sw = new StreamWriter(file,
-                                                            false,
-                                                            Encoding.Default))
-                        {
-                            sw.Write(formatter.GetFormattetWunschliste(Wunschliste));
-                        }
-                        Process.Start(new ProcessStartInfo("explorer.exe")
-                        {
-                            Arguments = "/select, \"" + file + "\""
-                        });
+                        sw.Write(CsvFormatter.GetFormattetWunschliste(Wunschliste));
                     }
+
+                    Process.Start(new ProcessStartInfo("explorer.exe")
+                    {
+                        Arguments = "/select, \"" + file + "\""
+                    });
                 }
                 catch (IOException ex)
                 {
-                    HilfsFunktionen.ShowMessageBox(window, ex.Message, "Wunschliste", true);
+                    HilfsFunktionen.ShowMessageBox(window, "Wunschliste", ex.Message, true);
                 }
             }
             else
@@ -159,16 +157,9 @@ namespace TeileListe.Wunschliste.ViewModel
                     liste.Add(wunschteil);
                 }
 
-                var csvExport = "";
-
-                using (var formatter = new CsvFormatter())
-                {
-                    csvExport = formatter.GetFormattetWunschliste(Wunschliste);
-                }
-
                 PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
                                                                 "Wunschliste",
-                                                                csvExport,
+                                                                CsvFormatter.GetFormattetWunschliste(Wunschliste),
                                                                 liste);
             }
         }

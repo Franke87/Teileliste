@@ -95,28 +95,26 @@ namespace TeileListe.Restekiste.ViewModel
                 {
                     var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     var file = Path.Combine(path, "Restekiste.csv");
+
                     var i = 1;
                     while (File.Exists(file))
                     {
                         file = Path.Combine(path, string.Format("Restekiste ({0}).csv", i++));
                     }
-                    using (var formatter = new CsvFormatter())
+
+                    using (var sw = new StreamWriter(file, false, Encoding.Default))
                     {
-                        using (var sw = new StreamWriter(file,
-                                                            false,
-                                                            Encoding.Default))
-                        {
-                            sw.Write(formatter.GetFormattetRestekiste(ResteListe));
-                        }
-                        Process.Start(new ProcessStartInfo("explorer.exe")
-                        {
-                            Arguments = "/select, \"" + file + "\""
-                        });
+                        sw.Write(CsvFormatter.GetFormattetRestekiste(ResteListe));
                     }
+
+                    Process.Start(new ProcessStartInfo("explorer.exe")
+                    {
+                        Arguments = "/select, \"" + file + "\""
+                    });
                 }
                 catch (IOException ex)
                 {
-                    HilfsFunktionen.ShowMessageBox(window, ex.Message, "Restekiste", true);
+                    HilfsFunktionen.ShowMessageBox(window, "Restekiste", ex.Message, true);
                 }
             }
             else
@@ -158,16 +156,9 @@ namespace TeileListe.Restekiste.ViewModel
                     liste.Add(einzelteil);
                 }
 
-                var csvExport = "";
-
-                using (var formatter = new CsvFormatter())
-                {
-                    csvExport = formatter.GetFormattetRestekiste(ResteListe);
-                }
-
                 PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
                                                                 "Restekiste",
-                                                                csvExport,
+                                                                CsvFormatter.GetFormattetRestekiste(ResteListe),
                                                                 liste);
             }
         }

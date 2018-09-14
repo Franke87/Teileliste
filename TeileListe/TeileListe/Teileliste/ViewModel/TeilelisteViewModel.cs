@@ -805,28 +805,26 @@ namespace TeileListe.Teileliste.ViewModel
             {
                 var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 var file = Path.Combine(path, "Teileliste.csv");
+
                 var i = 1;
                 while (File.Exists(file))
                 {
                     file = Path.Combine(path, string.Format("Teileliste ({0}).csv", i++));
                 }
-                using (var formatter = new CsvFormatter())
+
+                using (var sw = new StreamWriter(file, false, Encoding.Default))
                 {
-                    using (var sw = new StreamWriter(file,
-                                                        false,
-                                                        Encoding.Default))
-                    {
-                        sw.Write(formatter.GetFormattetKomponenten(KomponentenListe));
-                    }
-                    Process.Start(new ProcessStartInfo("explorer.exe")
-                    {
-                        Arguments = "/select, \"" + file + "\""
-                    });
+                    sw.Write(CsvFormatter.GetFormattetKomponenten(KomponentenListe));
                 }
+
+                Process.Start(new ProcessStartInfo("explorer.exe")
+                {
+                    Arguments = "/select, \"" + file + "\""
+                });
             }
             catch (IOException ex)
             {
-                HilfsFunktionen.ShowMessageBox(window, ex.Message, "Teileliste", true);
+                HilfsFunktionen.ShowMessageBox(window, "Teileliste", ex.Message, true);
             }
         }
 
@@ -875,16 +873,9 @@ namespace TeileListe.Teileliste.ViewModel
                     liste.Add(exportTeil);
                 }
 
-                var csvExport = "";
-
-                using (var formatter = new CsvFormatter())
-                {
-                    csvExport = formatter.GetFormattetKomponenten(KomponentenListe);
-                }
-
                 PluginManager.ExportManager.ExportKomponenten(new WindowInteropHelper(window).Handle,
                                                                 SelectedFahrrad.Name,
-                                                                csvExport,
+                                                                CsvFormatter.GetFormattetKomponenten(KomponentenListe),
                                                                 liste);
             }
             catch (Exception ex)

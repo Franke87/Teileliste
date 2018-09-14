@@ -10,6 +10,10 @@ using TeileListe.Enums;
 using TeileListe.Gewichtsdatenbanken.ViewModel;
 using System;
 using TeileListe.Teileliste.ViewModel;
+using System.IO;
+using System.Text;
+using System.Diagnostics;
+using System.Windows;
 
 namespace TeileListe.Szenariorechner.ViewModel
 {
@@ -362,7 +366,7 @@ namespace TeileListe.Szenariorechner.ViewModel
 
         public MyCommand HinzufuegenCommand { get; set; }
         public MyCommand TauschenCommand { get; set; }
-        public MyCommand NeuesFahrradCommand { get; set; }
+        public MyParameterCommand<Window> NeuesFahrradCommand { get; set; }
 
         #endregion
 
@@ -538,49 +542,43 @@ namespace TeileListe.Szenariorechner.ViewModel
 
             HinzufuegenCommand = new MyCommand(OnHinzufuegen);
             TauschenCommand = new MyCommand(OnTauschen);
-            NeuesFahrradCommand = new MyCommand(OnNeuesFahrrad);
+            NeuesFahrradCommand = new MyParameterCommand<Window>(OnNeuesFahrrad);
         }
 
         #endregion
 
         #region Action und Commandfunktionen
 
-        private void OnNeuesFahrrad()
+        private void OnNeuesFahrrad(Window window)
         {
-            var fahrradListe = new List<FahrradDto>();
-            PluginManager.DbManager.GetFahrraeder(ref fahrradListe);
-
-            var fahrrad = new FahrradDto
+            try
             {
-                Name = NeuesFahrrad,
-                Guid = Guid.NewGuid().ToString()
-            };
-            fahrradListe.Add(fahrrad);
-
-            PluginManager.DbManager.SaveFahrraeder(fahrradListe);
-
-            var komponenten = new List<KomponenteDto>();
-
-            foreach(var item in VergleichsListe)
-            {
-                if (item.AlternativeVorhanden)
+                var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var file = Path.Combine(path, "Szenariorechner_"
+                                                + HilfsFunktionen.GetValidFileName(NeuesFahrrad) 
+                                                + ".csv");
+                var i = 1;
+                while (File.Exists(file))
                 {
-                    var komponente = new KomponenteDto
-                    {
-                        Guid = Guid.NewGuid().ToString(),
-                        Komponente = item.Komponente,
-                        Hersteller = item.AlternativeHersteller,
-                        Beschreibung = item.AlternativeBeschreibung,
-                        Groesse = item.AlternativeGroesse,
-                        Jahr = item.AlternativeJahr,
-                        Gewicht = item.AlternativeGewicht,
-                        Shop = "Szenariorechner"
-                    };
-                    komponenten.Add(komponente);
+                    file = Path.Combine(path, "Szenariorechner_"  
+                                                + HilfsFunktionen.GetValidFileName(NeuesFahrrad)
+                                                + string.Format(" ({0}).csv", i++));
                 }
-            }
 
-            PluginManager.DbManager.SaveKomponente(fahrrad.Guid, komponenten);
+                using (var sw = new StreamWriter(file, false, Encoding.Default))
+                {
+                    sw.Write(CsvFormatter.GetFormattetAlternativen(VergleichsListe));
+                }
+
+                Process.Start(new ProcessStartInfo("explorer.exe")
+                {
+                    Arguments = "/select, \"" + file + "\""
+                });
+            }
+            catch (IOException ex)
+            {
+                HilfsFunktionen.ShowMessageBox(window, "Szenariorechner", ex.Message, true);
+            }
 
             NeuesFahrrad = "";
         }
