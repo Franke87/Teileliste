@@ -16,7 +16,7 @@ namespace TeileListe.Classes
         private List<DateiVerzeichnisEintragDto> _dateiVerzeichnis;
         private bool _isZip;
 
-        public List<Tuple<string, List<DateiDto>>> DateiCache;
+        internal List<Tuple<string, List<DateiDto>>> DateiCache;
 
         private void BereiteDateiAuf(string dateiName)
         {
@@ -93,7 +93,7 @@ namespace TeileListe.Classes
             }
         }
 
-        public List<KomponenteDto> ImportFahrrad(string dateiName)
+        internal List<KomponenteDto> ImportFahrrad(string dateiName)
         {
             BereiteDateiAuf(dateiName);
 
@@ -203,7 +203,7 @@ namespace TeileListe.Classes
             return list;
         }
 
-        public List<RestteilDto> ImportEinzelteile(string dateiName)
+        internal List<RestteilDto> ImportEinzelteile(string dateiName)
         {
             return ImportFahrrad(dateiName).Select(item => new RestteilDto
             {
@@ -220,7 +220,7 @@ namespace TeileListe.Classes
             }).ToList();
         }
 
-        public List<WunschteilDto> ImportWunschteile(string dateiName)
+        internal List<WunschteilDto> ImportWunschteile(string dateiName)
         {
             return ImportFahrrad(dateiName).Select(item => new WunschteilDto
             {
