@@ -105,9 +105,9 @@ namespace TeileListe.Classes
                 {
                     var line = reader.ReadLine();
                     if (line != null
-                        && !line.Equals("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen")
-                        && !line.Equals("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink")
-                        && !line.Equals("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink;Guid")
+                        && !line.Equals(CsvFormatter.CsvHeaderV1)
+                        && !line.Equals(CsvFormatter.CsvHeaderV2)
+                        && !line.Equals(CsvFormatter.CsvHeaderV3)
                         && (line.Count(x => x == ';') == 7 || line.Count(x => x == ';') == 12 || line.Count(x => x == ';') == 13)
                         && line.Length > 7
                         && !line.StartsWith("Summe gesamt")

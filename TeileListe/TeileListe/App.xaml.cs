@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using TeileListe.Classes;
 using TeileListe.Common.View;
+using TeileListe.Teileliste.View;
 
 namespace TeileListe
 {
@@ -26,9 +27,8 @@ namespace TeileListe
         private void CheckForMutex(object sender, StartupEventArgs e)
         {
             const string appName = "TeileListe";
-            bool createdNew;
 
-            _mutex = new Mutex(true, appName, out createdNew);
+            _mutex = new Mutex(true, appName, out bool createdNew);
 
             if (!createdNew)
             {
@@ -55,7 +55,7 @@ namespace TeileListe
 
                 if(result.HasValue && result.Value)
                 {
-                    MainWindow = new Teileliste.View.TeilelisteView();
+                    MainWindow = new TeilelisteView();
                     MainWindow.ShowDialog();
                 }
                 else
@@ -64,15 +64,17 @@ namespace TeileListe
                     message += Environment.NewLine + Environment.NewLine;
                     message += "Die Anwendung beendet sich jetzt.";
 
-                    MainWindow = new MyMessageBox("Teileliste", message, true);
-                    MainWindow.ShowInTaskbar = true;
-                    MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    MainWindow = new MyMessageBox("Teileliste", message, true)
+                    {
+                        ShowInTaskbar = true,
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen
+                    };
                     MainWindow.ShowDialog();
                 }
             }
             else
             {
-                MainWindow = new Teileliste.View.TeilelisteView();
+                MainWindow = new TeilelisteView();
                 MainWindow.ShowDialog();
             }
 

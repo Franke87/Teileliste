@@ -10,14 +10,19 @@ namespace TeileListe.Classes
 {
     internal static class CsvFormatter
     {
+        internal static string CsvHeaderV1 = "Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen";
+        internal static string CsvHeaderV2 = CsvHeaderV1 + ";Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink";
+        internal static string CsvHeaderV3 = CsvHeaderV2 + ";Guid";
+        private static readonly string CsvFormatString = "{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13}";
+
         internal static string GetFormattetKomponenten(ObservableCollection<KomponenteViewModel> listeTeile)
         {
             var message = new StringBuilder();
-            message.AppendLine("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink;Guid");
+            message.AppendLine(CsvHeaderV3);
 
             foreach (var teil in listeTeile)
             {
-                message.AppendLine(string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13}", 
+                message.AppendLine(string.Format(CsvFormatString, 
                                                     teil.Komponente.Replace(";", ""),
                                                     teil.Beschreibung == null ? "" : teil.Beschreibung.Replace(";", ""),
                                                     teil.Shop == null ? "" : teil.Shop.Replace(";", ""),
@@ -40,11 +45,11 @@ namespace TeileListe.Classes
         internal static string GetFormattetRestekiste(ObservableCollection<RestteilViewModel> listeTeile)
         {
             var message = new StringBuilder();
-            message.AppendLine("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink");
+            message.AppendLine(CsvHeaderV3);
 
             foreach (var teil in listeTeile)
             {
-                message.AppendLine(string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13}",
+                message.AppendLine(string.Format(CsvFormatString,
                                                     teil.Komponente.Replace(";", ""),
                                                     teil.Beschreibung != null ? teil.Beschreibung.Replace(";", "") : "",
                                                     "Restekiste",
@@ -66,11 +71,11 @@ namespace TeileListe.Classes
         internal static string GetFormattetWunschliste(ObservableCollection<WunschteilViewModel> listeTeile)
         {
             var message = new StringBuilder();
-            message.AppendLine("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink;Guid");
+            message.AppendLine(CsvHeaderV3);
 
             foreach (var teil in listeTeile)
             {
-                message.AppendLine(string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13}",
+                message.AppendLine(string.Format(CsvFormatString,
                                                     teil.Komponente.Replace(";", ""),
                                                     teil.Beschreibung == null ? "" : teil.Beschreibung.Replace(";", ""),
                                                     teil.Shop == null ? "" : teil.Shop.Replace(";", ""),
@@ -89,14 +94,14 @@ namespace TeileListe.Classes
             return message.ToString();
         }
 
-        internal static string GetFormattetAlternativen(ObservableCollection<SzenarioKomponenteViewModel> vergleichsListe)
+        internal static string GetFormattetAlternativen(ObservableCollection<SzenarioKomponenteViewModel> listeTeile)
         {
             var message = new StringBuilder();
-            message.AppendLine("Komponente;Beschreibung;Shop;Link;Preis;Gekauft;Gewicht;Gewogen;Hersteller;Groesse;Jahr;DatenbankId;DatenbankLink;Guid");
+            message.AppendLine(CsvHeaderV3);
 
-            foreach (var teil in vergleichsListe)
+            foreach (var teil in listeTeile)
             {
-                message.AppendLine(string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12};{13}",
+                message.AppendLine(string.Format(CsvFormatString,
                                                     teil.Komponente.Replace(";", ""),
                                                     teil.AlternativeBeschreibung == null ? "" : teil.AlternativeBeschreibung.Replace(";", ""),
                                                     "Szenariorechner",
