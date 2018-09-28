@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<XmlBaseClassOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<XmlBaseClassOfFahrradDto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Version>v1.05</Version>
   <Daten>
-    <string>Rechnung</string>
-    <string>Artikelfoto</string>
+    <FahrradDto>
+      <Name>Hardtail</Name>
+      <Guid>bf23a17a-17bd-4bf0-ab3d-77bb785613b9</Guid>
+    </FahrradDto>
   </Daten>
-</XmlBaseClassOfString>
+</XmlBaseClassOfFahrradDto>

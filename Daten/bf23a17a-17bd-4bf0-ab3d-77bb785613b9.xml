@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<XmlBaseClassOfKomponenteDto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Version>v1.05</Version>
+  <Daten>
+    <KomponenteDto>
+      <Guid>b62f77b1-649f-4022-aef6-1073b7628b91</Guid>
+      <Komponente>Rahmen</Komponente>
+      <Hersteller>BXT</Hersteller>
+      <Beschreibung>Carbonrahmen mit Ausfallenden und Schaltauge</Beschreibung>
+      <Groesse>19"</Groesse>
+      <Jahr>2017</Jahr>
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>26337</Preis>
+      <Gewicht>1318</Gewicht>
+      <Shop>aliexpress</Shop>
+      <Link>https://de.aliexpress.com/item/Chinese-cheap-bicicletas-mountain-bike-29-mtb-carbon-frame-29er-used-racing-bike-cyclocross-frame-bicycle/32731370364.html</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>161ed1bc-968d-4cb1-a127-cd4a83a240c5</Guid>
+      <Komponente>Sattelklemme</Komponente>
+      <Hersteller />
+      <Beschreibung>beim Rahmen dabei</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>22</Gewicht>
+      <Shop>aliexpress</Shop>
+      <Link>https://de.aliexpress.com/item/Chinese-cheap-bicicletas-mountain-bike-29-mtb-carbon-frame-29er-used-racing-bike-cyclocross-frame-bicycle/32731370364.html</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>f1923952-ff2c-4f3a-9d6c-f835f839d621</Guid>
+      <Komponente>Steckachse hinten</Komponente>
+      <Hersteller />
+      <Beschreibung>beim Rahmen dabei</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>82</Gewicht>
+      <Shop>aliexpress</Shop>
+      <Link>https://de.aliexpress.com/item/Chinese-cheap-bicicletas-mountain-bike-29-mtb-carbon-frame-29er-used-racing-bike-cyclocross-frame-bicycle/32731370364.html</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>c4a3aa17-274d-442e-9e4b-4869ba8d4ade</Guid>
+      <Komponente>Steuersatz Unterteil</Komponente>
+      <Hersteller />
+      <Beschreibung>beim Rahmen dabei</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>35</Gewicht>
+      <Shop>aliexpress</Shop>
+      <Link>https://de.aliexpress.com/item/Chinese-cheap-bicicletas-mountain-bike-29-mtb-carbon-frame-29er-used-racing-bike-cyclocross-frame-bicycle/32731370364.html</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>3def8bfa-9844-497e-920d-3f60b23351f4</Guid>
+      <Komponente>Steuersatz Oberteil</Komponente>
+      <Hersteller>Cane Creek</Hersteller>
+      <Beschreibung>40 Oberteil</Beschreibung>
+      <Groesse>IS42/28.6</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>2990</Preis>
+      <Gewicht>35</Gewicht>
+      <Shop>hibike</Shop>
+      <Link>https://www.hibike.de/cane-creek-40-steuersatz-oberteil-1-1-8-is42-28-6-p9e95488db099578ad4ef1f5b76de41ce</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>49275427-de52-45b8-a524-a062b0886a89</Guid>
+      <Komponente>Gabel</Komponente>
+      <Hersteller>Lauf</Hersteller>
+      <Beschreibung>Trail Racer grob gekürzter Schaft</Beschreibung>
+      <Groesse>29"</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>82790</Preis>
+      <Gewicht>996</Gewicht>
+      <Shop>laufforks</Shop>
+      <Link>http://www.laufforks.com/trail-racer/</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>f4000766-9cda-4d3d-9d0c-9c13c3ffe31a</Guid>
+      <Komponente>Ahead-Kralle</Komponente>
+      <Hersteller />
+      <Beschreibung>bei Gabel dabei</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>41</Gewicht>
+      <Shop>laufforks</Shop>
+      <Link>http://www.laufforks.com/trail-racer/</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>9e94558c-fb11-41a7-a191-7d785476937d</Guid>
+      <Komponente>Steckachse vorne</Komponente>
+      <Hersteller />
+      <Beschreibung>bei Gabel dabei</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>48</Gewicht>
+      <Shop>laufforks</Shop>
+      <Link>http://www.laufforks.com/trail-racer/</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>6122c3d7-0b50-40e0-b67c-7d61cdc8f1c9</Guid>
+      <Komponente>Kasette</Komponente>
+      <Hersteller>Sram</Hersteller>
+      <Beschreibung>10-42 Restekiste</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>394</Gewicht>
+      <Shop>Restekiste</Shop>
+      <Link />
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>1531b4d3-0655-449d-8dd2-f32ac103bd3c</Guid>
+      <Komponente>Kurbel</Komponente>
+      <Hersteller>Race Face</Hersteller>
+      <Beschreibung>Cinch mit Kettenblatt</Beschreibung>
+      <Groesse>175mm</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>12600</Preis>
+      <Gewicht>622</Gewicht>
+      <Shop>Bikemarkt</Shop>
+      <Link>https://bikemarkt.mtb-news.de/article/995534-race-face-turbine</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>faf1a746-7191-42a8-b4ed-038bf980fb37</Guid>
+      <Komponente>Kettenblatt</Komponente>
+      <Hersteller>Wolftooth</Hersteller>
+      <Beschreibung>bei Kurbel dabei</Beschreibung>
+      <Groesse>28 Zähne oval</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>0</Gewicht>
+      <Shop>Bikemarkt</Shop>
+      <Link>https://bikemarkt.mtb-news.de/article/995534-race-face-turbine</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>46bf44bc-ac02-4746-89e1-83035f6953d1</Guid>
+      <Komponente>Vorbau</Komponente>
+      <Hersteller>Race Face</Hersteller>
+      <Beschreibung>Turbine</Beschreibung>
+      <Groesse>90mm</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>4199</Preis>
+      <Gewicht>135</Gewicht>
+      <Shop>Bikemarkt</Shop>
+      <Link>https://bikemarkt.mtb-news.de/article/1009956-race-face-turbine-vorbau-90-mm</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>37a6e067-f07a-489d-ab4d-8798092e40c7</Guid>
+      <Komponente>Gabelspacer</Komponente>
+      <Hersteller>tune</Hersteller>
+      <Beschreibung>Carbon</Beschreibung>
+      <Groesse>2mm, 5mm und 15mm</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>1605</Preis>
+      <Gewicht>7</Gewicht>
+      <Shop>bike-components</Shop>
+      <Link>www.bike-components.de</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>cc98d69e-fa1d-428a-ac89-9acfbc95dcb4</Guid>
+      <Komponente>Tretlager</Komponente>
+      <Hersteller>Race Face</Hersteller>
+      <Beschreibung>Cinch</Beschreibung>
+      <Groesse>BSA 73mm</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>4495</Preis>
+      <Gewicht>93</Gewicht>
+      <Shop>bike-components</Shop>
+      <Link>www.bike-components.de</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>a42b31ec-0664-4ef8-82da-f90c57ae5b19</Guid>
+      <Komponente>Reifen vorne</Komponente>
+      <Hersteller>Continental</Hersteller>
+      <Beschreibung>X-King</Beschreibung>
+      <Groesse>2.2 RaceSport</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>3290</Preis>
+      <Gewicht>544</Gewicht>
+      <Shop>hibike</Shop>
+      <Link>https://www.hibike.de/continental-x-king-racesport-mtb-xc-faltreifen-schwarz-3-180tpi-blackchili-compound-p96e803b0bb416a21e3d120c7adf83d49</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>64834bbb-de16-4d4f-940c-c0c3c5b1dff4</Guid>
+      <Komponente>Reifen hinten</Komponente>
+      <Hersteller>Continental</Hersteller>
+      <Beschreibung>RaceKing</Beschreibung>
+      <Groesse>2.2 RaceSport</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>3290</Preis>
+      <Gewicht>552</Gewicht>
+      <Shop>hibike</Shop>
+      <Link>https://www.hibike.de/continental-raceking-racesport-mtb-race-faltreifen-schwarz-3-180tpi-blackchili-compound-p7f1bb822b3326eeb75ae0f21633bf1a2</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>23e9133f-3bcd-4169-a679-221a3532dd3f</Guid>
+      <Komponente>Pedale</Komponente>
+      <Hersteller>XPEDO</Hersteller>
+      <Beschreibung>SPRY rot</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>5995</Preis>
+      <Gewicht>269</Gewicht>
+      <Shop>hibike</Shop>
+      <Link>https://www.hibike.de/xpedo-spry-pedale-cromoly-achse-magnesium-body-p266e728220b19bdf800179f66a4c4fe9</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>bb87ce7b-440f-435f-8fbe-210ad8897083</Guid>
+      <Komponente>Griffe</Komponente>
+      <Hersteller>Lizard Skins</Hersteller>
+      <Beschreibung>Peaty Cheers</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>1980</Preis>
+      <Gewicht>108</Gewicht>
+      <Shop>hibike</Shop>
+      <Link>https://www.hibike.de/lizard-skins-peaty-cheers-lock-on-griffe-p997758eab64345dcc4a830848f8eb1a0</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>90e0dee4-9796-4b0c-9ef2-31d7be6a1b38</Guid>
+      <Komponente>Lenker</Komponente>
+      <Hersteller>Easton</Hersteller>
+      <Beschreibung>XC Lenker Alu</Beschreibung>
+      <Groesse>720mm</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>2000</Preis>
+      <Gewicht>246</Gewicht>
+      <Shop>Bikemarkt</Shop>
+      <Link>https://bikemarkt.mtb-news.de/article/980312-easton-xc-lenker-alu-720mm</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>aec0426c-f1f2-4fce-a107-a2163f2dde20</Guid>
+      <Komponente>Hörnchen</Komponente>
+      <Hersteller>KCNC</Hersteller>
+      <Beschreibung>BE1 rot</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>2800</Preis>
+      <Gewicht>46</Gewicht>
+      <Shop>Bikemarkt</Shop>
+      <Link>https://bikemarkt.mtb-news.de/article/862097-kcnc-superleichte-lenkerhornchen-be1-rot-46g</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>3410f82c-c53f-4b54-a23d-42e6bb8c0829</Guid>
+      <Komponente>Sattelstütze</Komponente>
+      <Hersteller>KCNC</Hersteller>
+      <Beschreibung>Ti Pro Lite Scandium</Beschreibung>
+      <Groesse>31,6mm x 350mm</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>5390</Preis>
+      <Gewicht>162</Gewicht>
+      <Shop>r2-bike</Shop>
+      <Link>https://r2-bike.com/KCNC-Sattelstuetze-Ti-Pro-Lite-Scandium-316-x-350-mm</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>f4862b7c-89c6-4bcf-8b7d-35c6ce8404cb</Guid>
+      <Komponente>Schläuche</Komponente>
+      <Hersteller>Tubolito</Hersteller>
+      <Beschreibung>Light Weight Schlauch</Beschreibung>
+      <Groesse>29"</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>5990</Preis>
+      <Gewicht>159</Gewicht>
+      <Shop>Grade 5</Shop>
+      <Link>https://www.grade5.de/produkte/1003/19/fahrrad-schläuche/tubolito-light-weight-schlauch-29-detail.html</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>2c80051f-aadf-4fc7-b4be-302e14148b40</Guid>
+      <Komponente>Bremsscheibe vorne</Komponente>
+      <Hersteller>FORMULA</Hersteller>
+      <Beschreibung>zweiteilig rot</Beschreibung>
+      <Groesse>180mm 6-Loch</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>3950</Preis>
+      <Gewicht>126</Gewicht>
+      <Shop>r2-bike</Shop>
+      <Link>https://r2-bike.com/FORMULA-Bremsscheibe-zweiteilig-rot-180-mm-6-Loch</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>990538ec-de8a-4f0b-9dc0-a0606b23a37d</Guid>
+      <Komponente>Bremsscheibe hinten</Komponente>
+      <Hersteller>FORMULA</Hersteller>
+      <Beschreibung>zweiteilig rot</Beschreibung>
+      <Groesse>160mm 6-Loch</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>3950</Preis>
+      <Gewicht>108</Gewicht>
+      <Shop>r2-bike</Shop>
+      <Link>https://r2-bike.com/FORMULA-Bremsscheibe-zweiteilig-rot-160-mm-6-Loch</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>63f9ce03-ec2d-483e-9ed5-9b2868b29829</Guid>
+      <Komponente>Bremse vorne</Komponente>
+      <Hersteller>Formula</Hersteller>
+      <Beschreibung>R1</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>4000</Preis>
+      <Gewicht>182</Gewicht>
+      <Shop>Bikemarkt</Shop>
+      <Link>https://bikemarkt.mtb-news.de/article/611186-formula-r1-vr</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>b47d3ba2-acc9-4492-b66b-d343947dd723</Guid>
+      <Komponente>Lenkerendkappen</Komponente>
+      <Hersteller>SUPACAZ</Hersteller>
+      <Beschreibung>Endz rot</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>250</Preis>
+      <Gewicht>5</Gewicht>
+      <Shop>r2-bike</Shop>
+      <Link>https://r2-bike.com/SUPACAZ-Lenkerendkappen-Endz-rot</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>190c1eda-fae1-4579-9588-21a1e93ee5cc</Guid>
+      <Komponente>Sattel</Komponente>
+      <Hersteller>SQ-lab</Hersteller>
+      <Beschreibung>611 Ergowave active</Beschreibung>
+      <Groesse>15cm</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>13290</Preis>
+      <Gewicht>258</Gewicht>
+      <Shop>Rose</Shop>
+      <Link>https://www.rosebikes.de/artikel/sqlab-611-ergowave-active-mtb-sattel/aid:2657663?searchquery=611</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>5d882d90-f374-45fd-b68a-d894ab0fabf5</Guid>
+      <Komponente>Bremse hinten</Komponente>
+      <Hersteller>Formula</Hersteller>
+      <Beschreibung>R1 Racing</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>17900</Preis>
+      <Gewicht>186</Gewicht>
+      <Shop>bike-components</Shop>
+      <Link>https://www.bike-components.de/de/Formula/R1-Racing-Scheibenbremse-p47608/</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>fb3e9dd6-a33e-4158-9fa3-ac02e2a8a688</Guid>
+      <Komponente>Matchmaker</Komponente>
+      <Hersteller>Formula</Hersteller>
+      <Beschreibung>Schellenadapter R1</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>1895</Preis>
+      <Gewicht>18</Gewicht>
+      <Shop>bike-components</Shop>
+      <Link>https://www.bike-components.de/de/Formula/Schellenadapter-R1-T1-RO-TheOne-fuer-X9-X0-X01-XX1-Trigger-p40045/</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>4495d1d5-908e-4a8e-9d51-0e9cd0675eb1</Guid>
+      <Komponente>Klingel</Komponente>
+      <Hersteller>Knog</Hersteller>
+      <Beschreibung>Oi rot</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId>mtb-news.de:13533</DatenbankId>
+      <DatenbankLink>https://gewichte.mtb-news.de/product-13533/knog-weiteres-unsortiertes-oi</DatenbankLink>
+      <Preis>1995</Preis>
+      <Gewicht>17</Gewicht>
+      <Shop>bike-components</Shop>
+      <Link>https://www.bike-components.de/de/Knog/Oi-Fahrradklingel-Limited-Edition-p59600/</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>905040ad-4cc0-4421-aabd-eff7da80b3d4</Guid>
+      <Komponente>Laufradsatz</Komponente>
+      <Hersteller>Newmen</Hersteller>
+      <Beschreibung>Evolution SL X.A.25</Beschreibung>
+      <Groesse>29"</Groesse>
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>75800</Preis>
+      <Gewicht>1418</Gewicht>
+      <Shop>Radsporttechnik Müller</Shop>
+      <Link>http://www.radsporttechnik-mueller.de/</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>b46104be-73e3-4352-bfce-3a3596fc42f9</Guid>
+      <Komponente>Schalthebel</Komponente>
+      <Hersteller>SRAM</Hersteller>
+      <Beschreibung>GX Trigger Red</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>3450</Preis>
+      <Gewicht>123</Gewicht>
+      <Shop>r2-bike</Shop>
+      <Link />
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>cf6932c6-4d1d-4475-b7b7-05690eb9f141</Guid>
+      <Komponente>Schaltwerk</Komponente>
+      <Hersteller>SRAM</Hersteller>
+      <Beschreibung>GX Schaltwerk</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>8450</Preis>
+      <Gewicht>262</Gewicht>
+      <Shop>r2-bike</Shop>
+      <Link />
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>04859f42-f99d-4cc3-8366-a777df067c17</Guid>
+      <Komponente>Schaltzugset</Komponente>
+      <Hersteller>Sram</Hersteller>
+      <Beschreibung>Slickwire</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>2250</Preis>
+      <Gewicht>60</Gewicht>
+      <Shop>r2-bike</Shop>
+      <Link>r2-bike.de</Link>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>99588110-f04b-42e1-9eab-b7b0fa6c5d5b</Guid>
+      <Komponente>Kette</Komponente>
+      <Hersteller>SRAM</Hersteller>
+      <Beschreibung>X1 ungekürzt</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>253</Gewicht>
+      <Shop>Restekiste</Shop>
+      <Link />
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
+    </KomponenteDto>
+    <KomponenteDto>
+      <Guid>a70d631b-bac4-47b6-9b0c-01640df8e3b2</Guid>
+      <Komponente>Kleinteile</Komponente>
+      <Hersteller />
+      <Beschreibung>Luft, Fett, Öl, Kabelbinder, etc.</Beschreibung>
+      <Groesse />
+      <Jahr />
+      <DatenbankId />
+      <DatenbankLink />
+      <Preis>0</Preis>
+      <Gewicht>50</Gewicht>
+      <Shop />
+      <Link />
+      <Gekauft>false</Gekauft>
+      <Gewogen>false</Gewogen>
+    </KomponenteDto>
+  </Daten>
+</XmlBaseClassOfKomponenteDto>
