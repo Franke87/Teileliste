@@ -3,10 +3,10 @@
   <Version>v1.05</Version>
   <Daten>
     <KomponenteDto>
-      <Guid>b62f77b1-649f-4022-aef6-1073b7628b91</Guid>
+      <Guid>fb107b4e-edc4-40f6-a034-cf63dfb52459</Guid>
       <Komponente>Rahmen</Komponente>
       <Hersteller>BXT</Hersteller>
-      <Beschreibung>Carbonrahmen mit Ausfallenden und Schaltauge</Beschreibung>
+      <Beschreibung>MTB-015 mit Ausfallenden und Schaltauge</Beschreibung>
       <Groesse>19"</Groesse>
       <Jahr>2017</Jahr>
       <DatenbankId />
@@ -19,7 +19,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>161ed1bc-968d-4cb1-a127-cd4a83a240c5</Guid>
+      <Guid>54bdab34-d2e2-402b-bdb9-cfe47ac37a2b</Guid>
       <Komponente>Sattelklemme</Komponente>
       <Hersteller />
       <Beschreibung>beim Rahmen dabei</Beschreibung>
@@ -35,7 +35,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>f1923952-ff2c-4f3a-9d6c-f835f839d621</Guid>
+      <Guid>50806d21-2c4d-4e5a-b132-b0b5cf67da81</Guid>
       <Komponente>Steckachse hinten</Komponente>
       <Hersteller />
       <Beschreibung>beim Rahmen dabei</Beschreibung>
@@ -51,7 +51,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>c4a3aa17-274d-442e-9e4b-4869ba8d4ade</Guid>
+      <Guid>26c0068d-9fe0-42a8-af5a-e1168ef9fec8</Guid>
       <Komponente>Steuersatz Unterteil</Komponente>
       <Hersteller />
       <Beschreibung>beim Rahmen dabei</Beschreibung>
@@ -67,12 +67,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>3def8bfa-9844-497e-920d-3f60b23351f4</Guid>
+      <Guid>7eabc9c4-8baf-4d21-905a-4f9c1d616f1b</Guid>
       <Komponente>Steuersatz Oberteil</Komponente>
       <Hersteller>Cane Creek</Hersteller>
       <Beschreibung>40 Oberteil</Beschreibung>
       <Groesse>IS42/28.6</Groesse>
-      <Jahr />
+      <Jahr>2017</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>2990</Preis>
@@ -83,12 +83,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>49275427-de52-45b8-a524-a062b0886a89</Guid>
+      <Guid>5afb783a-bcae-4b75-9767-90411d5042be</Guid>
       <Komponente>Gabel</Komponente>
-      <Hersteller>Lauf</Hersteller>
-      <Beschreibung>Trail Racer grob gekürzter Schaft</Beschreibung>
-      <Groesse>29"</Groesse>
-      <Jahr />
+      <Hersteller>Lauf Forks</Hersteller>
+      <Beschreibung>Trail Racer Regular</Beschreibung>
+      <Groesse>29" Boost</Groesse>
+      <Jahr>2017</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>82790</Preis>
@@ -99,7 +99,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>f4000766-9cda-4d3d-9d0c-9c13c3ffe31a</Guid>
+      <Guid>c05663c6-93ae-4b89-a1ec-6cdcb7a28aa0</Guid>
       <Komponente>Ahead-Kralle</Komponente>
       <Hersteller />
       <Beschreibung>bei Gabel dabei</Beschreibung>
@@ -115,7 +115,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>9e94558c-fb11-41a7-a191-7d785476937d</Guid>
+      <Guid>d54323a6-cc5f-4a6d-aea1-4894e4973db7</Guid>
       <Komponente>Steckachse vorne</Komponente>
       <Hersteller />
       <Beschreibung>bei Gabel dabei</Beschreibung>
@@ -131,12 +131,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>6122c3d7-0b50-40e0-b67c-7d61cdc8f1c9</Guid>
+      <Guid>c7453540-f9ee-4014-bc7d-e1c14d2cb40c</Guid>
       <Komponente>Kasette</Komponente>
       <Hersteller>Sram</Hersteller>
-      <Beschreibung>10-42 Restekiste</Beschreibung>
-      <Groesse />
-      <Jahr />
+      <Beschreibung>XG-1150</Beschreibung>
+      <Groesse>10-42</Groesse>
+      <Jahr>2016</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>0</Preis>
@@ -147,12 +147,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>1531b4d3-0655-449d-8dd2-f32ac103bd3c</Guid>
+      <Guid>6d45c7a0-776e-4516-83b3-745ae4db3f73</Guid>
       <Komponente>Kurbel</Komponente>
       <Hersteller>Race Face</Hersteller>
       <Beschreibung>Cinch mit Kettenblatt</Beschreibung>
       <Groesse>175mm</Groesse>
-      <Jahr />
+      <Jahr>2016</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>12600</Preis>
@@ -163,11 +163,11 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>faf1a746-7191-42a8-b4ed-038bf980fb37</Guid>
+      <Guid>26f562d0-3b3d-42d7-88ae-f48285fce12a</Guid>
       <Komponente>Kettenblatt</Komponente>
       <Hersteller>Wolftooth</Hersteller>
-      <Beschreibung>bei Kurbel dabei</Beschreibung>
-      <Groesse>28 Zähne oval</Groesse>
+      <Beschreibung>oval, bei Kurbel dabei</Beschreibung>
+      <Groesse>28 Zähne</Groesse>
       <Jahr />
       <DatenbankId />
       <DatenbankLink />
@@ -179,11 +179,11 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>46bf44bc-ac02-4746-89e1-83035f6953d1</Guid>
+      <Guid>a08fb9e7-7b13-4b16-9071-88d4394fde7e</Guid>
       <Komponente>Vorbau</Komponente>
       <Hersteller>Race Face</Hersteller>
-      <Beschreibung>Turbine</Beschreibung>
-      <Groesse>90mm</Groesse>
+      <Beschreibung>Turbine </Beschreibung>
+      <Groesse>90 mm</Groesse>
       <Jahr />
       <DatenbankId />
       <DatenbankLink />
@@ -195,10 +195,10 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>37a6e067-f07a-489d-ab4d-8798092e40c7</Guid>
+      <Guid>649d4283-9802-49e4-a729-ac8ea5e2242c</Guid>
       <Komponente>Gabelspacer</Komponente>
       <Hersteller>tune</Hersteller>
-      <Beschreibung>Carbon</Beschreibung>
+      <Beschreibung>Carbon </Beschreibung>
       <Groesse>2mm, 5mm und 15mm</Groesse>
       <Jahr />
       <DatenbankId />
@@ -211,11 +211,11 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>cc98d69e-fa1d-428a-ac89-9acfbc95dcb4</Guid>
+      <Guid>1bf875bd-ce26-4693-9339-86569e743e5d</Guid>
       <Komponente>Tretlager</Komponente>
       <Hersteller>Race Face</Hersteller>
-      <Beschreibung>Cinch</Beschreibung>
-      <Groesse>BSA 73mm</Groesse>
+      <Beschreibung>Cinch </Beschreibung>
+      <Groesse>BSA</Groesse>
       <Jahr />
       <DatenbankId />
       <DatenbankLink />
@@ -227,12 +227,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>a42b31ec-0664-4ef8-82da-f90c57ae5b19</Guid>
+      <Guid>c000a7d3-e90e-4933-b46d-3ffe65b52b04</Guid>
       <Komponente>Reifen vorne</Komponente>
       <Hersteller>Continental</Hersteller>
-      <Beschreibung>X-King</Beschreibung>
-      <Groesse>2.2 RaceSport</Groesse>
-      <Jahr />
+      <Beschreibung>X-King RaceSport</Beschreibung>
+      <Groesse>2.2 29"</Groesse>
+      <Jahr>2017</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>3290</Preis>
@@ -243,12 +243,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>64834bbb-de16-4d4f-940c-c0c3c5b1dff4</Guid>
+      <Guid>23db35f0-6825-41c4-8c8e-881909dd1cd7</Guid>
       <Komponente>Reifen hinten</Komponente>
       <Hersteller>Continental</Hersteller>
-      <Beschreibung>RaceKing</Beschreibung>
-      <Groesse>2.2 RaceSport</Groesse>
-      <Jahr />
+      <Beschreibung>RaceKing RaceSport</Beschreibung>
+      <Groesse>2.2 29"</Groesse>
+      <Jahr>2017</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>3290</Preis>
@@ -259,12 +259,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>23e9133f-3bcd-4169-a679-221a3532dd3f</Guid>
+      <Guid>8411b97d-d52f-479a-ab65-753498ca1306</Guid>
       <Komponente>Pedale</Komponente>
       <Hersteller>XPEDO</Hersteller>
       <Beschreibung>SPRY rot</Beschreibung>
       <Groesse />
-      <Jahr />
+      <Jahr>2017</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>5995</Preis>
@@ -275,7 +275,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>bb87ce7b-440f-435f-8fbe-210ad8897083</Guid>
+      <Guid>9385f14d-c74b-48ee-8ebd-a1e6ba626116</Guid>
       <Komponente>Griffe</Komponente>
       <Hersteller>Lizard Skins</Hersteller>
       <Beschreibung>Peaty Cheers</Beschreibung>
@@ -291,7 +291,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>90e0dee4-9796-4b0c-9ef2-31d7be6a1b38</Guid>
+      <Guid>807cd802-a518-4124-8b0b-17a7fa435045</Guid>
       <Komponente>Lenker</Komponente>
       <Hersteller>Easton</Hersteller>
       <Beschreibung>XC Lenker Alu</Beschreibung>
@@ -307,7 +307,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>aec0426c-f1f2-4fce-a107-a2163f2dde20</Guid>
+      <Guid>703042c8-28f6-4a5e-bf6f-58ef24689551</Guid>
       <Komponente>Hörnchen</Komponente>
       <Hersteller>KCNC</Hersteller>
       <Beschreibung>BE1 rot</Beschreibung>
@@ -323,11 +323,11 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>3410f82c-c53f-4b54-a23d-42e6bb8c0829</Guid>
+      <Guid>ef5a0c83-bed6-4c90-bda3-0ca03635523a</Guid>
       <Komponente>Sattelstütze</Komponente>
-      <Hersteller>KCNC</Hersteller>
-      <Beschreibung>Ti Pro Lite Scandium</Beschreibung>
-      <Groesse>31,6mm x 350mm</Groesse>
+      <Hersteller>KCNC Ti</Hersteller>
+      <Beschreibung>Pro Lite Scandium</Beschreibung>
+      <Groesse>31,6 mm</Groesse>
       <Jahr />
       <DatenbankId />
       <DatenbankLink />
@@ -339,12 +339,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>f4862b7c-89c6-4bcf-8b7d-35c6ce8404cb</Guid>
+      <Guid>3c46d30d-46bc-4d1d-9cc5-0917c8daeb56</Guid>
       <Komponente>Schläuche</Komponente>
       <Hersteller>Tubolito</Hersteller>
-      <Beschreibung>Light Weight Schlauch</Beschreibung>
+      <Beschreibung>Light Weight</Beschreibung>
       <Groesse>29"</Groesse>
-      <Jahr />
+      <Jahr>2017</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>5990</Preis>
@@ -355,11 +355,11 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>2c80051f-aadf-4fc7-b4be-302e14148b40</Guid>
+      <Guid>3ae45de5-77c6-416e-a478-cd9f89de89ce</Guid>
       <Komponente>Bremsscheibe vorne</Komponente>
       <Hersteller>FORMULA</Hersteller>
       <Beschreibung>zweiteilig rot</Beschreibung>
-      <Groesse>180mm 6-Loch</Groesse>
+      <Groesse>180 mm 6-Loch</Groesse>
       <Jahr />
       <DatenbankId />
       <DatenbankLink />
@@ -371,11 +371,11 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>990538ec-de8a-4f0b-9dc0-a0606b23a37d</Guid>
+      <Guid>bb9afcc4-f37f-4cf4-98fc-1b19585eaece</Guid>
       <Komponente>Bremsscheibe hinten</Komponente>
       <Hersteller>FORMULA</Hersteller>
-      <Beschreibung>zweiteilig rot</Beschreibung>
-      <Groesse>160mm 6-Loch</Groesse>
+      <Beschreibung>zweiteilig rot </Beschreibung>
+      <Groesse>160 mm 6-Loch</Groesse>
       <Jahr />
       <DatenbankId />
       <DatenbankLink />
@@ -387,7 +387,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>63f9ce03-ec2d-483e-9ed5-9b2868b29829</Guid>
+      <Guid>c52ad219-157e-45eb-b985-23d2c3e45247</Guid>
       <Komponente>Bremse vorne</Komponente>
       <Hersteller>Formula</Hersteller>
       <Beschreibung>R1</Beschreibung>
@@ -403,7 +403,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>b47d3ba2-acc9-4492-b66b-d343947dd723</Guid>
+      <Guid>a8c70f84-e0d9-47df-b79a-603b374176ee</Guid>
       <Komponente>Lenkerendkappen</Komponente>
       <Hersteller>SUPACAZ</Hersteller>
       <Beschreibung>Endz rot</Beschreibung>
@@ -419,12 +419,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>190c1eda-fae1-4579-9588-21a1e93ee5cc</Guid>
+      <Guid>26b57c3f-8e3a-49f4-b008-20dfecc0a610</Guid>
       <Komponente>Sattel</Komponente>
       <Hersteller>SQ-lab</Hersteller>
       <Beschreibung>611 Ergowave active</Beschreibung>
-      <Groesse>15cm</Groesse>
-      <Jahr />
+      <Groesse>15 cm</Groesse>
+      <Jahr>2017</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>13290</Preis>
@@ -435,7 +435,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>5d882d90-f374-45fd-b68a-d894ab0fabf5</Guid>
+      <Guid>aeb91431-ca28-455d-b2c8-1bffa6ccd799</Guid>
       <Komponente>Bremse hinten</Komponente>
       <Hersteller>Formula</Hersteller>
       <Beschreibung>R1 Racing</Beschreibung>
@@ -451,7 +451,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>fb3e9dd6-a33e-4158-9fa3-ac02e2a8a688</Guid>
+      <Guid>74c710c6-6b68-4cf9-8f62-ccac6ef8e94e</Guid>
       <Komponente>Matchmaker</Komponente>
       <Hersteller>Formula</Hersteller>
       <Beschreibung>Schellenadapter R1</Beschreibung>
@@ -467,14 +467,14 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>4495d1d5-908e-4a8e-9d51-0e9cd0675eb1</Guid>
+      <Guid>686661eb-e7f9-4a02-a800-5ab97bb919ce</Guid>
       <Komponente>Klingel</Komponente>
       <Hersteller>Knog</Hersteller>
       <Beschreibung>Oi rot</Beschreibung>
       <Groesse />
       <Jahr />
-      <DatenbankId>mtb-news.de:13533</DatenbankId>
-      <DatenbankLink>https://gewichte.mtb-news.de/product-13533/knog-weiteres-unsortiertes-oi</DatenbankLink>
+      <DatenbankId />
+      <DatenbankLink />
       <Preis>1995</Preis>
       <Gewicht>17</Gewicht>
       <Shop>bike-components</Shop>
@@ -483,12 +483,12 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>905040ad-4cc0-4421-aabd-eff7da80b3d4</Guid>
+      <Guid>e64d5caf-3585-4ada-aac4-8e339cfc3e82</Guid>
       <Komponente>Laufradsatz</Komponente>
       <Hersteller>Newmen</Hersteller>
       <Beschreibung>Evolution SL X.A.25</Beschreibung>
-      <Groesse>29"</Groesse>
-      <Jahr />
+      <Groesse>29 Zoll</Groesse>
+      <Jahr>2017</Jahr>
       <DatenbankId />
       <DatenbankLink />
       <Preis>75800</Preis>
@@ -499,7 +499,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>b46104be-73e3-4352-bfce-3a3596fc42f9</Guid>
+      <Guid>d95b18aa-7ea0-49ed-9740-e97044784a6d</Guid>
       <Komponente>Schalthebel</Komponente>
       <Hersteller>SRAM</Hersteller>
       <Beschreibung>GX Trigger Red</Beschreibung>
@@ -515,7 +515,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>cf6932c6-4d1d-4475-b7b7-05690eb9f141</Guid>
+      <Guid>a4708314-f50b-4233-acfe-7be79866ec6d</Guid>
       <Komponente>Schaltwerk</Komponente>
       <Hersteller>SRAM</Hersteller>
       <Beschreibung>GX Schaltwerk</Beschreibung>
@@ -531,7 +531,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>04859f42-f99d-4cc3-8366-a777df067c17</Guid>
+      <Guid>276b290b-98b0-4e81-9465-7128804bc3d2</Guid>
       <Komponente>Schaltzugset</Komponente>
       <Hersteller>Sram</Hersteller>
       <Beschreibung>Slickwire</Beschreibung>
@@ -547,7 +547,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>99588110-f04b-42e1-9eab-b7b0fa6c5d5b</Guid>
+      <Guid>083fbbc4-aa9d-4465-860c-bacca3735205</Guid>
       <Komponente>Kette</Komponente>
       <Hersteller>SRAM</Hersteller>
       <Beschreibung>X1 ungekürzt</Beschreibung>
@@ -563,7 +563,7 @@
       <Gewogen>true</Gewogen>
     </KomponenteDto>
     <KomponenteDto>
-      <Guid>a70d631b-bac4-47b6-9b0c-01640df8e3b2</Guid>
+      <Guid>bff7d749-0c26-46af-8ac3-720bf42e4a42</Guid>
       <Komponente>Kleinteile</Komponente>
       <Hersteller />
       <Beschreibung>Luft, Fett, Öl, Kabelbinder, etc.</Beschreibung>
@@ -572,11 +572,11 @@
       <DatenbankId />
       <DatenbankLink />
       <Preis>0</Preis>
-      <Gewicht>50</Gewicht>
+      <Gewicht>25</Gewicht>
       <Shop />
       <Link />
-      <Gekauft>false</Gekauft>
-      <Gewogen>false</Gewogen>
+      <Gekauft>true</Gekauft>
+      <Gewogen>true</Gewogen>
     </KomponenteDto>
   </Daten>
 </XmlBaseClassOfKomponenteDto>

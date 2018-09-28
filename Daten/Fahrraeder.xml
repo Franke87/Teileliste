@@ -4,7 +4,7 @@
   <Daten>
     <FahrradDto>
       <Name>Hardtail</Name>
-      <Guid>bf23a17a-17bd-4bf0-ab3d-77bb785613b9</Guid>
+      <Guid>c75b5637-b606-4960-9fde-243cdf22172e</Guid>
     </FahrradDto>
   </Daten>
 </XmlBaseClassOfFahrradDto>
