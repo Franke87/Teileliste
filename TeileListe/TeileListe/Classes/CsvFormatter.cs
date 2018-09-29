@@ -101,21 +101,24 @@ namespace TeileListe.Classes
 
             foreach (var teil in listeTeile)
             {
-                message.AppendLine(string.Format(CsvFormatString,
-                                                    teil.Komponente.Replace(";", ""),
-                                                    teil.AlternativeBeschreibung == null ? "" : teil.AlternativeBeschreibung.Replace(";", ""),
-                                                    "Szenariorechner",
-                                                    "",
-                                                    0,
-                                                    "False",
-                                                    teil.AlternativeGewicht,
-                                                    "False",
-                                                    teil.AlternativeHersteller == null ? "" : teil.AlternativeHersteller.Replace(";", ""),
-                                                    teil.AlternativeGroesse == null ? "" : teil.AlternativeGroesse.Replace(";", ""),
-                                                    teil.AlternativeJahr == null ? "" : teil.AlternativeJahr.Replace(";", ""),
-                                                    "",
-                                                    "",
-                                                    Guid.NewGuid().ToString()));
+                if (teil.AlternativeVorhanden)
+                {
+                    message.AppendLine(string.Format(CsvFormatString,
+                                                        teil.Komponente.Replace(";", ""),
+                                                        teil.AlternativeBeschreibung == null ? "" : teil.AlternativeBeschreibung.Replace(";", ""),
+                                                        "Szenariorechner",
+                                                        "",
+                                                        0,
+                                                        "False",
+                                                        teil.AlternativeGewicht,
+                                                        "False",
+                                                        teil.AlternativeHersteller == null ? "" : teil.AlternativeHersteller.Replace(";", ""),
+                                                        teil.AlternativeGroesse == null ? "" : teil.AlternativeGroesse.Replace(";", ""),
+                                                        teil.AlternativeJahr == null ? "" : teil.AlternativeJahr.Replace(";", ""),
+                                                        "",
+                                                        "",
+                                                        Guid.NewGuid().ToString()));
+                }
             }
             return message.ToString();
         }
