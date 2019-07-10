@@ -1,0 +1,148 @@
+﻿<UserControl x:Class="TeileListe.Teileliste.UserControl.KomponentenListeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:TeileListe.Converter"
+             xmlns:viewModel="clr-namespace:TeileListe.Teileliste.ViewModel"
+             xmlns:userControl="clr-namespace:TeileListe.Internal.UserControl"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance {x:Type viewModel:TeilelisteViewModel}}"
+             d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+        <converter:IntToPriceConverter x:Key="IntToPriceConverter" />
+        <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
+        <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <converter:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" />
+        <converter:BoolToBrushConverter x:Key="BoolToBrushConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converter:IntToForegroundConverter x:Key="IntToForegroundConverter" />
+    </UserControl.Resources>
+    <HeaderedItemsControl ItemsSource="{Binding KomponentenListe}"  Grid.IsSharedSizeScope="True">
+        <HeaderedItemsControl.Template>
+            <ControlTemplate TargetType="HeaderedItemsControl">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ContentPresenter ContentSource="Header" Grid.Row="0" />
+                    <ScrollViewer Grid.Row="1" >
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                    <Rectangle Grid.Row="2" Fill="LightGray" />
+                    <Grid Grid.Row="3" Margin="0,5" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition SharedSizeGroup="C" />
+                            <ColumnDefinition SharedSizeGroup="D" />
+                            <ColumnDefinition Width="17" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Summe gesamt:" Opacity="0.4" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,16,0" HorizontalAlignment="Right" Text="{Binding GesamtPreis, Converter={StaticResource IntToPriceConverter}}" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Margin="0,0,16,0" HorizontalAlignment="Right" Text="{Binding GesamtGewicht, Converter={StaticResource IntToWeightConverter}}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Summe bezahlt/gewogen:" Opacity="0.4" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,16,0" HorizontalAlignment="Right" Text="{Binding BereitsGezahlt, Converter={StaticResource IntToPriceConverter}}" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,0,16,0" HorizontalAlignment="Right" Text="{Binding SchonGewogen, Converter={StaticResource IntToWeightConverter}}" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Summe möglicher Gewichtseinsparungen:" Opacity="0.4" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Margin="0,0,16,0" HorizontalAlignment="Right" Text="{Binding SummeEinsparpotenzial, Converter={StaticResource IntToWeightConverter}}" />
+                    </Grid>
+                </Grid>
+            </ControlTemplate>
+        </HeaderedItemsControl.Template>
+        <HeaderedItemsControl.Header>
+            <Grid>
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="1" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="2*" MinWidth="100" />
+                    <ColumnDefinition SharedSizeGroup="B" />
+                    <ColumnDefinition SharedSizeGroup="C" />
+                    <ColumnDefinition SharedSizeGroup="D" />
+                    <ColumnDefinition Width="17"   />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="0" Text="Komponente" Margin="0,0,5,5" />
+                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="1" HorizontalAlignment="Stretch" Text="Artikel" Margin="0,0,5,5" />
+                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="2" Text="Bezugsquelle/Link" Margin="0,0,5,5" />
+                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="3" Text="Aktionen" Margin="0,0,5,5" />
+                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="4" HorizontalAlignment="Right" Text="Preis" Margin="0,0,5,5" />
+                <TextBlock Grid.Row="0" Opacity="0.4" Grid.Column="5" HorizontalAlignment="Right" Text="Gewicht" Margin="0,0,5,5" />
+                <Rectangle Fill="LightGray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7" />
+            </Grid>
+        </HeaderedItemsControl.Header>
+        <HeaderedItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="2*" MinWidth="100" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="D" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Komponente}" Text="{Binding Komponente}" Opacity="0.4" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,5,0" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AnzeigeName}" HorizontalAlignment="Stretch" Text="{Binding AnzeigeName}" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Visibility="{Binding Link, Converter={StaticResource StringToVisibilityConverter}}" Margin="0,0,5,0" >
+                        <Hyperlink Command="{Binding ShopCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
+                            <TextBlock ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Shop}" TextTrimming="CharacterEllipsis" Text="{Binding Shop}" />
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="0,0,5,0" Visibility="{Binding Link, Converter={StaticResource InverseStringToVisibilityConverter}}" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Shop}" TextTrimming="CharacterEllipsis" Text="{Binding Shop}" />
+                    <userControl:MyContextBar Grid.Row="0" Grid.Column="3" />
+                    <StackPanel Grid.Row="0" Margin="2,0" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <TextBlock Margin="5,0" Text="{Binding Preis, Converter={StaticResource IntToPriceConverter}}" />
+                        <Ellipse VerticalAlignment="Top" Width="9" Margin="0,4,0,0" Height="9" Fill="{Binding Gekauft, Converter={StaticResource BoolToBrushConverter}}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Margin="2,0" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <TextBlock Margin="5,0" Text="{Binding Gewicht, Converter={StaticResource IntToWeightConverter}}" />
+                        <Ellipse VerticalAlignment="Top" Width="9" Margin="0,4,0,0" Height="9" Fill="{Binding Gewogen, Converter={StaticResource BoolToBrushConverter}}" />
+                    </StackPanel>
+                    <ItemsControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" ItemsSource="{Binding Alternativen}" Visibility="{Binding AlternativenAnzeigen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Background="GhostWhite">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="4*" />
+                                        <ColumnDefinition Width="2*" MinWidth="100" />
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="D" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="1" Text="{Binding AnzeigeName}" Margin="0,0,5,0" Opacity="0.4" TextTrimming="CharacterEllipsis" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding AnzeigeName}" HorizontalAlignment="Stretch" />
+                                    <TextBlock Grid.Column="2" Opacity="0.4" Visibility="{Binding Link, Converter={StaticResource StringToVisibilityConverter}}" Margin="0,0,5,0" >
+                                        <Hyperlink Command="{Binding ShopCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
+                                            <TextBlock ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Shop}" TextTrimming="CharacterEllipsis" Text="{Binding Shop}" />
+                                        </Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="2" Margin="0,0,5,0" Opacity="0.4" Visibility="{Binding Link, Converter={StaticResource InverseStringToVisibilityConverter}}" ToolTipOpening="CheckForToolTipNeeded" ToolTip="{Binding Shop}" TextTrimming="CharacterEllipsis" Text="{Binding Shop}" />
+                                    <TextBlock Grid.Column="3" Padding="3,0,0,0" Opacity="0.4" Background="GhostWhite" >
+                                        <Hyperlink Command="{Binding TauschenCommand}" TextDecorations="" >einbauen</Hyperlink>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="4" Margin="0,0,16,0" HorizontalAlignment="Right" Opacity="0.4" Text="{Binding Preis, Converter={StaticResource IntToPriceConverter}}" />
+                                    <TextBlock Grid.Column="5" Margin="0,0,16,0" HorizontalAlignment="Right" Foreground="{Binding Einsparung, Converter={StaticResource IntToForegroundConverter}}" Opacity="0.4" Text="{Binding Einsparung, Converter={StaticResource IntToWeightConverter}, ConverterParameter=1}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </DataTemplate>
+        </HeaderedItemsControl.ItemTemplate>
+    </HeaderedItemsControl>
+</UserControl>

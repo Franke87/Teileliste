@@ -1,0 +1,188 @@
+﻿<UserControl x:Class="TeileListe.Internal.UserControl.EinzelteilBearbeitenControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converter="clr-namespace:TeileListe.Converter"
+             mc:Ignorable="d" 
+             d:DesignWidth="505">
+    <UserControl.Resources>
+        <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
+        <converter:IntToPriceConverter x:Key="IntToPriceConverter" />
+        <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <converter:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" />
+        <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Label HorizontalAlignment="Left" Margin="-5,-4,0,0" Content="_Komponente:" Opacity="0.4" Target="{Binding ElementName=KomponenteText}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Name="KomponenteText" Text="{Binding Komponente, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="1" Grid.Column="0" Margin="-5,0,0,0" Content="_Hersteller:" Opacity="0.4" Target="{Binding ElementName=HerstellerText}" />
+        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="HerstellerText" Text="{Binding Hersteller, Mode=TwoWay}" />
+        <Label Grid.Row="2" Grid.Column="0" Margin="-5,0,0,0" Content="_Beschreibung:" Opacity="0.4" Target="{Binding ElementName=BeschreibungText}" />
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="BeschreibungText" Text="{Binding Beschreibung, Mode=TwoWay}" />
+        <Label Grid.Row="3" Grid.Column="0" Margin="-5,0,0,0" Content="G_röße:" Opacity="0.4" Target="{Binding ElementName=GroesseText}" />
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="GroesseText" Text="{Binding Groesse, Mode=TwoWay}" />
+        <Label Grid.Row="4" Grid.Column="0" Margin="-5,0,0,0" Content="_Jahr:" Opacity="0.4" Target="{Binding ElementName=JahrText}" />
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4,0,0" Name="JahrText" Text="{Binding Jahr, Mode=TwoWay}" />
+        <Label Grid.Row="5" Grid.Column="0" Margin="-5,0,0,0" Content="_Shop:" Opacity="0.4" Target="{Binding ElementName=ShopText}" >
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Typ}" Value="Restteil">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+        <TextBox Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="1" MaxLength="32" Margin="0,4,0,0" Name="ShopText" Text="{Binding Shop, Mode=TwoWay}" >
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Typ}" Value="Restteil">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Label Grid.Row="6" Grid.Column="0" Margin="-5,0,0,0" Content="_Artikel Url:" Target="{Binding ElementName=ArtikelText}" Opacity="0.4" >
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Typ}" Value="Restteil">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+        <TextBox Grid.Row="6" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,4,0,0" Name="ArtikelText" Text="{Binding Link, Mode=TwoWay}" >
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Typ}" Value="Restteil">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Label Grid.Row="7" Grid.Column="0" Margin="-5,0,0,0" Content="_Preis:" Opacity="0.4" Target="{Binding ElementName=PreisText}" />
+        <TextBox Grid.Row="7" Grid.Column="1" Margin="0,4,0,0" MinWidth="80" Name="PreisText" Text="{Binding Preis, Mode=TwoWay, Converter={StaticResource IntToPriceConverter}}"  />
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Margin="10,8,0,0" Grid.Column="2" >
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Typ}" Value="Komponente">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <RadioButton Content="geschätzt" IsChecked="{Binding Gekauft, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}" Padding="0,-3,0,0"  Margin="0,0,5,0"/>
+            <RadioButton Content="bezahlt" IsChecked="{Binding Gekauft, Mode=TwoWay}" Margin="0,0,5,0" Padding="0,-3,0,0" />
+        </StackPanel>
+        <Label Grid.Row="8" Grid.Column="0" Margin="-5,0,0,0" Content="_Gewicht:" Target="{Binding ElementName=GewichtBox}" Opacity="0.4"  />
+        <TextBox Margin="0,4,0,0" Grid.Row="8" MinWidth="80" Name="GewichtBox" Grid.Column="1" Text="{Binding Gewicht, Mode=TwoWay, Converter={StaticResource IntToWeightConverter}}" />
+        <StackPanel Orientation="Horizontal" Grid.Row="8" Margin="10,8,0,0" Grid.Column="2" >
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Typ}" Value="Komponente">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <RadioButton Content="geschätzt" IsChecked="{Binding Gewogen, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" Padding="0,-3,0,0" Margin="0,0,5,0"/>
+            <RadioButton Content="gewogen" IsChecked="{Binding Gewogen, Mode=TwoWay}" Margin="0,0,5,0" Padding="0,-3,0,0" />
+        </StackPanel>
+        <Border Margin="0,10,0,0" BorderThickness="1" Background="#FFFFC0" BorderBrush="LightGray" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding DatenbankId, Converter={StaticResource StringToVisibilityConverter}}" >
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="0,0,5,0" Text="Achtung:" Grid.Row="0" Grid.Column="0" />
+                <TextBlock Margin="0,0,5,0" Grid.Row="0"  Grid.Column="1" Text="Es ist eine Verknüpfung zur Gewichtsdatenbank von" />
+                <TextBlock Margin="0,0,5,0" Grid.Row="0"  Grid.Column="2" HorizontalAlignment="Left" >
+                    <Hyperlink Command="{Binding ArtikelAufrufenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
+                            <TextBlock Text="{Binding DatenbankAnzeigeString, Mode=OneWay}"/>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="0,0,0,5" Grid.Row="1"  Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="vorhanden. Bitte achten Sie darauf, dass die Artikeldaten mit denen der Gewichtsdatenbank übereinstimmen." />
+                <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" >
+                    <TextBlock HorizontalAlignment="Left" Margin="0,0,10,0"  >
+                        <Hyperlink Command="{Binding VerknuepfungEntfernenCommand}" >
+                            <TextBlock Text="Verknüpfung entfernen" />
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Visibility="{Binding DatenbankInfos, Converter={StaticResource InverseStringToVisibilityConverter}}" >
+                        <Hyperlink Command="{Binding ArtikelInfosAbrufenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
+                            <TextBlock Text="{Binding DatenbankAnzeigeString, Mode=OneWay, StringFormat=Artikeldaten von {0} anzeigen}"/>
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding DatenbankInfos, Converter={StaticResource StringToVisibilityConverter}}">
+                    <Grid.RowDefinitions> 
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,5,0,0" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                        <Run Text="Artikeldaten von"/>
+                        <Run Text="{Binding DatenbankAnzeigeString, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock Margin="0,0,5,0" Grid.Row="1" Grid.Column="0" >
+                        <Run Text="Kategorie:"/>
+                        <LineBreak/>
+                        <Run Text="Hersteller:"/>
+                        <LineBreak/>
+                        <Run Text="Beschreibung:"/>
+                        <LineBreak/>
+                        <Run Text="Größe:"/>
+                        <LineBreak/>
+                        <Run Text="Jahr:"/>
+                        <LineBreak/>
+                        <Run Text="Gewicht:"/>
+                    </TextBlock>
+                    <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="{Binding DatenbankInfos}" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

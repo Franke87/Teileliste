@@ -1,0 +1,24 @@
+﻿<Window x:Class="TeileListe.UpdateWindow.View.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        ShowInTaskbar="True"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
+        Closing="Window_Closing"
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" >
+    <Border BorderThickness="1" BorderBrush="DarkGray">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{Binding WaitText}" Margin="0,0,0,10" />
+            <ProgressBar Grid.Row="1" Height="17" IsIndeterminate="True" />
+        </Grid>
+    </Border>
+</Window>

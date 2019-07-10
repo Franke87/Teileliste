@@ -1,0 +1,14 @@
+﻿<Application x:Class="TeileListe.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown"
+             Startup="CheckForMutex" >
+    <Application.Resources>
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="Padding" Value="1,-1" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

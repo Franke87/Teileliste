@@ -1,0 +1,66 @@
+﻿<Window x:Class="TeileListe.NeuesEinzelteil.View.NeuesEinzelteilDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converter="clr-namespace:TeileListe.Converter"
+        xmlns:enum="clr-namespace:TeileListe.Enums"
+        xmlns:internalUserControl="clr-namespace:TeileListe.Internal.UserControl"
+        xmlns:datenbankUserControl ="clr-namespace:TeileListe.Gewichtsdatenbanken.UserControl" 
+        xmlns:neuesEinzelteilUserControl="clr-namespace:TeileListe.NeuesEinzelteil.UserControl"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Icon="pack://application:,,,/TeileListe.Common;component/Images/icon.ico"
+        Title="{Binding TitelText}" 
+        MaxWidth="750" 
+        MinWidth="500"
+        MaxHeight="600" >
+    <Window.Resources>
+        <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <converter:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        <converter:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+        <converter:InverseEnumToVisibilityConverter x:Key="InverseEnumToVisibilityConverter" />
+    </Window.Resources>
+    <Border BorderBrush="LightGray" BorderThickness="1" Background="White" Margin="15,6,15,15" >
+        <Grid Name="FirstGrid1"  Margin="10,10,10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <RadioButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="neues Einzelteil"  IsChecked="{Binding Auswahl, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enum:SourceEnum.NeuesEinzelteil}, Mode=TwoWay}" />
+            <RadioButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,0" Content="aus Datei" IsChecked="{Binding Auswahl, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enum:SourceEnum.AusDatei}, Mode=TwoWay}" Visibility="{Binding NeuViewModel.Typ, Converter={StaticResource InverseEnumToVisibilityConverter}, ConverterParameter={x:Static enum:EinzelteilBearbeitenEnum.Komponente}}" />
+            <RadioButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,0" Content="aus Restekiste" IsChecked="{Binding Auswahl, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enum:SourceEnum.AusRestekiste}, Mode=TwoWay}" Visibility="{Binding NeuViewModel.Typ, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static enum:EinzelteilBearbeitenEnum.Komponente}}" />
+            <RadioButton Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,0" Content="aus Wunschliste" IsChecked="{Binding Auswahl, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enum:SourceEnum.AusWunschliste}, Mode=TwoWay}" Visibility="{Binding NeuViewModel.Typ, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static enum:EinzelteilBearbeitenEnum.Komponente}}" />
+            <RadioButton Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,0" Content="aus Gewichtsdatenbank" IsChecked="{Binding Auswahl, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static enum:SourceEnum.AusGewichtsdatenbank}, Mode=TwoWay}" />
+            <internalUserControl:EinzelteilBearbeitenControl Width="550" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,10" DataContext="{Binding NeuViewModel}" Visibility="{Binding DataContext.Auswahl, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static enum:SourceEnum.NeuesEinzelteil}, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}"  />
+            <neuesEinzelteilUserControl:RestekisteAuswahlControl Width="550" DataContext="{Binding RestekisteViewModel}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0" Visibility="{Binding DataContext.Auswahl, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static enum:SourceEnum.AusRestekiste}, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}" />
+            <neuesEinzelteilUserControl:WunschlisteAuswahlControl Width="550" DataContext="{Binding WunschlisteViewModel}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0" Visibility="{Binding DataContext.Auswahl, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static enum:SourceEnum.AusWunschliste}, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}" />
+            <datenbankUserControl:WebAuswahlControl DataContext="{Binding DatenbankViewModel}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0" Visibility="{Binding DataContext.Auswahl, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static enum:SourceEnum.AusGewichtsdatenbank}, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}" />
+            <Grid Grid.Row="5" Grid.Column="0" Width="550" Margin="0,5,0,10" Grid.ColumnSpan="3" Visibility="{Binding Auswahl, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static enum:SourceEnum.AusDatei}}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label HorizontalAlignment="Left" Margin="-5,0,0,0" Content="_Datei:" Opacity="0.4" Target="{Binding ElementName=NameDatei}" />
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="0,4,0,0" Name="NameDatei" Text="{Binding DateiViewModel.Datei, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Grid.Row="0" Grid.Column="2"  Content="..." MinWidth="23" Margin="10,4,0,0" Command="{Binding DateiViewModel.OnFileSelect}" />
+            </Grid>
+            <Rectangle Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Fill="LightGray" />
+            <Button Padding="10,0,10,0" Height="23" IsEnabled="{Binding HasError, Converter={StaticResource InverseBoolConverter}}" IsDefault="True" Grid.Row="7" Grid.Column="1" Margin="10,14,10,0" Command="{Binding OnOkCommand}" Content="Übernehmen" />
+            <Button Padding="10,0,10,0" Height="23" IsCancel="True" Grid.Row="7" Grid.Column="2" Margin="0,14,0,0" Content="Abbrechen" />
+        </Grid>
+    </Border>
+</Window>

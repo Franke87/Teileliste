@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="TeileListe.Gewichtsdatenbanken.UserControl.WebAuswahlControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:TeileListe.Converter"
+             xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
+             xmlns:usercontrol="clr-namespace:TeileListe.Gewichtsdatenbanken.UserControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converter:IntToWeightConverter x:Key="IntToWeightConverter" />
+        <converter:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+        <converter:InverseEnumToVisibilityConverter x:Key="InverseEnumToVisibilityConverter" />
+        <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition MaxHeight="150" Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <usercontrol:DatenbankHeader Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,10" />
+        <CheckBox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Content="Kategorien durchsuchen" IsChecked="{Binding KategorieSuchen}" Margin="0,4,0,10" Visibility="{Binding KategorienCheckBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Content="Hersteller durchsuchen" IsChecked="{Binding HerstellerSuchen}" Margin="10,4,0,10" Visibility="{Binding HerstellerCheckBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <Button Grid.Row="1" Grid.Column="2" Content="Suchen" Padding="10,0,10,0" Height="23" Margin="0,0,0,10" IsEnabled="{Binding KannSuchen}" Command="{Binding OnSuchenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Visibility="{Binding HerstellerCheckBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <usercontrol:KategorienListe Grid.Row="2" Grid.Column="0" Margin="0,0,0,10" />
+        <usercontrol:HerstellerListe Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,10" />
+        <usercontrol:SingleSelectionListe Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" />
+        <usercontrol:MultiSelectionListe Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" />
+        <usercontrol:NoneSelectionListe Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Keine Teile vorhanden" Margin="0,0,0,10" Opacity="0.4" Visibility="{Binding KeineTeileVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="TeileListe.Internal.UserControl.MyContextBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converter="clr-namespace:TeileListe.Converter"
+             xmlns:userControl="clr-namespace:TeileListe.Internal.UserControl"
+             xmlns:commonConverter="clr-namespace:TeileListe.Common.Converter;assembly=TeileListe.Common"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        <commonConverter:InverseCountToVisibilityConverter x:Key="InverseCountToVisibilityConverter" />
+        <converter:CountToBoolConverter x:Key="CountToBoolConverter" />
+        <converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <converter:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid Background="{Binding ContextBarBackground, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="3,0,0,0"  Visibility="{Binding AusbauenVisible, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
+                <TextBlock.ToolTip>
+                    <StackPanel>
+                        <TextBlock Text="anzeigen von Alternativen" Visibility="{Binding Alternativen.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+                        <TextBlock Text="keine Alternativen vorhanden" Visibility="{Binding Alternativen.Count, Converter={StaticResource InverseCountToVisibilityConverter}}"  />
+                    </StackPanel>
+                </TextBlock.ToolTip>
+                <Hyperlink Command="{Binding AlternativenCommand}" TextDecorations="" IsEnabled="{Binding Alternativen.Count, Converter={StaticResource CountToBoolConverter}}" >&#x238C;</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3,0,0,0" ToolTip="ändern" >
+                <Hyperlink IsEnabled="{Binding StandardLinksEnabled, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" Command="{Binding ChangeCommand}" TextDecorations="" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >&#x270E;</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3,0,0,0" ToolTip="leeren" Visibility="{Binding LeerenVisible, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
+                <Hyperlink Command="{Binding ClearCommand}" TextDecorations="" >&#x232B;</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3,0,0,0" ToolTip="{Binding DateiManagerToolTip, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" Visibility="{Binding DateiManagerToolTip, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}, Converter={StaticResource StringToVisibilityConverter}}" >
+                <Hyperlink Command="{Binding FileCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" TextDecorations="" >&#x1F4C1;</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3,0,0,0" Visibility="{Binding GewichtsdatenbankVisible, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
+                <TextBlock.ToolTip>
+                    <StackPanel>
+                        <TextBlock Text="eine Messung hochladen" Visibility="{Binding DatenbankId, Converter={StaticResource StringToVisibilityConverter}}" />
+                        <TextBlock Text="einer Gewichtsdatenbank zuordnen" Visibility="{Binding DatenbankId, Converter={StaticResource InverseStringToVisibilityConverter}}"  />
+                    </StackPanel>
+                </TextBlock.ToolTip>
+                <Hyperlink Command="{Binding DatenbankCommand}" TextDecorations="" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >&#x2696;</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3,0,0,0" ToolTip="in Restekiste" Visibility="{Binding AusbauenVisible, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" >
+                <Hyperlink Command="{Binding AusbauenCommand}" TextDecorations="" >&#x21B7;</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3,0,0,0" ToolTip="nach oben"  >
+                <Hyperlink IsEnabled="{Binding StandardLinksEnabled, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" Command="{Binding NachObenCommand}" TextDecorations="" >&#x22C0;</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="3,0,0,0" ToolTip="nach unten" >
+                <Hyperlink IsEnabled="{Binding StandardLinksEnabled, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" Command="{Binding NachUntenCommand}" TextDecorations="" >&#x22C1;</Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="{Binding EntfernenMargin, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" ToolTip="löschen" >
+                <Hyperlink IsEnabled="{Binding StandardLinksEnabled, RelativeSource={RelativeSource AncestorType={x:Type userControl:MyContextBar}}}" Command="{Binding LoeschenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" TextDecorations="" >&#x2327;</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>
